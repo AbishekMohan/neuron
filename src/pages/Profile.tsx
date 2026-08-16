@@ -351,8 +351,10 @@ function PublicProfile({ displayName }: { displayName: string }) {
       setRow(null);
       return;
     }
+    // leaderboard_stats is a plain, publicly-readable table — see the
+    // migration in the Supabase project.
     supabase
-      .from('leaderboard')
+      .from('leaderboard_stats')
       .select('*')
       .eq('display_name', displayName)
       .maybeSingle()

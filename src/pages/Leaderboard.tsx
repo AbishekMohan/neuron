@@ -23,8 +23,12 @@ export default function Leaderboard() {
 
   useEffect(() => {
     if (!supabase) return;
+    // leaderboard_stats is a plain table with a public-read RLS policy,
+    // kept in sync by triggers on step_completions/quiz_attempts/profiles
+    // (see the migration) — no SECURITY DEFINER object in the read path
+    // at all.
     supabase
-      .from('leaderboard')
+      .from('leaderboard_stats')
       .select('user_id, display_name, avatar_color, xp, steps_completed, modules_mastered')
       .order('xp', { ascending: false })
       .limit(100)
