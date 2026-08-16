@@ -351,9 +351,10 @@ function PublicProfile({ displayName }: { displayName: string }) {
       setRow(null);
       return;
     }
+    // get_leaderboard() is a SECURITY DEFINER function, not a view — see
+    // the migration in the Supabase project for why.
     supabase
-      .from('leaderboard')
-      .select('*')
+      .rpc('get_leaderboard')
       .eq('display_name', displayName)
       .maybeSingle()
       .then(({ data }) => setRow((data as PublicRow) ?? null));
