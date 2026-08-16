@@ -140,18 +140,20 @@ export default function HeroContent() {
       </section>
 
       {/* ── How a unit works ──────────────────────────────────────────── */}
+      {/* No top border on purpose: this section sits right where the hero's
+          own fade-to-black resolves, and a border line right at that
+          boundary was reinforcing the seam rather than separating content.
+          (Also: this used to wrap a second, separately-styled <section> in
+          here, left over from before the scroll-in animation was added —
+          the leftover opening tag had no matching close, which broke the
+          build. Collapsed into one element.) */}
       <motion.section
-        className="px-6 sm:px-8 md:px-12 py-20 border-t border-white/5"
+        className="px-6 sm:px-8 md:px-12 py-20"
         initial={{ opacity: 0, y: 130, scale: 0.94 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
       >
-      {/* No top border here on purpose: this section sits right where the
-          hero's own fade-to-black resolves, and a border line right at
-          that boundary was reinforcing the seam rather than separating
-          content. */}
-      <section className="px-6 sm:px-8 md:px-12 py-20">
         <div className="max-w-5xl mx-auto">
           <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">How it works</p>
           <h2 className="text-white text-2xl sm:text-3xl font-light tracking-tight max-w-lg mb-10">
