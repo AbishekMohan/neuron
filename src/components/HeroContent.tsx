@@ -1,36 +1,13 @@
 import { Link } from 'react-router-dom';
-import {
-  ArrowRight,
-  FileText,
-  Layers,
-  Video,
-  Gamepad2,
-  ClipboardCheck,
-  Brain,
-  Wrench,
-  Scale,
-  Globe,
-  Palette,
-  Rocket,
-  Award,
-  Lock,
-} from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Award, Lock } from 'lucide-react';
 import { useProgress } from '../context/ProgressContext';
 import { BADGES } from '../data/badges';
-import { MODULES } from '../data/modules';
-import { getSource } from '../data/sources';
 import ProgressBar from './ProgressBar';
 import FAQ, { type FAQItem } from './FAQ';
-
-const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket };
-
-const UNIT_STEPS = [
-  { Icon: FileText, title: 'Article', detail: 'Read a short, sourced explainer with 2–3 quick checks built in.' },
-  { Icon: Layers, title: 'Flashcards', detail: 'Review the key vocabulary from the article, flip-card style.' },
-  { Icon: Video, title: 'Video', detail: 'Watch a short explainer video for the module.' },
-  { Icon: Gamepad2, title: 'Mini-game', detail: 'A quick sorting game that tests what stuck, with instant explanations.' },
-  { Icon: ClipboardCheck, title: 'Quiz', detail: 'Prove mastery with a graded quiz: 80% or higher unlocks the module badge.' },
-];
+import HowItWorksShowcase from './HowItWorksShowcase';
+import CurriculumScrollCarousel from './CurriculumScrollCarousel';
+import WhyItMattersScroll from './WhyItMattersScroll';
 
 const FAQ_ITEMS: FAQItem[] = [
   {
@@ -77,8 +54,6 @@ const FAQ_ITEMS: FAQItem[] = [
 
 export default function HeroContent() {
   const { xp, level, earnedBadgeIds } = useProgress();
-  const teenSource = getSource('common-sense-media-2024');
-  const unescoSource = getSource('unesco-competency-2024');
 
   return (
     <div>
@@ -157,89 +132,28 @@ export default function HeroContent() {
       </section>
 
       {/* ── How a unit works ──────────────────────────────────────────── */}
-      <section className="px-6 sm:px-8 md:px-12 py-20 border-t border-white/5">
+      <motion.section
+        className="px-6 sm:px-8 md:px-12 py-20 border-t border-white/5"
+        initial={{ opacity: 0, y: 130, scale: 0.94 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
+      >
         <div className="max-w-5xl mx-auto">
           <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">How it works</p>
           <h2 className="text-white text-2xl sm:text-3xl font-light tracking-tight max-w-lg mb-10">
             Every module is one unit: five steps, in order.
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
-            {UNIT_STEPS.map((step, i) => (
-              <div key={step.title} className="rounded-2xl liquid-glass p-5">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-white/30 text-xs">{i + 1}</span>
-                  <step.Icon className="w-4 h-4 text-sky-300" strokeWidth={1.5} />
-                </div>
-                <p className="text-white text-sm font-normal mb-1.5">{step.title}</p>
-                <p className="text-white/40 text-xs font-light leading-relaxed">{step.detail}</p>
-              </div>
-            ))}
-          </div>
+          <HowItWorksShowcase />
         </div>
-      </section>
+      </motion.section>
 
       {/* ── Module preview ────────────────────────────────────────────── */}
-      <section className="px-6 sm:px-8 md:px-12 py-20 border-t border-white/5">
-        <div className="max-w-5xl mx-auto">
-          <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Curriculum</p>
-          <h2 className="text-white text-2xl sm:text-3xl font-light tracking-tight max-w-lg mb-10">
-            Six modules, from fundamentals to the future.
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {MODULES.map((mod, i) => {
-              const Icon = ICONS[mod.icon];
-              return (
-                <Link key={mod.id} to={`/modules/${mod.id}`} className="group rounded-2xl liquid-glass p-5 block">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Icon className="w-4 h-4 text-sky-300 shrink-0" strokeWidth={1.5} />
-                    <span className="text-white/30 text-xs">Module {i + 1}</span>
-                  </div>
-                  <p className="text-white text-sm font-normal mb-1 group-hover:text-sky-300 transition-colors">{mod.title}</p>
-                  <p className="text-white/40 text-xs font-light leading-relaxed">{mod.tagline}</p>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <CurriculumScrollCarousel />
 
       {/* ── Why it matters (sourced) ──────────────────────────────────── */}
-      <section className="px-6 sm:px-8 md:px-12 py-20 border-t border-white/5">
-        <div className="max-w-3xl mx-auto">
-          <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Why this matters</p>
-          <h2 className="text-white text-2xl sm:text-3xl font-light tracking-tight mb-8">
-            AI literacy is becoming a basic skill, not an elective.
-          </h2>
-
-          <div className="flex flex-col gap-4">
-            <div className="rounded-2xl liquid-glass p-5">
-              <p className="text-white/70 text-sm font-light leading-relaxed">
-                A 2024 survey found that roughly 7 in 10 teens have already used a generative AI tool, and most
-                say their school hasn’t given them clear rules for how to use it.
-              </p>
-              {teenSource && (
-                <a href={teenSource.url} target="_blank" rel="noreferrer" className="text-sky-400/80 hover:text-sky-300 text-xs mt-2 inline-block transition-colors">
-                  Source: {teenSource.title}, {teenSource.publisher}
-                </a>
-              )}
-            </div>
-            <div className="rounded-2xl liquid-glass p-5">
-              <p className="text-white/70 text-sm font-light leading-relaxed">
-                UNESCO published a formal AI Competency Framework for Students in 2024, defining what AI
-                literacy should look like at each stage of education: this course is built around that same
-                spirit of understanding how AI works before relying on it.
-              </p>
-              {unescoSource && (
-                <a href={unescoSource.url} target="_blank" rel="noreferrer" className="text-sky-400/80 hover:text-sky-300 text-xs mt-2 inline-block transition-colors">
-                  Source: {unescoSource.title}, {unescoSource.publisher}
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhyItMattersScroll />
 
       {/* ── FAQ ────────────────────────────────────────────────────────── */}
       <section className="px-6 sm:px-8 md:px-12 py-20 border-t border-white/5">
@@ -251,15 +165,30 @@ export default function HeroContent() {
       </section>
 
       {/* ── Final CTA ──────────────────────────────────────────────────── */}
-      <section className="px-6 sm:px-8 md:px-12 py-24 border-t border-white/5">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-white text-3xl sm:text-4xl font-light tracking-tight mb-4">Ready to start?</h2>
-          <p className="text-white/50 text-sm font-light max-w-md mx-auto mb-8">
-            Six modules, thirty steps, entirely free. Pick up right where you left off, every time.
-          </p>
+      <section className="relative px-6 sm:px-8 md:px-12 py-28 md:py-36 overflow-hidden">
+        {/* Hand-built gradient, not a photo: dark navy base with a cluster of
+            soft blue "light" blobs bled in from the right, echoing a
+            tech-startup hero without any pixelation at large sizes. */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `
+              radial-gradient(60% 90% at 100% 15%, rgba(125, 211, 252, 0.35), transparent 60%),
+              radial-gradient(45% 65% at 92% 60%, rgba(56, 189, 248, 0.3), transparent 65%),
+              radial-gradient(35% 45% at 78% 88%, rgba(59, 130, 246, 0.22), transparent 70%),
+              linear-gradient(155deg, #04050c 0%, #060b1c 40%, #081230 70%, #0a1740 100%)
+            `,
+          }}
+        />
+        {/* Fades the gradient's own dark-navy tone into the footer's matching
+            top color below, instead of cutting hard to black. */}
+        <div className="absolute inset-x-0 bottom-0 h-40" style={{ background: 'linear-gradient(to bottom, transparent, #060b1c)' }} />
+
+        <div className="relative max-w-3xl mx-auto text-center">
+          <h2 className="text-white text-3xl sm:text-4xl font-light tracking-tight">Start learning the hottest skill</h2>
           <Link
             to="/modules"
-            className="inline-flex items-center gap-2 bg-white text-black text-sm font-medium px-6 py-3 rounded-full hover:bg-white/90 transition-colors"
+            className="inline-flex items-center gap-2 bg-white text-black text-sm font-medium px-6 py-3 rounded-full hover:bg-white/90 transition-colors mt-8"
           >
             Start Learning
             <ArrowRight className="w-4 h-4" />

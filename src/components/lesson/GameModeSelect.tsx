@@ -1,6 +1,6 @@
-import { Shapes, Target, Zap, LayoutGrid, Users, Clock } from 'lucide-react';
+import { Shapes, Target, Zap, LayoutGrid, Users, Clock, Swords, Bot } from 'lucide-react';
 
-export type GameMode = 'sort' | 'blast' | 'live' | 'match';
+export type GameMode = 'sort' | 'blast' | 'live' | 'match' | 'royale';
 
 const MODES: { mode: GameMode; title: string; description: string; Icon: typeof Shapes; tags: { Icon: typeof Clock; label: string }[] }[] = [
   {
@@ -30,6 +30,13 @@ const MODES: { mode: GameMode; title: string; description: string; Icon: typeof 
     description: 'Memorize and match every pair before your opponents.',
     Icon: LayoutGrid,
     tags: [{ Icon: Users, label: 'Live multiplayer' }],
+  },
+  {
+    mode: 'royale',
+    title: 'Royale',
+    description: 'Answer questions to earn energy, place AI-themed cards, and take down the bot’s towers.',
+    Icon: Swords,
+    tags: [{ Icon: Bot, label: 'Vs. bot' }],
   },
 ];
 
