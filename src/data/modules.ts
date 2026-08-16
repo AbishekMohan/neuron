@@ -46,6 +46,21 @@ export type QuizQuestion = {
 
 export type StepId = 'article' | 'flashcards' | 'video' | 'game' | 'quiz';
 
+// Every module offers all four mini-game modes side by side (a student
+// picks one), matching a Khan-Academy-style mode-select screen. Sort and
+// Blast both run on this same authored card/bucket data (Blast is just a
+// timed "clear the correct ones" framing of it, via blastTarget naming
+// which bucket is correct to blast); Live and Match don't need separate
+// data at all — they race over the module's own quiz.questions and
+// flashcards.cards respectively. See src/lib/multiplayer.ts and
+// GameModeSelect.tsx.
+export type GameConfig = {
+  prompt: string;
+  buckets: string[];
+  cards: GameCard[];
+  blastTarget: string;
+};
+
 export type Module = {
   id: string;
   title: string;
@@ -56,7 +71,7 @@ export type Module = {
     article: { sections: ArticleSection[] };
     flashcards: { cards: Flashcard[] };
     video: { title: string; embedUrl: string | null; description: string };
-    game: { prompt: string; buckets: string[]; cards: GameCard[] };
+    game: GameConfig;
     quiz: { questions: QuizQuestion[]; passingScore: number };
   };
 };
@@ -197,6 +212,7 @@ export const MODULES: Module[] = [
       game: {
         prompt: 'Sort each example into the "Big Idea" it demonstrates.',
         buckets: ['Perception', 'Representation & Reasoning', 'Learning', 'Natural Interaction', 'Societal Impact'],
+        blastTarget: 'Learning',
         cards: [
           { id: 'g1', text: 'A phone camera detects and focuses on a face', bucket: 'Perception', why: 'Sensing the world through a camera is Perception.', sourceId: 'ai4k12-five-big-ideas' },
           { id: 'g2', text: 'A chess engine stores the board state and plans moves ahead', bucket: 'Representation & Reasoning', why: 'Storing internal knowledge and drawing conclusions from it is Representation & Reasoning.', sourceId: 'ai4k12-five-big-ideas' },
@@ -399,6 +415,7 @@ export const MODULES: Module[] = [
       game: {
         prompt: 'Sort each prompt as Weak or Strong.',
         buckets: ['Weak prompt', 'Strong prompt'],
+        blastTarget: 'Strong prompt',
         cards: [
           { id: 'g1', text: '"Write about dogs"', bucket: 'Weak prompt', why: 'No audience, length, or focus specified.', sourceId: 'prompt-report-2024' },
           { id: 'g2', text: '"Explain to a 10th grader, in 3 sentences, why dogs pant to cool down"', bucket: 'Strong prompt', why: 'Specifies audience, length, and focus.', sourceId: 'prompt-report-2024' },
@@ -595,6 +612,7 @@ export const MODULES: Module[] = [
       game: {
         prompt: 'Sort each scenario: is it OK, should you Ask First, or is it Not OK?',
         buckets: ['OK', 'Ask first', 'Not OK'],
+        blastTarget: 'OK',
         cards: [
           { id: 'g1', text: 'Using AI to check your essay’s grammar before submitting', bucket: 'OK', why: 'Grammar assistance on your own writing is a standard, low-risk use.' },
           { id: 'g2', text: 'Asking AI to generate practice quiz questions from your notes to study', bucket: 'OK', why: 'This strengthens your own understanding rather than replacing it.', sourceId: 'day-of-ai' },
@@ -788,6 +806,7 @@ export const MODULES: Module[] = [
       game: {
         prompt: 'Sort each vehicle feature by its SAE automation level.',
         buckets: ['Level 0', 'Level 1', 'Level 2', 'Level 3–5'],
+        blastTarget: 'Level 2',
         cards: [
           { id: 'g1', text: 'Automatic emergency braking that only intervenes momentarily', bucket: 'Level 0', why: 'Momentary intervention alone counts as no sustained automation: Level 0.', sourceId: 'sae-j3016-2021' },
           { id: 'g2', text: 'Adaptive cruise control alone, driver still steers', bucket: 'Level 1', why: 'A single assistance feature (speed OR steering) is Level 1.', sourceId: 'sae-j3016-2021' },
@@ -965,6 +984,7 @@ export const MODULES: Module[] = [
       game: {
         prompt: 'Sort each scenario: is the resulting work Copyrightable or Not copyrightable, per the U.S. Copyright Office’s 2025 guidance?',
         buckets: ['Copyrightable', 'Not copyrightable'],
+        blastTarget: 'Copyrightable',
         cards: [
           { id: 'g1', text: 'A single text prompt fed to an image generator, output used as-is', bucket: 'Not copyrightable', why: 'A prompt alone doesn’t give sufficient control over expressive elements.', sourceId: 'copyright-office-part2-2025' },
           { id: 'g2', text: 'An artist generates 20 AI images, then selects, arranges, and heavily edits elements into a new composition', bucket: 'Copyrightable', why: 'Meaningful human creative selection and modification can qualify for protection.', sourceId: 'copyright-office-part2-2025' },
@@ -1143,6 +1163,7 @@ export const MODULES: Module[] = [
       game: {
         prompt: 'Sort each statement: is it a Sourced claim or Hype / unverified?',
         buckets: ['Sourced claim', 'Hype / unverified'],
+        blastTarget: 'Sourced claim',
         cards: [
           { id: 'g1', text: '"76% of surveyed AI researchers doubt scaling alone will reach AGI" (AAAI 2025 survey of 475 researchers)', bucket: 'Sourced claim', why: 'This is a specific, documented survey result with a named source.', sourceId: 'aaai-presidential-panel-2025' },
           { id: 'g2', text: '"AGI will definitely arrive next year"', bucket: 'Hype / unverified', why: 'No credible source makes AGI timeline predictions with certainty: it’s a genuinely disputed question.', sourceId: 'aaai-presidential-panel-2025' },

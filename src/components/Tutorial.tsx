@@ -79,9 +79,7 @@ export default function Tutorial({ open, onClose }: { open: boolean; onClose: ()
               <X className="w-4 h-4" />
             </button>
 
-            <div className="w-11 h-11 rounded-full bg-sky-400/10 border border-sky-400/30 flex items-center justify-center mb-5">
-              <step.Icon className="w-5 h-5 text-sky-300" strokeWidth={1.5} />
-            </div>
+            <step.Icon className="w-6 h-6 text-sky-300 mb-5" strokeWidth={1.5} />
 
             <p className="text-white text-base font-normal mb-2">{step.title}</p>
             <p className="text-white/60 text-sm font-light leading-relaxed mb-6">{step.body}</p>

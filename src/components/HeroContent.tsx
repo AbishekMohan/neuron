@@ -168,9 +168,7 @@ export default function HeroContent() {
             {UNIT_STEPS.map((step, i) => (
               <div key={step.title} className="rounded-2xl liquid-glass p-5">
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="w-6 h-6 rounded-full bg-sky-400/10 border border-sky-400/30 flex items-center justify-center text-sky-300 text-[11px]">
-                    {i + 1}
-                  </span>
+                  <span className="text-white/30 text-xs">{i + 1}</span>
                   <step.Icon className="w-4 h-4 text-sky-300" strokeWidth={1.5} />
                 </div>
                 <p className="text-white text-sm font-normal mb-1.5">{step.title}</p>

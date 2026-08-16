@@ -1,12 +1,29 @@
 import HeroContent from '../components/HeroContent';
 import BrainScene from '../components/BrainScene';
 import ParticleText from '../components/ParticleText';
+import LetterGlitch from '../components/LetterGlitch';
+import PixelSnow from '../components/PixelSnow';
 
 export default function Home() {
   return (
     <>
       <div className="relative z-0">
         <div className="sticky top-0 h-screen w-full overflow-hidden">
+          {/* Deepest background layer: faint, blue-only glitching letters,
+              well behind the brain and CodeBackdrop's own text/binary
+              layer. Low opacity wrapper (cheap alpha blend, not extra
+              compute) keeps it from competing with the actual content. */}
+          <div className="absolute inset-0 opacity-[0.14]">
+            <LetterGlitch glitchColors={['#0c1f3d', '#1e3a5f', '#38bdf8']} glitchSpeed={70} centerVignette outerVignette smooth />
+          </div>
+
+          {/* Gentle blue pixel-snow drifting across the hero. See
+              PixelSnow.tsx for why its defaults are already turned down;
+              this opacity wrapper turns it down further still. */}
+          <div className="absolute inset-0 opacity-60 pointer-events-none">
+            <PixelSnow color="#7dd3fc" direction={110} />
+          </div>
+
           <BrainScene />
 
           {/* "AI" forms out of particles inside/over the brain on hover,

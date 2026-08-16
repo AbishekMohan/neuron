@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Brain, Wrench, Scale, Globe, Palette, Rocket } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Brain, Wrench, Scale, Globe, Palette, Rocket, Undo2 } from 'lucide-react';
 import { MODULES, getModule, XP, STEP_ORDER, type StepId } from '../data/modules';
 import { useProgress } from '../context/ProgressContext';
 import ProgressBar from '../components/ProgressBar';
@@ -9,6 +9,10 @@ import ArticleStep from '../components/lesson/ArticleStep';
 import FlashcardsStep from '../components/lesson/FlashcardsStep';
 import VideoStep from '../components/lesson/VideoStep';
 import GameStep from '../components/lesson/GameStep';
+import BlastGame from '../components/lesson/BlastGame';
+import LiveRaceGame from '../components/lesson/LiveRaceGame';
+import MatchRaceGame from '../components/lesson/MatchRaceGame';
+import GameModeSelect, { type GameMode } from '../components/lesson/GameModeSelect';
 import QuizStep from '../components/lesson/QuizStep';
 
 const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket };
@@ -18,9 +22,11 @@ export default function ModulePage() {
   const mod = moduleId ? getModule(moduleId) : undefined;
   const { isStepComplete, completeStep, isModuleUnlocked, quizAttempts, submitQuiz, moduleProgress } = useProgress();
   const [currentStep, setCurrentStep] = useState<StepId>('article');
+  const [gameMode, setGameMode] = useState<GameMode | null>(null);
 
   useEffect(() => {
     setCurrentStep('article');
+    setGameMode(null);
   }, [moduleId]);
 
   if (!mod) {
@@ -73,7 +79,10 @@ export default function ModulePage() {
             moduleTitle={mod.title}
             ModuleIcon={Icon}
             currentStep={currentStep}
-            onSelectStep={setCurrentStep}
+            onSelectStep={(step) => {
+              setCurrentStep(step);
+              setGameMode(null);
+            }}
             isStepComplete={stepComplete}
             isQuizUnlocked={quizUnlocked}
             completedCount={progress?.completed ?? 0}
@@ -104,11 +113,47 @@ export default function ModulePage() {
                 onComplete={() => completeStep(mod.id, 'video')}
               />
             )}
-            {currentStep === 'game' && (
+            {currentStep === 'game' && gameMode === null && <GameModeSelect onSelect={setGameMode} />}
+            {currentStep === 'game' && gameMode !== null && (
+              <button
+                type="button"
+                onClick={() => setGameMode(null)}
+                className="inline-flex items-center gap-1.5 text-white/40 hover:text-white text-xs mb-5 transition-colors"
+              >
+                <Undo2 className="w-3.5 h-3.5" />
+                Choose a different mode
+              </button>
+            )}
+            {currentStep === 'game' && gameMode === 'sort' && (
               <GameStep
                 prompt={mod.steps.game.prompt}
                 buckets={mod.steps.game.buckets}
                 cards={mod.steps.game.cards}
+                complete={stepComplete('game')}
+                onComplete={() => completeStep(mod.id, 'game')}
+              />
+            )}
+            {currentStep === 'game' && gameMode === 'blast' && (
+              <BlastGame
+                prompt={mod.steps.game.prompt}
+                cards={mod.steps.game.cards}
+                blastTarget={mod.steps.game.blastTarget}
+                complete={stepComplete('game')}
+                onComplete={() => completeStep(mod.id, 'game')}
+              />
+            )}
+            {currentStep === 'game' && gameMode === 'live' && (
+              <LiveRaceGame
+                questions={mod.steps.quiz.questions}
+                moduleId={mod.id}
+                complete={stepComplete('game')}
+                onComplete={() => completeStep(mod.id, 'game')}
+              />
+            )}
+            {currentStep === 'game' && gameMode === 'match' && (
+              <MatchRaceGame
+                cards={mod.steps.flashcards.cards}
+                moduleId={mod.id}
                 complete={stepComplete('game')}
                 onComplete={() => completeStep(mod.id, 'game')}
               />

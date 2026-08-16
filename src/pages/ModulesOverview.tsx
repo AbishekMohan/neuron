@@ -1,66 +1,61 @@
 import { Link } from 'react-router-dom';
 import { Brain, Wrench, Scale, Globe, Palette, Rocket, ArrowRight } from 'lucide-react';
-import { Coverflow, CoverflowControls, CoverflowItem } from '../components/motion-ui/coverflow';
-import { MODULES, STEP_ORDER } from '../data/modules';
+import { MODULES } from '../data/modules';
 import { useProgress } from '../context/ProgressContext';
 import ProgressBar from '../components/ProgressBar';
+import BorderGlow from '../components/BorderGlow';
 
 const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket };
 
-function ModulesCoverflow() {
+// Blue glow, matching the site's sky/blue palette rather than the
+// component's default purple-pink-blue mix.
+const GLOW_COLORS = ['#38bdf8', '#3b82f6', '#7dd3fc'];
+
+function ModuleRow({ index, isNext }: { index: number; isNext: boolean }) {
+  const mod = MODULES[index];
+  const Icon = ICONS[mod.icon];
   const { moduleProgress } = useProgress();
+  const progress = moduleProgress[mod.id];
 
-  const items = MODULES.map((mod, index) => {
-    const Icon = ICONS[mod.icon];
-    const progress = moduleProgress[mod.id];
+  const row = (
+    <Link
+      to={`/modules/${mod.id}`}
+      className="group flex items-center gap-4 rounded-xl px-4 py-4 hover:bg-white/[0.03] transition-colors"
+    >
+      <Icon className="w-4 h-4 text-sky-300 shrink-0" strokeWidth={1.5} />
 
-    return (
-      <CoverflowItem key={mod.id} label={`Module ${index + 1} of ${MODULES.length}: ${mod.title}`}>
-        <Link
-          to={`/modules/${mod.id}`}
-          className="group flex h-[360px] w-full flex-col justify-between rounded-2xl liquid-glass p-6 text-left"
-        >
-          <div>
-            <div className="flex items-center gap-2 mb-3">
-              <Icon className="w-4 h-4 text-sky-300 shrink-0" strokeWidth={1.5} />
-              <span className="text-white/30 text-xs">Module {index + 1}</span>
-            </div>
-            <h2 className="text-white text-lg font-normal mb-1">{mod.title}</h2>
-            <p className="text-white/40 text-xs mb-3">{mod.tagline}</p>
-            <p className="text-white/60 text-sm font-light leading-relaxed">{mod.description}</p>
-          </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-baseline gap-2 mb-1">
+          <span className="text-white/80 text-sm group-hover:text-white transition-colors">{mod.title}</span>
+          <span className="text-white/30 text-xs">{mod.tagline}</span>
+          {isNext && <span className="ml-auto text-sky-300 text-[10px] uppercase tracking-widest shrink-0">Up next</span>}
+        </div>
+        <ProgressBar percent={progress?.percent ?? 0} />
+      </div>
 
-          <div>
-            <ProgressBar
-              percent={progress?.percent ?? 0}
-              trailing={`${progress?.completed ?? 0}/${progress?.total ?? STEP_ORDER.length}`}
-            />
-            <div className="flex items-center gap-1 text-sky-300 text-xs mt-4 opacity-80 group-hover:opacity-100 transition-opacity">
-              {progress?.isComplete ? 'Review module' : progress && progress.completed > 0 ? 'Continue' : 'Start module'}
-              <ArrowRight className="w-3.5 h-3.5" />
-            </div>
-          </div>
-        </Link>
-      </CoverflowItem>
-    );
-  });
+      <div className="hidden sm:flex items-center gap-1 text-sky-300 text-xs shrink-0 opacity-80 group-hover:opacity-100 transition-opacity">
+        {progress?.isComplete ? 'Review' : progress && progress.completed > 0 ? 'Continue' : 'Start'}
+        <ArrowRight className="w-3.5 h-3.5" />
+      </div>
+    </Link>
+  );
+
+  if (!isNext) return row;
 
   return (
-    <Coverflow items={items} rotation={22} aria-label="Learning modules, use the arrow keys to navigate">
-      <CoverflowControls
-        announce={(i, total) => `Showing module ${i + 1} of ${total}: ${MODULES[i].title}`}
-        prevLabel="Previous module"
-        nextLabel="Next module"
-        dotsLabel="Choose a module"
-      />
-    </Coverflow>
+    <BorderGlow borderRadius={12} backgroundColor="#05070d" glowColor="199 93 60" colors={GLOW_COLORS} glowRadius={20} glowIntensity={1} coneSpread={30} animated>
+      {row}
+    </BorderGlow>
   );
 }
 
 export default function ModulesOverview() {
+  const { moduleProgress } = useProgress();
+  const nextModuleId = MODULES.find((mod) => !moduleProgress[mod.id]?.isComplete)?.id;
+
   return (
     <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Learning Modules</p>
         <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight max-w-2xl">
           Six modules. One path to AI literacy.
@@ -70,8 +65,12 @@ export default function ModulesOverview() {
           device.
         </p>
 
-        <div className="mt-16">
-          <ModulesCoverflow />
+        <div className="mt-12 rounded-2xl liquid-glass p-3 sm:p-4">
+          <div className="flex flex-col gap-1">
+            {MODULES.map((mod, index) => (
+              <ModuleRow key={mod.id} index={index} isNext={mod.id === nextModuleId} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
