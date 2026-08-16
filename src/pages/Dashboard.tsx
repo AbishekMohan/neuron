@@ -1,0 +1,165 @@
+import { Link } from 'react-router-dom';
+import { RotateCcw, Brain, Wrench, Scale, Globe, Palette, Rocket, Cloud, CloudOff, Loader2, Trophy, UserCircle } from 'lucide-react';
+import { MODULES } from '../data/modules';
+import { BADGES } from '../data/badges';
+import { useAuth } from '../context/AuthContext';
+import { useProfile } from '../context/ProfileContext';
+import { useProgress } from '../context/ProgressContext';
+import ProgressBar from '../components/ProgressBar';
+import Badge3D from '../components/Badge3D';
+
+const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket };
+
+function SyncStatus() {
+  const { user, isConfigured } = useAuth();
+  const { syncState } = useProgress();
+
+  if (!isConfigured) return null;
+
+  if (!user) {
+    return (
+      <span className="inline-flex items-center gap-1.5 text-white/30 text-xs">
+        <CloudOff className="w-3.5 h-3.5" />
+        Saved on this device only. Sign in to sync.
+      </span>
+    );
+  }
+
+  if (syncState === 'syncing') {
+    return (
+      <span className="inline-flex items-center gap-1.5 text-white/40 text-xs">
+        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+        Syncing...
+      </span>
+    );
+  }
+
+  return (
+    <span className="inline-flex items-center gap-1.5 text-sky-300/80 text-xs">
+      <Cloud className="w-3.5 h-3.5" />
+      Synced
+    </span>
+  );
+}
+
+export default function Dashboard() {
+  const { user, isConfigured } = useAuth();
+  const { profile } = useProfile();
+  const { xp, totalXpPossible, level, moduleProgress, earnedBadgeIds, resetProgress } = useProgress();
+
+  const handleReset = () => {
+    if (window.confirm('Reset all progress on this device? This can’t be undone.')) {
+      resetProgress();
+    }
+  };
+
+  return (
+    <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
+      <div className="max-w-5xl mx-auto">
+        <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Dashboard</p>
+        <div className="flex flex-wrap items-baseline justify-between gap-3">
+          <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight">
+            Your progress
+          </h1>
+          <SyncStatus />
+        </div>
+
+        {isConfigured && user && !profile && (
+          <div className="mt-6 rounded-xl liquid-glass px-4 py-3 text-sm text-white/60 max-w-xl">
+            You haven’t set up a public profile yet.{' '}
+            <Link to="/profile" className="text-sky-300 hover:text-sky-200 transition-colors">
+              Choose a display name
+            </Link>{' '}
+            to appear on the leaderboard.
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-10">
+          <div className="md:col-span-1 rounded-2xl liquid-glass p-6">
+            <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Level</p>
+            <p className="text-white text-2xl font-light mb-4">{level.name}</p>
+            <ProgressBar
+              percent={level.xpForNext ? (level.xpIntoLevel / level.xpForNext) * 100 : 100}
+              trailing={level.xpForNext ? `${level.xpIntoLevel}/${level.xpForNext} XP` : 'Max level'}
+            />
+            <p className="text-white/40 text-xs mt-4">{xp} / {totalXpPossible} total XP earned</p>
+
+            <div className="flex flex-col gap-2 mt-5 pt-5 border-t border-white/10">
+              <Link
+                to="/leaderboard"
+                className="inline-flex items-center gap-2 text-sky-300 hover:text-sky-200 text-sm transition-colors"
+              >
+                <Trophy className="w-4 h-4" />
+                View leaderboard
+              </Link>
+              <Link
+                to="/profile"
+                className="inline-flex items-center gap-2 text-white/60 hover:text-white text-sm transition-colors"
+              >
+                <UserCircle className="w-4 h-4" />
+                {profile ? 'Edit my profile' : 'Set up my profile'}
+              </Link>
+            </div>
+          </div>
+
+          <div className="md:col-span-2 rounded-2xl liquid-glass p-6">
+            <p className="text-white/40 text-xs uppercase tracking-widest mb-4">Module mastery</p>
+            <div className="flex flex-col gap-5">
+              {MODULES.map((mod) => {
+                const Icon = ICONS[mod.icon];
+                const progress = moduleProgress[mod.id];
+                return (
+                  <Link key={mod.id} to={`/modules/${mod.id}`} className="group">
+                    <div className="flex items-center gap-3 mb-2">
+                      <Icon className="w-4 h-4 text-sky-300 shrink-0" strokeWidth={1.5} />
+                      <span className="text-white/80 text-sm group-hover:text-white transition-colors">
+                        {mod.title}
+                      </span>
+                      <span className="text-white/30 text-xs ml-auto">
+                        {progress?.completed ?? 0}/{progress?.total ?? 5} steps
+                      </span>
+                    </div>
+                    <ProgressBar percent={progress?.percent ?? 0} />
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-5 rounded-2xl liquid-glass p-6">
+          <p className="text-white/40 text-xs uppercase tracking-widest mb-5">
+            Badges: {earnedBadgeIds.length}/{BADGES.length} earned
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+            {BADGES.map((badge) => {
+              const earned = earnedBadgeIds.includes(badge.id);
+              return (
+                <div
+                  key={badge.id}
+                  className={`rounded-xl border p-4 flex flex-col items-center text-center gap-2 transition-colors ${
+                    earned ? 'border-sky-400/40 bg-sky-400/5' : 'border-white/10 bg-white/[0.02]'
+                  }`}
+                >
+                  <Badge3D shape={badge.shape} color={badge.color} earned={earned} size={56} />
+                  <p className={`text-xs font-normal ${earned ? 'text-white/90' : 'text-white/40'}`}>
+                    {badge.title}
+                  </p>
+                  <p className="text-white/30 text-[11px] leading-snug">{badge.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <button
+          onClick={handleReset}
+          className="inline-flex items-center gap-2 mt-8 text-white/30 hover:text-white/60 text-xs transition-colors"
+        >
+          <RotateCcw className="w-3.5 h-3.5" />
+          Reset progress on this device
+        </button>
+      </div>
+    </section>
+  );
+}

@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: #000;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.4);
+  color: #fff;
+}
+
+.liquid-glass {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.005) 0%,
+    rgba(255, 255, 255, 0.002) 40%,
+    rgba(255, 255, 255, 0.001) 100%
+  );
+  backdrop-filter: blur(18px) saturate(1.4) brightness(1.05);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4) brightness(1.05);
+  border: none;
+  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.025) 15%,
+    rgba(255, 255, 255, 0.005) 40%,
+    rgba(255, 255, 255, 0.005) 60%,
+    rgba(255, 255, 255, 0.025) 85%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.liquid-glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.01) 0%, transparent 50%),
+    radial-gradient(ellipse at center, transparent 55%, rgba(255, 255, 255, 0.005) 80%, rgba(255, 255, 255, 0.01) 100%);
+  pointer-events: none;
+}
+
+@keyframes drift-up {
+  0% {
+    transform: translateY(115vh);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-15vh);
+    opacity: 0;
+  }
+}
+
+.code-particle {
+  position: absolute;
+  top: 0;
+  animation-name: drift-up;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes rain-fall {
+  0% {
+    transform: translateY(-30vh);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(120vh);
+    opacity: 0;
+  }
+}
+
+.code-rain-particle {
+  position: absolute;
+  top: 0;
+  animation-name: rain-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .code-particle,
+  .code-rain-particle {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}
