@@ -23,12 +23,13 @@ export default function Leaderboard() {
 
   useEffect(() => {
     if (!supabase) return;
-    // get_leaderboard() is a SECURITY DEFINER function (not a view — see
-    // the migration for why), so it can aggregate across everyone's
-    // owner-only step_completions/quiz_attempts while only ever returning
-    // the safe, public columns.
+    // leaderboard_stats is a plain table with a public-read RLS policy,
+    // kept in sync by triggers on step_completions/quiz_attempts/profiles
+    // (see the migration) — no SECURITY DEFINER object in the read path
+    // at all.
     supabase
-      .rpc('get_leaderboard')
+      .from('leaderboard_stats')
+      .select('user_id, display_name, avatar_color, xp, steps_completed, modules_mastered')
       .order('xp', { ascending: false })
       .limit(100)
       .then(({ data, error }) => {

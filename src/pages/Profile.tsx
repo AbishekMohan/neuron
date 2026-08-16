@@ -351,10 +351,11 @@ function PublicProfile({ displayName }: { displayName: string }) {
       setRow(null);
       return;
     }
-    // get_leaderboard() is a SECURITY DEFINER function, not a view — see
-    // the migration in the Supabase project for why.
+    // leaderboard_stats is a plain, publicly-readable table — see the
+    // migration in the Supabase project.
     supabase
-      .rpc('get_leaderboard')
+      .from('leaderboard_stats')
+      .select('*')
       .eq('display_name', displayName)
       .maybeSingle()
       .then(({ data }) => setRow((data as PublicRow) ?? null));
