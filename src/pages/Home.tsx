@@ -50,7 +50,16 @@ export default function Home() {
             />
           </div>
 
-          <div className="absolute inset-x-0 bottom-0 h-[40%] pointer-events-none bg-gradient-to-b from-transparent to-neuron-black" />
+          {/* Fades to fully solid black well before the hero's own hard
+              bottom edge (h-screen + overflow-hidden clips at a hard
+              pixel line), so the brain's bloom/glow never gets abruptly
+              cut off right at that boundary — that hard clip-on-glow was
+              the actual seam, not a color mismatch with the content
+              below. Multiple stops (rather than a single via-color) ease
+              the curve in gradually instead of ramping linearly, so there's
+              no point where the eye can pick out a "line": it reaches
+              solid black well before the edge and stays there. */}
+          <div className="absolute inset-x-0 bottom-0 h-[70%] pointer-events-none bg-[linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.25)_30%,rgba(0,0,0,0.6)_50%,rgba(0,0,0,0.9)_68%,#000_82%,#000_100%)]" />
         </div>
       </div>
 

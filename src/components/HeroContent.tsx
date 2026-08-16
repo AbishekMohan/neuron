@@ -83,8 +83,16 @@ export default function HeroContent() {
   return (
     <div>
       {/* ── Top: headline + progress card ─────────────────────────────── */}
-      <section className="px-6 sm:px-8 md:px-12 pt-24 md:pt-32 pb-20 md:pb-32">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+      {/* min-h-screen is load-bearing, not decorative: this section sits on
+          a -mt-[100vh] pull-up (see Home.tsx) that overlaps it directly on
+          top of the sticky hero's own 100vh box. If this section were
+          shorter than one viewport, "How it works" right below it would
+          start rendering while still inside that box, i.e. on top of the
+          hero's fade-to-black zone, which is exactly the hard seam that
+          was showing up on load. Forcing a full viewport here guarantees
+          nothing below it can appear until the hero has fully scrolled by. */}
+      <section className="min-h-screen flex flex-col justify-center px-6 sm:px-8 md:px-12 pt-24 pb-20">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start w-full">
           <div>
             <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light leading-[1.1] tracking-tight">
               Understand AI.
@@ -157,7 +165,11 @@ export default function HeroContent() {
       </section>
 
       {/* ── How a unit works ──────────────────────────────────────────── */}
-      <section className="px-6 sm:px-8 md:px-12 py-20 border-t border-white/5">
+      {/* No top border here on purpose: this section sits right where the
+          hero's own fade-to-black resolves, and a border line right at
+          that boundary was reinforcing the seam rather than separating
+          content. */}
+      <section className="px-6 sm:px-8 md:px-12 py-20">
         <div className="max-w-5xl mx-auto">
           <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">How it works</p>
           <h2 className="text-white text-2xl sm:text-3xl font-light tracking-tight max-w-lg mb-10">
