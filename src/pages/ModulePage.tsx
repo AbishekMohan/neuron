@@ -12,6 +12,7 @@ import GameStep from '../components/lesson/GameStep';
 import BlastGame from '../components/lesson/BlastGame';
 import LiveRaceGame from '../components/lesson/LiveRaceGame';
 import MatchRaceGame from '../components/lesson/MatchRaceGame';
+import RoyaleGame from '../components/lesson/RoyaleGame';
 import GameModeSelect, { type GameMode } from '../components/lesson/GameModeSelect';
 import QuizStep from '../components/lesson/QuizStep';
 
@@ -153,6 +154,14 @@ export default function ModulePage() {
             {currentStep === 'game' && gameMode === 'match' && (
               <MatchRaceGame
                 cards={mod.steps.flashcards.cards}
+                moduleId={mod.id}
+                complete={stepComplete('game')}
+                onComplete={() => completeStep(mod.id, 'game')}
+              />
+            )}
+            {currentStep === 'game' && gameMode === 'royale' && (
+              <RoyaleGame
+                questions={mod.steps.quiz.questions}
                 moduleId={mod.id}
                 complete={stepComplete('game')}
                 onComplete={() => completeStep(mod.id, 'game')}

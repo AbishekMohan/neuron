@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X, BrainCircuit, HelpCircle } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -14,14 +14,38 @@ const NAV_LINKS = [
 
 export default function Nav({ onOpenTutorial }: { onOpenTutorial: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastScrollY = useRef(0);
   const location = useLocation();
 
   const isActive = (to: string) =>
     to === '/' ? location.pathname === '/' : location.pathname.startsWith(to);
 
+  // Hide on scroll-down, reveal on scroll-up. Stays put near the top of the
+  // page (and whenever the mobile menu is open) so it doesn't flicker.
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      if (isOpen) {
+        setHidden(false);
+      } else if (currentY > lastScrollY.current && currentY > 96) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+      lastScrollY.current = currentY;
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isOpen]);
+
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 sm:px-8 md:px-12 py-5 md:py-6">
+      <motion.nav
+        animate={{ y: hidden ? '-100%' : '0%' }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 sm:px-8 md:px-12 py-5 md:py-6"
+      >
         <Link to="/" className="flex items-center gap-2 text-white font-light text-lg tracking-wide">
           <BrainCircuit className="w-5 h-5 text-sky-400" strokeWidth={1.5} />
           <span className="font-normal tracking-widest">NEURON</span>
@@ -90,7 +114,7 @@ export default function Nav({ onOpenTutorial }: { onOpenTutorial: () => void }) 
             )}
           </AnimatePresence>
         </button>
-      </nav>
+      </motion.nav>
 
       <AnimatePresence>
         {isOpen && (
