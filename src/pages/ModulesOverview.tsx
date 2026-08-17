@@ -2,7 +2,9 @@ import { Link } from 'react-router-dom';
 import { Brain, Wrench, Scale, Globe, Palette, Rocket, ArrowRight } from 'lucide-react';
 import { MODULES } from '../data/modules';
 import { useProgress } from '../context/ProgressContext';
+import { getMasteryLevel } from '../lib/mastery';
 import ProgressBar from '../components/ProgressBar';
+import MasteryPill from '../components/MasteryPill';
 import BorderGlow from '../components/BorderGlow';
 
 const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket };
@@ -14,8 +16,9 @@ const GLOW_COLORS = ['#38bdf8', '#3b82f6', '#7dd3fc'];
 function ModuleRow({ index, isNext }: { index: number; isNext: boolean }) {
   const mod = MODULES[index];
   const Icon = ICONS[mod.icon];
-  const { moduleProgress } = useProgress();
+  const { moduleProgress, completedSteps } = useProgress();
   const progress = moduleProgress[mod.id];
+  const mastery = getMasteryLevel(mod.id, completedSteps);
 
   const row = (
     <Link
@@ -27,8 +30,11 @@ function ModuleRow({ index, isNext }: { index: number; isNext: boolean }) {
       <div className="flex-1 min-w-0">
         <div className="flex items-baseline gap-2 mb-1">
           <span className="text-white/80 text-sm group-hover:text-white transition-colors">{mod.title}</span>
-          <span className="text-white/30 text-xs">{mod.tagline}</span>
-          {isNext && <span className="ml-auto text-sky-300 text-[10px] uppercase tracking-widest shrink-0">Up next</span>}
+          <span className="text-white/30 text-xs truncate">{mod.tagline}</span>
+          <span className="ml-auto flex items-center gap-2 shrink-0">
+            <MasteryPill level={mastery} />
+            {isNext && <span className="text-sky-300 text-[10px] uppercase tracking-widest">Up next</span>}
+          </span>
         </div>
         <ProgressBar percent={progress?.percent ?? 0} />
       </div>

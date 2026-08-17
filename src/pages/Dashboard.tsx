@@ -5,8 +5,10 @@ import { BADGES } from '../data/badges';
 import { useAuth } from '../context/AuthContext';
 import { useProfile } from '../context/ProfileContext';
 import { useProgress } from '../context/ProgressContext';
+import { getMasteryLevel } from '../lib/mastery';
 import ProgressBar from '../components/ProgressBar';
 import Badge3D from '../components/Badge3D';
+import MasteryPill from '../components/MasteryPill';
 
 const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket };
 
@@ -45,7 +47,7 @@ function SyncStatus() {
 export default function Dashboard() {
   const { user, isConfigured } = useAuth();
   const { profile } = useProfile();
-  const { xp, totalXpPossible, level, moduleProgress, earnedBadgeIds, resetProgress } = useProgress();
+  const { xp, totalXpPossible, level, moduleProgress, earnedBadgeIds, completedSteps, resetProgress } = useProgress();
 
   const handleReset = () => {
     if (window.confirm('Reset all progress on this device? This can’t be undone.')) {
@@ -126,6 +128,7 @@ export default function Dashboard() {
               {MODULES.map((mod) => {
                 const Icon = ICONS[mod.icon];
                 const progress = moduleProgress[mod.id];
+                const mastery = getMasteryLevel(mod.id, completedSteps);
                 return (
                   <Link key={mod.id} to={`/modules/${mod.id}`} className="group">
                     <div className="flex items-center gap-3 mb-2">
@@ -133,8 +136,11 @@ export default function Dashboard() {
                       <span className="text-white/80 text-sm group-hover:text-white transition-colors">
                         {mod.title}
                       </span>
-                      <span className="text-white/30 text-xs ml-auto">
-                        {progress?.completed ?? 0}/{progress?.total ?? 5} steps
+                      <span className="flex items-center gap-2 ml-auto shrink-0">
+                        <MasteryPill level={mastery} />
+                        <span className="text-white/30 text-xs">
+                          {progress?.completed ?? 0}/{progress?.total ?? 5}
+                        </span>
                       </span>
                     </div>
                     <ProgressBar percent={progress?.percent ?? 0} />

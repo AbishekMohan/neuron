@@ -7,9 +7,11 @@ import { useProgress } from '../context/ProgressContext';
 import { MODULES } from '../data/modules';
 import { BADGES, type ModuleProgress } from '../data/badges';
 import { getLevel } from '../lib/level';
+import { getMasteryLevel } from '../lib/mastery';
 import { supabase } from '../lib/supabase';
 import ProgressBar from '../components/ProgressBar';
 import Badge3D from '../components/Badge3D';
+import MasteryPill from '../components/MasteryPill';
 import AuthWidget from '../components/AuthWidget';
 
 const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket };
@@ -48,6 +50,7 @@ function ProfileStats({
   earnedBadgeIds,
   currentStreak,
   longestStreak,
+  completedSteps,
   isOwn,
 }: {
   displayName: string;
@@ -59,6 +62,12 @@ function ProfileStats({
   earnedBadgeIds: string[];
   currentStreak: number;
   longestStreak: number;
+  // Only available for the signed-in user's own profile: public profiles
+  // read from leaderboard_stats, which only stores which modules are
+  // mastered, not per-step detail, so there's no accurate mastery tier to
+  // show for someone else (deliberately — that's less data exposed, not
+  // a bug).
+  completedSteps?: Set<string>;
   isOwn: boolean;
 }) {
   const level = getLevel(xp);
@@ -121,7 +130,13 @@ function ProfileStats({
                 <div className="flex items-center gap-3 mb-2">
                   <Icon className="w-4 h-4 text-sky-300 shrink-0" strokeWidth={1.5} />
                   <span className="text-white/80 text-sm">{mod.title}</span>
-                  <span className="text-white/30 text-xs ml-auto">{progress?.isComplete ? 'Mastered' : `${progress?.completed ?? 0}/5`}</span>
+                  <span className="flex items-center gap-2 ml-auto shrink-0">
+                    {completedSteps ? (
+                      <MasteryPill level={getMasteryLevel(mod.id, completedSteps)} />
+                    ) : (
+                      <span className="text-white/30 text-xs">{progress?.isComplete ? 'Mastered' : `${progress?.completed ?? 0}/5`}</span>
+                    )}
+                  </span>
                 </div>
                 <ProgressBar percent={progress?.percent ?? 0} />
               </div>
@@ -303,7 +318,7 @@ function EditProfileForm({ onDone }: { onDone: () => void }) {
 function OwnProfile() {
   const { user, isConfigured } = useAuth();
   const { profile, loading, needsSetup } = useProfile();
-  const { xp, moduleProgress, earnedBadgeIds } = useProgress();
+  const { xp, moduleProgress, earnedBadgeIds, completedSteps } = useProgress();
   const [editing, setEditing] = useState(false);
 
   if (!isConfigured) {
@@ -345,6 +360,7 @@ function OwnProfile() {
         earnedBadgeIds={earnedBadgeIds}
         currentStreak={profile.current_streak}
         longestStreak={profile.longest_streak}
+        completedSteps={completedSteps}
         isOwn
       />
       <button
