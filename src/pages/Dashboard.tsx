@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { RotateCcw, Brain, Wrench, Scale, Globe, Palette, Rocket, Cloud, CloudOff, Loader2, Trophy, UserCircle } from 'lucide-react';
+import { RotateCcw, Brain, Wrench, Scale, Globe, Palette, Rocket, Cloud, CloudOff, Loader2, Trophy, UserCircle, Flame } from 'lucide-react';
 import { MODULES } from '../data/modules';
 import { BADGES } from '../data/badges';
 import { useAuth } from '../context/AuthContext';
@@ -83,6 +83,24 @@ export default function Dashboard() {
               trailing={level.xpForNext ? `${level.xpIntoLevel}/${level.xpForNext} XP` : 'Max level'}
             />
             <p className="text-white/40 text-xs mt-4">{xp} / {totalXpPossible} total XP earned</p>
+
+            {/* Only meaningful for signed-in users with a profile row: it's
+                maintained server-side by a trigger on real activity, not
+                computed from local state, so a guest with no profile has
+                no streak to show. */}
+            {profile && (
+              <div className="flex items-center gap-1.5 mt-3 text-sm">
+                <Flame className={`w-4 h-4 ${profile.current_streak > 0 ? 'text-orange-400' : 'text-white/20'}`} />
+                <span className={profile.current_streak > 0 ? 'text-white/80' : 'text-white/30'}>
+                  {profile.current_streak > 0
+                    ? `${profile.current_streak}-day streak`
+                    : 'No active streak'}
+                </span>
+                {profile.longest_streak > profile.current_streak && (
+                  <span className="text-white/30 text-xs">· best {profile.longest_streak}</span>
+                )}
+              </div>
+            )}
 
             <div className="flex flex-col gap-2 mt-5 pt-5 border-t border-white/10">
               <Link

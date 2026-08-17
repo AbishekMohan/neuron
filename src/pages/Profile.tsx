@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Loader2, UserCircle, Trophy, Brain, Wrench, Scale, Globe, Palette, Rocket } from 'lucide-react';
+import { Loader2, UserCircle, Trophy, Flame, Brain, Wrench, Scale, Globe, Palette, Rocket } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useProfile, AVATAR_COLORS } from '../context/ProfileContext';
 import { useProgress } from '../context/ProgressContext';
@@ -25,6 +25,8 @@ type PublicRow = {
   steps_completed: number;
   modules_mastered: number;
   mastered_module_ids: string[];
+  current_streak: number;
+  longest_streak: number;
 };
 
 function moduleProgressFromMasteredIds(masteredIds: string[]): ModuleProgress {
@@ -44,6 +46,8 @@ function ProfileStats({
   xp,
   moduleProgress,
   earnedBadgeIds,
+  currentStreak,
+  longestStreak,
   isOwn,
 }: {
   displayName: string;
@@ -53,6 +57,8 @@ function ProfileStats({
   xp: number;
   moduleProgress: ModuleProgress;
   earnedBadgeIds: string[];
+  currentStreak: number;
+  longestStreak: number;
   isOwn: boolean;
 }) {
   const level = getLevel(xp);
@@ -77,7 +83,7 @@ function ProfileStats({
 
       {bio && <p className="text-white/60 text-sm font-light leading-relaxed mt-5 max-w-xl">{bio}</p>}
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
         <div className="rounded-2xl liquid-glass p-5">
           <p className="text-white/40 text-xs uppercase tracking-widest mb-2">XP</p>
           <p className="text-white text-2xl font-light">{xp}</p>
@@ -85,6 +91,14 @@ function ProfileStats({
             percent={level.xpForNext ? (level.xpIntoLevel / level.xpForNext) * 100 : 100}
             trailing={level.xpForNext ? `${level.xpIntoLevel}/${level.xpForNext} to next` : 'Max level'}
           />
+        </div>
+        <div className="rounded-2xl liquid-glass p-5">
+          <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Streak</p>
+          <p className="text-white text-2xl font-light flex items-center gap-1.5">
+            {currentStreak > 0 && <Flame className="w-4 h-4 text-orange-400" />}
+            {currentStreak}
+          </p>
+          {longestStreak > currentStreak && <p className="text-white/30 text-xs mt-1">Best: {longestStreak}</p>}
         </div>
         <div className="rounded-2xl liquid-glass p-5">
           <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Modules mastered</p>
@@ -329,6 +343,8 @@ function OwnProfile() {
         xp={xp}
         moduleProgress={moduleProgress}
         earnedBadgeIds={earnedBadgeIds}
+        currentStreak={profile.current_streak}
+        longestStreak={profile.longest_streak}
         isOwn
       />
       <button
@@ -387,6 +403,8 @@ function PublicProfile({ displayName }: { displayName: string }) {
       xp={row.xp}
       moduleProgress={moduleProgress}
       earnedBadgeIds={earnedBadgeIds}
+      currentStreak={row.current_streak}
+      longestStreak={row.longest_streak}
       isOwn={false}
     />
   );

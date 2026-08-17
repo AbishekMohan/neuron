@@ -8,6 +8,9 @@ export type Profile = {
   avatar_color: string;
   bio: string;
   created_at: string;
+  current_streak: number;
+  longest_streak: number;
+  last_active_date: string | null;
 };
 
 export const AVATAR_COLORS = ['#38bdf8', '#7dd3fc', '#818cf8', '#a78bfa', '#f472b6', '#fb923c', '#34d399', '#facc15'];
