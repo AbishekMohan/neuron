@@ -8,7 +8,13 @@
 
 import { supabase } from './supabase';
 
-export type AssistantMessage = { role: 'user' | 'assistant'; content: string };
+export type AssistantFlag = {
+  type: 'hallucination' | 'bias' | 'oversimplification' | 'uncertain' | string;
+  quote: string;
+  note: string;
+};
+
+export type AssistantMessage = { role: 'user' | 'assistant'; content: string; flags?: AssistantFlag[] };
 
 export type AssistantContext = {
   moduleTitle?: string;
@@ -18,10 +24,10 @@ export type AssistantContext = {
   /**
    * Real mastery tier from lib/companion.ts's held-out-accuracy classifier
    * (untrained/learning/competent/mastered), passed straight through so
-   * the edge function can modulate its own *style and helpfulness* to
-   * match. Terse and rough when untrained, sharp and personable once
-   * mastered. Never used to change factual accuracy: see the edge
-   * function's system prompt for the actual behavior split.
+   * the edge function can modulate its own reliability to match: an
+   * untrained persona is deliberately allowed to skip double-checking and
+   * overgeneralize, not just sound terser, so the self-audit pass below
+   * has something real to catch.
    */
   companionTier?: 'untrained' | 'learning' | 'competent' | 'mastered';
   companionQualityPercent?: number;
@@ -33,19 +39,20 @@ const NOT_CONNECTED_NOTICE =
 export async function sendMessage(
   messages: AssistantMessage[],
   context?: AssistantContext,
-): Promise<{ reply: string; error: string | null }> {
-  if (!supabase) return { reply: NOT_CONNECTED_NOTICE, error: null };
+): Promise<{ reply: string; flags: AssistantFlag[]; error: string | null }> {
+  if (!supabase) return { reply: NOT_CONNECTED_NOTICE, flags: [], error: null };
 
-  const { data, error } = await supabase.functions.invoke<{ reply?: string; error?: string }>('assistant', {
-    body: { messages, context },
-  });
+  const { data, error } = await supabase.functions.invoke<{ reply?: string; flags?: AssistantFlag[]; error?: string }>(
+    'assistant',
+    { body: { messages, context } },
+  );
 
   if (error || data?.error) {
     console.error('Assistant request failed', error ?? data?.error);
-    return { reply: NOT_CONNECTED_NOTICE, error: (error?.message ?? data?.error) || 'Unknown error' };
+    return { reply: NOT_CONNECTED_NOTICE, flags: [], error: (error?.message ?? data?.error) || 'Unknown error' };
   }
 
-  return { reply: data?.reply ?? NOT_CONNECTED_NOTICE, error: null };
+  return { reply: data?.reply ?? NOT_CONNECTED_NOTICE, flags: data?.flags ?? [], error: null };
 }
 
 export const SUGGESTED_PROMPTS = [

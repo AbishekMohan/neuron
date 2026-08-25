@@ -15,6 +15,11 @@ import {
   Loader2,
   Volume2,
   VolumeX,
+  Ghost,
+  Scale,
+  Layers,
+  HelpCircle,
+  Info,
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { TRAINING_CATEGORIES, type TrainingCategoryId, type TrainingExample } from '../data/training';
@@ -40,6 +45,21 @@ import CompanionMasteryMeter from '../components/CompanionMasteryMeter';
 import ConfidenceMeter from '../components/ConfidenceMeter';
 import type { OrbState } from '../lib/carvisOrb';
 import { loadCompanionIdentity, saveCompanionIdentity } from '../lib/companionIdentity';
+
+// Icon-only distinction between self-audit flag types, no color coding
+// (the whole Companion surface is one blue, always).
+const FLAG_ICON: Record<string, typeof Info> = {
+  hallucination: Ghost,
+  bias: Scale,
+  oversimplification: Layers,
+  uncertain: HelpCircle,
+};
+const FLAG_LABEL: Record<string, string> = {
+  hallucination: 'Possible hallucination',
+  bias: 'Possible bias',
+  oversimplification: 'Oversimplified',
+  uncertain: 'Uncertain claim',
+};
 
 function pickExample(pool: TrainingExample[], avoidId?: string): TrainingExample {
   if (pool.length === 1) return pool[0];
@@ -138,12 +158,12 @@ export default function Companion() {
     setChatSending(true);
     setOrbPhase('thinking');
 
-    const { reply } = await sendMessage(next, {
+    const { reply, flags } = await sendMessage(next, {
       companionName: identity.name,
       companionTier: overallTier,
       companionQualityPercent: Math.round(overallQuality * 100),
     });
-    setChatMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
+    setChatMessages((prev) => [...prev, { role: 'assistant', content: reply, flags }]);
     setChatSending(false);
 
     if (muted) {
@@ -532,7 +552,9 @@ export default function Companion() {
                 <div>
                   <p className="text-white/40 text-xs font-light leading-relaxed mb-4">
                     Ask {identity.name} about how AI works, or talk through homework. It explains and coaches, out
-                    loud. It won't just hand you finished answers.
+                    loud, and it won't just hand you finished answers. Undertrained, it can actually get things
+                    wrong, and it checks its own answers live for hallucination, bias, and overconfidence, the same
+                    skills taught in Hallucination Hunt and Bias Detective, applied to its own replies.
                   </p>
                   <div className="flex flex-col gap-2">
                     {SUGGESTED_PROMPTS.map((prompt) => (
@@ -550,13 +572,39 @@ export default function Companion() {
               )}
 
               {chatMessages.map((m, i) => (
-                <div
-                  key={i}
-                  className={`max-w-[85%] rounded-xl px-3.5 py-2.5 text-sm font-light leading-relaxed ${
-                    m.role === 'user' ? 'self-end bg-white text-black' : 'self-start bg-white/8 text-white/80'
-                  }`}
-                >
-                  {m.content}
+                <div key={i} className={`max-w-[85%] flex flex-col gap-1.5 ${m.role === 'user' ? 'self-end items-end' : 'self-start items-start'}`}>
+                  <div
+                    className={`rounded-xl px-3.5 py-2.5 text-sm font-light leading-relaxed ${
+                      m.role === 'user' ? 'bg-white text-black' : 'bg-white/8 text-white/80'
+                    }`}
+                  >
+                    {m.content}
+                  </div>
+
+                  {/* Self-audit: the companion checking its own answer for
+                      exactly what this course teaches students to watch
+                      for, applied live to its own output. Empty at high
+                      mastery, more likely to surface something real at
+                      low mastery, since that persona is allowed to skip
+                      double-checking itself. Icon-only distinction
+                      between flag types, no color coding. */}
+                  {m.flags && m.flags.length > 0 && (
+                    <div className="w-full flex flex-col gap-1.5">
+                      {m.flags.map((flag, fi) => {
+                        const Icon = FLAG_ICON[flag.type] ?? Info;
+                        return (
+                          <div key={fi} className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs">
+                            <div className="flex items-center gap-1.5 text-sky-300/80 uppercase tracking-wide text-[10px] mb-1">
+                              <Icon className="w-3 h-3" />
+                              {FLAG_LABEL[flag.type] ?? 'Flagged'}
+                            </div>
+                            {flag.quote && <p className="text-white/50 italic mb-1">“{flag.quote}”</p>}
+                            <p className="text-white/60 font-light">{flag.note}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               ))}
 
