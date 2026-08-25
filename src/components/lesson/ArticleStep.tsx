@@ -18,7 +18,7 @@ export default function ArticleStep({ sections, complete, onComplete }: ArticleS
   // section by section using the same browser TTS as the assistant. A
   // session counter guards against speechSynthesis.cancel()'s onend/onerror
   // firing after an explicit Stop and wrongly auto-advancing to the next
-  // section — cancellation behavior here is inconsistent across browsers,
+  // section. Cancellation behavior here is inconsistent across browsers,
   // so this is the one thing that has to be defended against explicitly.
   const [readingIndex, setReadingIndex] = useState<number | null>(null);
   const [isPaused, setIsPaused] = useState(false);
@@ -28,7 +28,7 @@ export default function ArticleStep({ sections, complete, onComplete }: ArticleS
     return () => {
       // sessionRef is a plain counter, never attached to a DOM node via
       // `ref=`, so the usual "ref may already be nulled by cleanup time"
-      // concern doesn't apply — incrementing it here is what invalidates
+      // concern doesn't apply. Incrementing it here is what invalidates
       // a still-pending speak() onEnd callback so it can't setState
       // after this component has unmounted.
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,7 +47,7 @@ export default function ArticleStep({ sections, complete, onComplete }: ArticleS
     setIsPaused(false);
     speak(sectionText(sections[index]), {
       onEnd: () => {
-        if (sessionRef.current !== session) return; // superseded by a stop/skip — don't chain
+        if (sessionRef.current !== session) return; // superseded by a stop/skip. Don't chain
         playFrom(index + 1);
       },
     });

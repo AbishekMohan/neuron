@@ -53,7 +53,7 @@ export default function Home() {
           {/* Fades to fully solid black well before the hero's own hard
               bottom edge (h-screen + overflow-hidden clips at a hard
               pixel line), so the brain's bloom/glow never gets abruptly
-              cut off right at that boundary — that hard clip-on-glow was
+              cut off right at that boundary. That hard clip-on-glow was
               the actual seam, not a color mismatch with the content
               below. Multiple stops (rather than a single via-color) ease
               the curve in gradually instead of ramping linearly, so there's

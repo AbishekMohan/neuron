@@ -1,5 +1,5 @@
 // Standard AI-literacy terminology, written to plain, accurate,
-// textbook-level definitions rather than sourced course claims — unlike
+// textbook-level definitions rather than sourced course claims. Unlike
 // module content (see data/sources.ts), individual dictionary-style term
 // definitions aren't attributed to a single citation.
 
@@ -28,7 +28,7 @@ export const GLOSSARY: GlossaryTerm[] = [
   {
     term: 'Algorithm',
     category: 'Fundamentals',
-    definition: 'A step-by-step set of instructions for solving a problem or completing a task — the underlying recipe a program follows.',
+    definition: 'A step-by-step set of instructions for solving a problem or completing a task. The underlying recipe a program follows.',
   },
   {
     term: 'Machine Learning (ML)',
@@ -43,7 +43,7 @@ export const GLOSSARY: GlossaryTerm[] = [
   {
     term: 'Neural Network',
     category: 'Machine Learning',
-    definition: 'A machine learning model loosely inspired by connections between neurons in the brain — layers of simple units whose connection strengths ("weights") are adjusted during training.',
+    definition: 'A machine learning model loosely inspired by connections between neurons in the brain. Layers of simple units whose connection strengths ("weights") are adjusted during training.',
   },
   {
     term: 'Weights',
@@ -73,7 +73,7 @@ export const GLOSSARY: GlossaryTerm[] = [
   {
     term: 'Generative AI',
     category: 'Generative AI',
-    definition: 'AI systems that create new content — text, images, audio, code — rather than just classifying or predicting from fixed categories.',
+    definition: 'AI systems that create new content. Text, images, audio, code. Rather than just classifying or predicting from fixed categories.',
   },
   {
     term: 'Prompt',
@@ -88,7 +88,7 @@ export const GLOSSARY: GlossaryTerm[] = [
   {
     term: 'Token',
     category: 'Generative AI',
-    definition: 'A chunk of text (often a word or part of a word) that a language model processes as one unit — the basic building block it reads and generates.',
+    definition: 'A chunk of text (often a word or part of a word) that a language model processes as one unit. The basic building block it reads and generates.',
   },
   {
     term: 'Bias (in AI)',
@@ -113,7 +113,7 @@ export const GLOSSARY: GlossaryTerm[] = [
   {
     term: 'Confidence (of an AI output)',
     category: 'Using AI Well',
-    definition: 'A model’s internal certainty about its own output. High confidence doesn’t guarantee correctness — a model can be confidently wrong.',
+    definition: 'A model’s internal certainty about its own output. High confidence doesn’t guarantee correctness. A model can be confidently wrong.',
   },
   {
     term: 'AI Assistance vs. AI-Generated Work',
@@ -123,7 +123,7 @@ export const GLOSSARY: GlossaryTerm[] = [
   {
     term: 'Fact-Checking AI Output',
     category: 'Using AI Well',
-    definition: 'Verifying an AI-generated claim against an independent, reliable source before trusting or repeating it — especially important given hallucination risk.',
+    definition: 'Verifying an AI-generated claim against an independent, reliable source before trusting or repeating it. Especially important given hallucination risk.',
   },
   {
     term: 'Human-in-the-Loop',

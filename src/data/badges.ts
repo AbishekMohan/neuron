@@ -112,7 +112,7 @@ export const BADGES: Badge[] = [
   {
     id: 'model-trainer',
     title: 'Model Trainer',
-    description: 'Train your companion to Mastered — measured by its accuracy on unseen examples, not clicks.',
+    description: 'Train your companion to Mastered. Measured by its accuracy on unseen examples, not clicks.',
     shape: 'neural-web',
     color: '#7dd3fc',
     check: ({ companionMasteredCount }) => companionMasteredCount >= 1,

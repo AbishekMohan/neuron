@@ -3,7 +3,7 @@
 // (not just how much a student clicked) can be measured honestly.
 //
 // - `pool`: shown to the student for labeling. Their *own* label is what
-//   the classifier trains on — not the ground truth `label` here — so a
+//   the classifier trains on. Not the ground truth `label` here. So a
 //   student who deliberately mislabels these is training their companion
 //   on bad data, on purpose. That's the point of the feature.
 // - `testSet`: never shown for labeling. Used only to score the trained
@@ -16,7 +16,7 @@
 //
 // pool and testSet are each deliberately balanced 50/50 between the two
 // classes, so an untrained classifier (which predicts a fixed class with
-// no learned weights) scores ~50% on testSet — chance level — and real
+// no learned weights) scores ~50% on testSet. Chance level. And real
 // training should move accuracy away from that baseline in either
 // direction depending on label quality.
 
@@ -49,7 +49,7 @@ export const TRAINING_CATEGORIES: TrainingCategory[] = [
     positiveLabel: 'Good prompt',
     negativeLabel: 'Bad prompt',
     pool: [
-      { id: 'pr-p1', text: 'write something', label: 0, explanation: 'No topic, no length, no audience — the AI has nothing to work with.' },
+      { id: 'pr-p1', text: 'write something', label: 0, explanation: 'No topic, no length, no audience. The AI has nothing to work with.' },
       { id: 'pr-p2', text: 'Explain photosynthesis in 3 sentences for a 9th grader, avoiding jargon.', label: 1, explanation: 'Specific topic, length, audience, and a constraint.' },
       { id: 'pr-p3', text: 'help', label: 0, explanation: 'Help with what? No task is actually specified.' },
       { id: 'pr-p4', text: 'Summarize this article in 5 bullet points, focusing on the economic impact.', label: 1, explanation: 'Clear format (bullets), count, and focus.' },
@@ -82,7 +82,7 @@ export const TRAINING_CATEGORIES: TrainingCategory[] = [
       id: 'pr-cap',
       text: 'Give me 3 discussion questions about the ethics of AI-generated art, appropriate for a high school class.',
       label: 1,
-      explanation: 'Topic, count, and audience are all specified — a good prompt.',
+      explanation: 'Topic, count, and audience are all specified. A good prompt.',
     },
   },
   {
@@ -125,7 +125,7 @@ export const TRAINING_CATEGORIES: TrainingCategory[] = [
       id: 'bi-cap',
       text: 'Left-handed people are worse at sports.',
       label: 0,
-      explanation: 'A blanket claim about handedness with no supporting evidence — in some sports, left-handedness is actually an advantage.',
+      explanation: 'A blanket claim about handedness with no supporting evidence. In some sports, left-handedness is actually an advantage.',
     },
   },
   {
@@ -135,29 +135,29 @@ export const TRAINING_CATEGORIES: TrainingCategory[] = [
     positiveLabel: 'Accurate',
     negativeLabel: 'Hallucinated',
     pool: [
-      { id: 'ha-p1', text: 'The Great Wall of China is visible from space with the naked eye.', label: 0, explanation: 'A famous myth — NASA has said it’s not reliably visible from low orbit.' },
+      { id: 'ha-p1', text: 'The Great Wall of China is visible from space with the naked eye.', label: 0, explanation: 'A famous myth. NASA has said it’s not reliably visible from low orbit.' },
       { id: 'ha-p2', text: 'The Great Wall of China is not reliably visible from low Earth orbit with the naked eye, according to NASA.', label: 1, explanation: 'Correct, and cites the source.' },
-      { id: 'ha-p3', text: 'Albert Einstein failed math in school.', label: 0, explanation: 'A popular myth — Einstein excelled at math from a young age.' },
+      { id: 'ha-p3', text: 'Albert Einstein failed math in school.', label: 0, explanation: 'A popular myth. Einstein excelled at math from a young age.' },
       { id: 'ha-p4', text: 'Albert Einstein excelled at math from a young age; the “failed math” story is a popular myth.', label: 1, explanation: 'Correct, and directly debunks the myth.' },
       { id: 'ha-p5', text: 'Humans only use 10% of their brains.', label: 0, explanation: 'A long-debunked myth with no basis in neuroscience.' },
       { id: 'ha-p6', text: 'Brain imaging shows humans use virtually all of their brain, just not all regions simultaneously.', label: 1, explanation: 'Reflects actual neuroscience.' },
-      { id: 'ha-p7', text: 'The Sahara Desert is the largest desert in the world.', label: 0, explanation: 'A common mix-up — by area, Antarctica is the largest desert.' },
+      { id: 'ha-p7', text: 'The Sahara Desert is the largest desert in the world.', label: 0, explanation: 'A common mix-up. By area, Antarctica is the largest desert.' },
       { id: 'ha-p8', text: 'Antarctica is the largest desert in the world by area, since “desert” is defined by low precipitation, not heat.', label: 1, explanation: 'Correct, and explains why the answer is surprising.' },
-      { id: 'ha-p9', text: 'Goldfish have a memory span of only a few seconds.', label: 0, explanation: 'A popular myth — goldfish memory research shows otherwise.' },
+      { id: 'ha-p9', text: 'Goldfish have a memory span of only a few seconds.', label: 0, explanation: 'A popular myth. Goldfish memory research shows otherwise.' },
       { id: 'ha-p10', text: 'Goldfish can remember things for months, not just a few seconds, according to animal behavior research.', label: 1, explanation: 'Correct, and cites the type of source.' },
     ],
     testSet: [
-      { id: 'ha-t1', text: 'Lightning never strikes the same place twice.', label: 0, explanation: 'False — tall structures get struck repeatedly.' },
+      { id: 'ha-t1', text: 'Lightning never strikes the same place twice.', label: 0, explanation: 'False. Tall structures get struck repeatedly.' },
       { id: 'ha-t2', text: 'Lightning frequently strikes the same location repeatedly, especially tall structures like skyscrapers.', label: 1, explanation: 'Correct.' },
-      { id: 'ha-t3', text: 'Bats are blind.', label: 0, explanation: 'False — most bat species can see.' },
+      { id: 'ha-t3', text: 'Bats are blind.', label: 0, explanation: 'False. Most bat species can see.' },
       { id: 'ha-t4', text: 'Most bat species can see, and some see quite well; many also use echolocation.', label: 1, explanation: 'Correct, and adds the real reason bats seem "blind".' },
-      { id: 'ha-t5', text: 'You lose most of your body heat through your head.', label: 0, explanation: 'A myth — heat loss is roughly proportional to skin exposed, not concentrated in the head.' },
+      { id: 'ha-t5', text: 'You lose most of your body heat through your head.', label: 0, explanation: 'A myth. Heat loss is roughly proportional to skin exposed, not concentrated in the head.' },
       { id: 'ha-t6', text: 'Heat loss is roughly proportional to how much skin is exposed, not specifically concentrated in the head.', label: 1, explanation: 'Correct.' },
-      { id: 'ha-t7', text: 'The Great Depression started immediately after the 1929 stock market crash with no warning signs.', label: 0, explanation: 'False — historians point to warning signs beforehand.' },
+      { id: 'ha-t7', text: 'The Great Depression started immediately after the 1929 stock market crash with no warning signs.', label: 0, explanation: 'False. Historians point to warning signs beforehand.' },
       { id: 'ha-t8', text: 'Economic historians point to warning signs before the 1929 crash, including speculative buying and uneven wealth distribution.', label: 1, explanation: 'Correct, and cites the type of source.' },
-      { id: 'ha-t9', text: 'Vikings wore horned helmets in battle.', label: 0, explanation: 'A myth from 19th-century costume design — no historical evidence supports it.' },
+      { id: 'ha-t9', text: 'Vikings wore horned helmets in battle.', label: 0, explanation: 'A myth from 19th-century costume design. No historical evidence supports it.' },
       { id: 'ha-t10', text: 'There\'s no reliable historical evidence that Vikings wore horned helmets in battle; that image comes from 19th-century costume design.', label: 1, explanation: 'Correct, and explains where the myth actually came from.' },
-      { id: 'ha-t11', text: 'Chameleons change color mainly to match their surroundings for camouflage.', label: 0, explanation: 'A common misconception — camouflage isn\'t the main driver.' },
+      { id: 'ha-t11', text: 'Chameleons change color mainly to match their surroundings for camouflage.', label: 0, explanation: 'A common misconception. Camouflage isn\'t the main driver.' },
       { id: 'ha-t12', text: 'Chameleons change color mainly to communicate and regulate temperature, not primarily for camouflage.', label: 1, explanation: 'Reflects the actual science.' },
       { id: 'ha-t13', text: 'Coffee was first discovered in Brazil.', label: 0, explanation: 'Coffee is generally traced to Ethiopia, not Brazil.' },
       { id: 'ha-t14', text: 'Coffee is generally traced to Ethiopia, not Brazil, according to historical accounts.', label: 1, explanation: 'Correct, and cites the type of source.' },
@@ -168,7 +168,7 @@ export const TRAINING_CATEGORIES: TrainingCategory[] = [
       id: 'ha-cap',
       text: 'Napoleon Bonaparte was unusually short for his time.',
       label: 0,
-      explanation: 'A famous myth — by period standards, Napoleon was roughly average height; the "short" idea comes from a unit mix-up and British caricature.',
+      explanation: 'A famous myth. By period standards, Napoleon was roughly average height; the "short" idea comes from a unit mix-up and British caricature.',
     },
   },
 ];

@@ -51,7 +51,7 @@ export type StepId = 'article' | 'flashcards' | 'video' | 'game' | 'quiz';
 // Blast both run on this same authored card/bucket data (Blast is just a
 // timed "clear the correct ones" framing of it, via blastTarget naming
 // which bucket is correct to blast); Live and Match don't need separate
-// data at all — they race over the module's own quiz.questions and
+// data at all. They race over the module's own quiz.questions and
 // flashcards.cards respectively. See src/lib/multiplayer.ts and
 // GameModeSelect.tsx.
 export type GameConfig = {
@@ -1301,7 +1301,7 @@ export const MODULES: Module[] = [
             id: 'data-center-boom',
             heading: 'The Data Center Boom',
             paragraphs: [
-              'AI doesn’t run in an abstract "cloud" — it runs in data centers: large, physical buildings full of servers that consume real power and need real cooling. According to the International Energy Agency, data centers used just over 1% of global electricity in 2024, and that consumption has grown by roughly 12% a year since 2017, well outpacing electricity demand growth overall.',
+              'AI doesn’t run in an abstract "cloud". It runs in data centers: large, physical buildings full of servers that consume real power and need real cooling. According to the International Energy Agency, data centers used just over 1% of global electricity in 2024, and that consumption has grown by roughly 12% a year since 2017, well outpacing electricity demand growth overall.',
               'The IEA projects data-center electricity use will more than double by 2030, reaching around 945 terawatt-hours. AI is a major driver of that growth specifically: the agency estimates AI has accounted for roughly 5-15% of data-center power use in recent years, but projects that could rise to 35-50% by 2030 as AI workloads keep expanding.',
             ],
             sourceIds: ['iea-energy-ai-2025'],
@@ -1322,7 +1322,7 @@ export const MODULES: Module[] = [
             id: 'training-vs-inference',
             heading: 'Training vs. Everyday Use',
             paragraphs: [
-              'It helps to separate two different costs. "Training" is the one-time (or occasional) process of building a model from data — the extremely expensive part described above. "Inference" is using an already-trained model to answer one request, like a single chatbot response. Inference is far cheaper per use, but it happens an enormous number of times, so its total cost adds up too.',
+              'It helps to separate two different costs. "Training" is the one-time (or occasional) process of building a model from data. The extremely expensive part described above. "Inference" is using an already-trained model to answer one request, like a single chatbot response. Inference is far cheaper per use, but it happens an enormous number of times, so its total cost adds up too.',
               'Model size matters a lot here. Roughly speaking, a model with more parameters (adjustable internal values) needs more computation to train and to answer each request. That’s part of why AI companies increasingly offer smaller, faster model variants alongside their largest ones: a smaller model that’s good enough for a simple task uses meaningfully less energy than always reaching for the biggest available model.',
             ],
           },
@@ -1361,7 +1361,7 @@ export const MODULES: Module[] = [
         cards: [
           { term: 'Training vs. Inference', definition: 'Training builds a model from data (extremely expensive, usually one-time); inference is using an already-trained model to answer a request (cheap per use, but happens constantly).' },
           { term: 'Carbon Footprint (of AI)', definition: 'The greenhouse gas emissions associated with the electricity used to train or run an AI model.', sourceId: 'strubell-mit-2019' },
-          { term: 'Data Center', definition: 'A physical facility of networked servers that runs cloud services, including most AI training and inference — "the cloud" is real hardware, not an abstraction.', sourceId: 'iea-energy-ai-2025' },
+          { term: 'Data Center', definition: 'A physical facility of networked servers that runs cloud services, including most AI training and inference. "The cloud" is real hardware, not an abstraction.', sourceId: 'iea-energy-ai-2025' },
           { term: 'Neuromorphic Computing', definition: 'A hardware design approach that mimics the structure of biological neurons and synapses to run AI-like computation far more energy-efficiently.', sourceId: 'loihi-open-neuromorphic' },
           { term: 'Energy-Delay Product', definition: 'A metric combining a chip’s energy use and processing speed, used to compare hardware efficiency.', sourceId: 'loihi-open-neuromorphic' },
           { term: 'Model Size (Parameters)', definition: 'Roughly, how many adjustable internal values a model has; larger models generally need more computation to train and to run.' },

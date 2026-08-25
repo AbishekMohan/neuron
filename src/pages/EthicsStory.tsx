@@ -5,7 +5,7 @@ import { RotateCcw, ArrowLeft, Sparkles, AlertTriangle, Scale } from 'lucide-rea
 import { STORY_NODES, STORY_START_ID } from '../data/ethicsStory';
 
 // One hue (the site's blue), three brightness levels instead of three
-// hues — good outcomes read as bright/saturated blue, bad ones fade to
+// hues. Good outcomes read as bright/saturated blue, bad ones fade to
 // plain neutral gray, mixed sits between the two.
 const OUTCOME_STYLE = {
   good: { icon: Sparkles, color: 'text-sky-300', border: 'border-sky-400/40', bg: 'bg-sky-400/10', label: 'Good outcome' },
@@ -34,7 +34,7 @@ export default function EthicsStory() {
         <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Ethics Story</p>
         <h1 className="text-white text-3xl sm:text-4xl font-light leading-tight tracking-tight">The Deadline</h1>
         <p className="text-white/50 text-sm mt-4 max-w-xl font-light">
-          A choose-your-own-adventure about AI use under pressure. There's more than one ending — try a few.
+          A choose-your-own-adventure about AI use under pressure. There's more than one ending. Try a few.
         </p>
 
         <div className="flex items-center gap-1.5 mt-6">

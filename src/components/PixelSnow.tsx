@@ -249,7 +249,7 @@ export default function PixelSnow({
 
     // Capped at 1 (not up to 2): DPI scaling was the single biggest lever
     // in the earlier lag investigation on this page, and it applies
-    // directly here too — this shader's cost scales with real pixel count.
+    // directly here too. This shader's cost scales with real pixel count.
     renderer.setPixelRatio(1);
     renderer.setSize(container.offsetWidth, container.offsetHeight);
     renderer.setClearColor(0x000000, 0);

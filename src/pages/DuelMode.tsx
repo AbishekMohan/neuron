@@ -7,7 +7,7 @@ import RoomSetup from '../components/lesson/RoomSetup';
 import { COURTROOM_SCENARIOS, VERDICT_OPTIONS, type VerdictId } from '../data/challenges';
 
 // A tiny deterministic PRNG seeded from the room code, so every player in
-// the same room computes the identical scenario order locally — no need
+// the same room computes the identical scenario order locally. No need
 // to transmit the question set over the realtime channel at all.
 function seededShuffle<T>(items: T[], seed: string): T[] {
   let h = 0;
@@ -38,7 +38,7 @@ export default function DuelMode() {
   const [correctCount, setCorrectCount] = useState(0);
 
   // A fresh duel gets a fresh local scoreboard even if the room object
-  // (and its realtime channel) is reused for a rematch — the lobby phase
+  // (and its realtime channel) is reused for a rematch. The lobby phase
   // is the one moment between duels every player passes through.
   useEffect(() => {
     if (room.phase === 'lobby') {

@@ -1,5 +1,5 @@
 // Shared real-time multiplayer lobby, built on Supabase Realtime Presence +
-// Broadcast. Both LiveRaceGame and MatchRaceGame use this — it handles
+// Broadcast. Both LiveRaceGame and MatchRaceGame use this. It handles
 // room creation/joining and the live "who's here, who's finished, what's
 // their progress" state; each game supplies its own local gameplay logic
 // and just calls setSelfProgress() as the player advances.
@@ -7,7 +7,7 @@
 // Deliberately simple, not server-authoritative: each client scores itself
 // and broadcasts that score. Fine for a casual classroom race; not
 // cheat-proof. No reconnect-after-disconnect support, and no host
-// migration if the host leaves before starting — both acceptable
+// migration if the host leaves before starting. Both acceptable
 // limitations for a v1 of this feature.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { RealtimeChannel } from '@supabase/supabase-js';

@@ -39,7 +39,7 @@ import InteractiveOrbStage from '../components/InteractiveOrbStage';
 import CompanionMasteryMeter from '../components/CompanionMasteryMeter';
 import ConfidenceMeter from '../components/ConfidenceMeter';
 import type { OrbState } from '../lib/carvisOrb';
-import { HUE_OPTIONS, getHueFilter, loadCompanionIdentity, saveCompanionIdentity } from '../lib/companionIdentity';
+import { loadCompanionIdentity, saveCompanionIdentity } from '../lib/companionIdentity';
 
 function pickExample(pool: TrainingExample[], avoidId?: string): TrainingExample {
   if (pool.length === 1) return pool[0];
@@ -59,12 +59,6 @@ export default function Companion() {
   const [identity, setIdentity] = useState(loadCompanionIdentity);
   const [editingName, setEditingName] = useState(false);
   const [nameDraft, setNameDraft] = useState(identity.name);
-
-  const setHue = (hue: (typeof HUE_OPTIONS)[number]['id']) => {
-    const next = { ...identity, hue };
-    setIdentity(next);
-    saveCompanionIdentity(next);
-  };
 
   const commitName = () => {
     const trimmed = nameDraft.trim().slice(0, 24) || 'Companion';
@@ -90,7 +84,7 @@ export default function Companion() {
   );
 
   // The orb's visual growth reflects the whole companion (all 3 trained
-  // skills), not just whichever tab is open — recomputed whenever any
+  // skills), not just whichever tab is open. Recomputed whenever any
   // category's training changes, via the same `version` bump the
   // per-category state above already uses.
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -119,7 +113,7 @@ export default function Companion() {
   const speechPulse = useRef(new SpeechPulseSource());
 
   // Free, no-API-key voice picker: whatever speech-synthesis voices this
-  // browser/OS already has installed. Loaded once — the list is static
+  // browser/OS already has installed. Loaded once. The list is static
   // per browser session, no need to re-fetch it.
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   useEffect(() => {
@@ -205,7 +199,7 @@ export default function Companion() {
   };
 
   // Touching/dragging the orb itself is real interaction, not decoration
-  // — 'listening' is an OrbState this app otherwise never uses (no mic
+  //. 'Listening' is an OrbState this app otherwise never uses (no mic
   // input anywhere), so reusing it here to mean "the student is actively
   // engaging with it right now" doesn't collide with any other meaning.
   const handleOrbTouch = () => {
@@ -250,7 +244,7 @@ export default function Companion() {
           Teach it. Then find out what it actually learned.
         </h1>
         <p className="text-white/50 text-sm mt-4 max-w-2xl font-light leading-relaxed">
-          Every label you give trains a small real classifier — it learns from{' '}
+          Every label you give trains a small real classifier. It learns from{' '}
           <span className="text-white/80">your</span> answer, right or wrong. Its mastery tier is measured against
           examples you never see, so it reflects what it actually learned, not how many times you clicked.
         </p>
@@ -279,17 +273,15 @@ export default function Companion() {
         </div>
 
         {/* ── The companion: centered, large, the actual focal point of
-            the page — everything else is arranged around it rather than
+            the page. Everything else is arranged around it rather than
             sharing a row with it. Its quality (sharp vs. dim/glitchy) is
             driven by overall mastery across every trained skill, so it
-            looks the same whether you're training or talking to it —
-            one entity, not two. ─────────────────────────────────────── */}
+            looks the same whether you're training or talking to it.
+            One entity, not two. ─────────────────────────────────────── */}
         <div className="flex flex-col items-center mt-10">
           <InteractiveOrbStage
             state={orbPhase}
             quality={overallQuality}
-            hueFilter={getHueFilter(identity.hue)}
-            accentSwatch={HUE_OPTIONS.find((h) => h.id === identity.hue)?.swatch ?? '#38bdf8'}
             analyser={mode === 'chat' && orbPhase === 'speaking' ? speechPulse.current : null}
             size={420}
             onTouch={handleOrbTouch}
@@ -330,20 +322,6 @@ export default function Companion() {
               <Pencil className="w-3.5 h-3.5 text-white/30" />
             </button>
           )}
-
-          <div className="flex items-center gap-2 mt-3">
-            {HUE_OPTIONS.map((h) => (
-              <button
-                key={h.id}
-                type="button"
-                onClick={() => setHue(h.id)}
-                aria-label={`${h.label} accent`}
-                aria-pressed={identity.hue === h.id}
-                className={`w-5 h-5 rounded-full transition-transform ${identity.hue === h.id ? 'ring-2 ring-white/60 scale-110' : 'ring-1 ring-white/15 hover:scale-105'}`}
-                style={{ backgroundColor: h.swatch }}
-              />
-            ))}
-          </div>
 
           {mode === 'train' && (
             <>
@@ -439,14 +417,14 @@ export default function Companion() {
                   <>
                     <CheckCircle2 className="w-4 h-4 text-sky-300 shrink-0" />
                     <span className="text-sky-300">
-                      Your label was correct — that's real training signal.
+                      Your label was correct. That's real training signal.
                     </span>
                   </>
                 ) : (
                   <>
                     <XCircle className="w-4 h-4 text-white/30 shrink-0" />
                     <span className="text-white/50">
-                      Actually {feedback.example.label === 1 ? category.positiveLabel.toLowerCase() : category.negativeLabel.toLowerCase()} — your companion just learned the wrong thing from this one.
+                      Actually {feedback.example.label === 1 ? category.positiveLabel.toLowerCase() : category.negativeLabel.toLowerCase()}. Your companion just learned the wrong thing from this one.
                     </span>
                   </>
                 )}
@@ -507,7 +485,7 @@ export default function Companion() {
                 </div>
               </div>
               <p className="text-white/40 text-xs font-light mt-4">
-                Correct answer: <span className="text-white/70">{category.capstone.label === 1 ? category.positiveLabel : category.negativeLabel}</span> —{' '}
+                Correct answer: <span className="text-white/70">{category.capstone.label === 1 ? category.positiveLabel : category.negativeLabel}</span>.{' '}
                 {category.capstone.explanation}
               </p>
             </div>
@@ -515,7 +493,7 @@ export default function Companion() {
         </div>
         )}
 
-        {/* Chat: the same companion, talking — text in, voice out. */}
+        {/* Chat: the same companion, talking. Text in, voice out. */}
         {mode === 'chat' && (
           <div className="max-w-xl mx-auto mt-6 rounded-2xl liquid-glass flex flex-col overflow-hidden" style={{ height: '60vh', maxHeight: 560 }}>
             <div className="flex items-center justify-between px-5 py-3 border-b border-white/10 shrink-0">
@@ -554,7 +532,7 @@ export default function Companion() {
                 <div>
                   <p className="text-white/40 text-xs font-light leading-relaxed mb-4">
                     Ask {identity.name} about how AI works, or talk through homework. It explains and coaches, out
-                    loud — it won't just hand you finished answers.
+                    loud. It won't just hand you finished answers.
                   </p>
                   <div className="flex flex-col gap-2">
                     {SUGGESTED_PROMPTS.map((prompt) => (

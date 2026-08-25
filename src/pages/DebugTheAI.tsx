@@ -36,7 +36,7 @@ export default function DebugTheAI() {
     return (
       <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
         <div className="max-w-2xl mx-auto text-center">
-          <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Debug the AI — complete</p>
+          <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Debug the AI: complete</p>
           <p className="text-white text-5xl font-light tracking-tight mb-4">
             {correct}/{DEBUG_SCENARIOS.length}
           </p>
@@ -71,7 +71,7 @@ export default function DebugTheAI() {
           Find where the pipeline actually broke
         </h1>
         <p className="text-white/50 text-sm mt-4 max-w-xl font-light">
-          Every stage below is described honestly — three of the four worked exactly as intended. Click the one
+          Every stage below is described honestly. Three of the four worked exactly as intended. Click the one
           stage where things actually went wrong.
         </p>
 
@@ -138,7 +138,7 @@ export default function DebugTheAI() {
                   {picked === scenario.failedStage ? (
                     <>
                       <CheckCircle2 className="w-4 h-4 text-sky-300" />
-                      <span className="text-sky-300">Correct — that's where it broke.</span>
+                      <span className="text-sky-300">Correct. That's where it broke.</span>
                     </>
                   ) : (
                     <>

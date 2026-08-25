@@ -5,8 +5,8 @@ import { useProgress } from '../context/ProgressContext';
 import { TRAINING_CATEGORIES } from '../data/training';
 import { COMPANION_UPDATED_EVENT, evaluateAccuracy, loadCompanionState } from '../lib/companion';
 
-// Five axes, each backed by data the site already genuinely computes —
-// no metric here is invented for the report. A radar/spider chart was
+// Five axes, each backed by data the site already genuinely computes.
+// No metric here is invented for the report. A radar/spider chart was
 // the original spec's suggestion, but that form distorts magnitude
 // comparison across axes (area and angle both mislead); a labeled
 // horizontal bar chart shows the same "more than one flat score" story
@@ -75,7 +75,7 @@ export default function Report() {
         </h1>
         <p className="text-white/50 text-sm mt-4 max-w-xl font-light">
           A breakdown across course progress, quiz retention, and how well your trained companions actually
-          generalize — not just how much you've clicked.
+          generalize. Not just how much you've clicked.
         </p>
 
         <div className="mt-10 rounded-2xl liquid-glass p-6">
@@ -111,7 +111,7 @@ export default function Report() {
             <p className="text-white text-sm font-normal mb-1">Save this report</p>
             <p className="text-white/40 text-xs font-light">
               This data lives only in this browser (companion training never leaves your device), so there's no
-              shareable link — print to PDF to keep a copy.
+              shareable link. Print to PDF to keep a copy.
             </p>
           </div>
           <button

@@ -119,7 +119,7 @@ export default function HeroContent() {
                 </div>
                 {/* Streak is server-maintained (see the Supabase migration),
                     so it only exists for signed-in users with a profile
-                    row — guests just don't get this line. */}
+                    row. Guests just don't get this line. */}
                 {profile && profile.current_streak > 0 && (
                   <span className="inline-flex items-center gap-1 text-orange-300/90 text-xs shrink-0">
                     <Flame className="w-3.5 h-3.5" />
@@ -167,8 +167,8 @@ export default function HeroContent() {
           own fade-to-black resolves, and a border line right at that
           boundary was reinforcing the seam rather than separating content.
           (Also: this used to wrap a second, separately-styled <section> in
-          here, left over from before the scroll-in animation was added —
-          the leftover opening tag had no matching close, which broke the
+          here, left over from before the scroll-in animation was added.
+          The leftover opening tag had no matching close, which broke the
           build. Collapsed into one element.) */}
       <motion.section
         className="px-6 sm:px-8 md:px-12 py-20"

@@ -36,7 +36,7 @@ export default function BiasDetective() {
     return (
       <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
         <div className="max-w-2xl mx-auto text-center">
-          <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Bias Detective — complete</p>
+          <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Bias Detective: complete</p>
           <p className="text-white text-5xl font-light tracking-tight mb-4">
             {correct}/{DETECTIVE_SCENARIOS.length}
           </p>
@@ -71,7 +71,7 @@ export default function BiasDetective() {
           Trace the bias to its root
         </h1>
         <p className="text-white/50 text-sm mt-4 max-w-xl font-light">
-          Each AI output below sounds reasonable on its surface. Figure out what actually caused the bias — the
+          Each AI output below sounds reasonable on its surface. Figure out what actually caused the bias. The
           same handful of root causes show up again and again in the real world.
         </p>
 

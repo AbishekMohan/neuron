@@ -17,7 +17,7 @@ function clamp(n: number, min: number, max: number) {
 // position every frame, rather than by intercepting wheel events and
 // guessing whether the section happens to fill the viewport at that exact
 // instant. Sticky positioning can't be "scrolled past" by a fast flick or a
-// keyboard page-down the way preventDefault-based interception could — the
+// keyboard page-down the way preventDefault-based interception could. The
 // browser's own scroll handling guarantees the pin, so this can't miss.
 export default function CurriculumScrollCarousel() {
   const wrapperRef = useRef<HTMLDivElement | null>(null);

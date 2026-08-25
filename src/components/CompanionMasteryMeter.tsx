@@ -1,8 +1,8 @@
 import { TrendingDown } from 'lucide-react';
 import { MASTERY_TIER_LABELS, MASTERY_TIER_ORDER, type CompanionMasteryTier } from '../lib/companion';
 
-// One hue, ramped by brightness rather than four different colors —
-// untrained stays neutral gray (there's no signal yet to color), then
+// One hue, ramped by brightness rather than four different colors.
+// Untrained stays neutral gray (there's no signal yet to color), then
 // each tier up is a brighter step of the same blue.
 const TIER_COLORS: Record<CompanionMasteryTier, string> = {
   untrained: 'bg-white/15',
@@ -14,7 +14,7 @@ const TIER_COLORS: Record<CompanionMasteryTier, string> = {
 type CompanionMasteryMeterProps = {
   tier: CompanionMasteryTier;
   accuracy: number;
-  /** The best held-out accuracy this exact classifier could ever reach on this data — "Mastered" means landing on it. */
+  /** The best held-out accuracy this exact classifier could ever reach on this data. "Mastered" means landing on it. */
   ceilingAccuracy: number;
   labelsCount: number;
   peakAccuracy: number;
@@ -57,7 +57,7 @@ export default function CompanionMasteryMeter({ tier, accuracy, ceilingAccuracy,
         )}
       </div>
       <p className="text-white/30 text-[11px] mt-1.5">
-        Best possible for this data: {Math.round(ceilingAccuracy * 100)}% — "Mastered" needs 60+ labels within a
+        Best possible for this data: {Math.round(ceilingAccuracy * 100)}%. "Mastered" needs 60+ labels within a
         hair of it.
       </p>
     </div>

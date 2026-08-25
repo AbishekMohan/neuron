@@ -1,6 +1,6 @@
 // Content for the Concept Map Builder challenge: nodes are AI terms
 // positioned around a circle (percentage coordinates, 0-100, matching an
-// SVG viewBox 0 0 100 100 — no layout measurement needed), edges are the
+// SVG viewBox 0 0 100 100. No layout measurement needed), edges are the
 // correct directed relationships between them, each with a short label
 // naming the relationship (not just "these are related").
 

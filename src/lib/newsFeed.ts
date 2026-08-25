@@ -3,7 +3,7 @@
 // result in localStorage for an hour so a page full of visitors doesn't
 // hammer the source feeds on every load, and falls back to a small set
 // of real, verified headlines if the feed or the function is ever
-// unreachable — never a fabricated headline under a real outlet's name.
+// unreachable. Never a fabricated headline under a real outlet's name.
 
 import { supabase } from './supabase';
 import { MODULES } from '../data/modules';
@@ -13,7 +13,7 @@ export type Headline = { title: string; link: string; pubDate: string; source: s
 const CACHE_KEY = 'neuron-news-cache-v1';
 const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 
-// Verified directly (fetched, not generated) — see the session that
+// Verified directly (fetched, not generated). See the session that
 // added this feature. Only used if the live function is unreachable.
 const FALLBACK_HEADLINES: Headline[] = [
   {
@@ -79,7 +79,7 @@ export async function getHeadlines(): Promise<{ headlines: Headline[]; fetchedAt
 }
 
 // Lightweight keyword match against the course's own module titles, so a
-// headline can be tagged with which module it's most relevant to — no
+// headline can be tagged with which module it's most relevant to. No
 // real classification, just a simple, transparent heuristic.
 const MODULE_KEYWORDS: { moduleId: string; label: string; keywords: string[] }[] = [
   { moduleId: 'ethics', label: 'Ethics', keywords: ['ethic', 'privacy', 'bias', 'regulat', 'lawsuit', 'sec ', 'copyright', 'safety', 'misinformation'] },

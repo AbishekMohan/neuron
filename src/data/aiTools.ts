@@ -1,6 +1,6 @@
 // A filterable comparison of AI tools students are likely to actually
 // encounter. Deliberately qualitative rather than precise prices or
-// feature lists — those change often enough that hardcoding numbers here
+// feature lists. Those change often enough that hardcoding numbers here
 // would go stale and potentially mislead, which matters more than usual
 // on a site whose whole premise is "verify AI claims before trusting
 // them." Verify current pricing/features directly with each tool.
@@ -29,7 +29,7 @@ export const AI_TOOLS: AiTool[] = [
     category: 'General Chat',
     cost: 'Freemium',
     useCase: 'General-purpose conversation, integrated with Google Workspace.',
-    schoolNote: 'Same academic-integrity considerations as any general chatbot — check your school/teacher\'s specific policy.',
+    schoolNote: 'Same academic-integrity considerations as any general chatbot. Check your school/teacher\'s specific policy.',
   },
   {
     name: 'Grammarly',
@@ -71,7 +71,7 @@ export const AI_TOOLS: AiTool[] = [
     category: 'Writing & Research',
     cost: 'Paid',
     useCase: "A teacher-side tool that estimates whether submitted writing was AI-generated.",
-    schoolNote: 'AI-detection tools are known to be imperfect (false positives happen) — a flag is a conversation starter, not automatic proof.',
+    schoolNote: 'AI-detection tools are known to be imperfect (false positives happen). A flag is a conversation starter, not automatic proof.',
   },
 ];
 

@@ -79,7 +79,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
   // Companion training state lives in its own localStorage keys (see
   // lib/companion.ts), written directly by the Companion page rather than
-  // through this context — so this listens for its "something changed"
+  // through this context. So this listens for its "something changed"
   // event to know when to re-derive companionMasteredCount below, instead
   // of that value silently going stale until some unrelated state change
   // happened to re-render this provider.
@@ -285,7 +285,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
   const [badgeEarnedAt, setBadgeEarnedAt] = useState<Record<string, string>>(loadBadgeDates);
 
-  // Records the moment a badge first appears in earnedBadgeIds — a plain
+  // Records the moment a badge first appears in earnedBadgeIds. A plain
   // derived boolean has no memory of "when", so this is the one place
   // that needs its own persisted state rather than being computed live.
   useEffect(() => {

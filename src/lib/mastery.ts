@@ -3,7 +3,7 @@ import { stepId, type StepId } from '../data/modules';
 // Khan-Academy-style mastery tiers, replacing a flat completion percentage
 // with something that actually answers "what do I know here". Derived
 // straight from the same completedSteps Set the rest of the progress
-// system already uses — no new state, just a different read of it.
+// system already uses. No new state, just a different read of it.
 export type MasteryLevel = 'not-started' | 'attempted' | 'familiar' | 'proficient' | 'mastered';
 
 export const MASTERY_ORDER: MasteryLevel[] = ['not-started', 'attempted', 'familiar', 'proficient', 'mastered'];
@@ -33,7 +33,7 @@ export const MASTERY_COLORS: Record<MasteryLevel, { text: string; border: string
  *   done, but the mini-game hasn't been played.
  * Proficient: all four pre-quiz steps are done, quiz not passed yet.
  * Mastered: the quiz step is complete, which only happens on a pass (see
- *   ProgressContext.submitQuiz) — never on a fail.
+ *   ProgressContext.submitQuiz). Never on a fail.
  */
 export function getMasteryLevel(moduleId: string, completedSteps: Set<string>): MasteryLevel {
   const has = (step: StepId) => completedSteps.has(stepId(moduleId, step));

@@ -7,15 +7,15 @@ type Row = { user_id: string; display_name: string; xp: number; steps_completed:
 
 // Deliberately honest about what this is and isn't: `leaderboard_stats` is
 // a *public*-read table (see Leaderboard.tsx), so this reads the same
-// data any visitor can already see — there's no teacher login or
+// data any visitor can already see. There's no teacher login or
 // per-classroom grouping in this deployment, so this can't scope to "my
 // class" and shouldn't claim to. It's a cohort-wide snapshot of every
 // student who's set up a public profile, reframed for a teacher's use
 // case (aggregate stats, printable) rather than a ranked list.
 //
 // Per-question "common misconceptions" data (which specific quiz
-// questions a class misses most) genuinely isn't available from this —
-// quiz_attempts is private per-user by RLS, and no aggregate view over it
+// questions a class misses most) genuinely isn't available from this.
+// Quiz_attempts is private per-user by RLS, and no aggregate view over it
 // exists yet. That would need a real schema change, not a UI change, so
 // it isn't faked here.
 export default function TeacherView() {
@@ -55,7 +55,7 @@ export default function TeacherView() {
           A teacher's view of the cohort
         </h1>
         <p className="text-white/50 text-sm mt-4 max-w-xl font-light">
-          Aggregate, anonymized-by-nature stats across every student with a public profile — the same public data
+          Aggregate, anonymized-by-nature stats across every student with a public profile. The same public data
           the leaderboard shows, reframed for a class-progress check rather than a ranking. No emails, ever; no
           per-classroom grouping in this deployment, so this covers everyone with a public profile, not "your"
           section specifically.

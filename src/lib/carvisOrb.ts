@@ -1,5 +1,5 @@
 /**
- * CARVIS — Multi-mode particle visualization for the homework assistant.
+ * CARVIS. Multi-mode particle visualization for the homework assistant.
  * Floating particles with line connections between nearby ones.
  *
  * Recolored to the site's own blue palette (Tailwind sky-* plus the
@@ -15,7 +15,7 @@ export type OrbState = "idle" | "listening" | "thinking" | "speaking";
 // Only these two members are ever read (see `animate`'s bass/mid sampling
 // below). Structural, not `AnalyserNode` itself, so a real mic analyser
 // AND a synthetic source (e.g. one driven by speech-synthesis word timing
-// instead of a real audio graph — see lib/speechPulse.ts) both satisfy it.
+// instead of a real audio graph. See lib/speechPulse.ts) both satisfy it.
 export interface FrequencyDataSource {
   readonly frequencyBinCount: number;
   getByteFrequencyData(array: Uint8Array): void;
@@ -394,7 +394,7 @@ export function createOrb(canvas: HTMLCanvasElement): Orb {
     electrons.rotation.z = spinZ;
     electrons.position.z = cloudZ;
 
-    // Low quality dims and occasionally flickers the whole cloud — reads
+    // Low quality dims and occasionally flickers the whole cloud. Reads
     // as "struggling to hold a signal" rather than just "darker".
     const qualityBrightness = 0.3 + currentQuality * 0.7;
     const flicker =
@@ -404,7 +404,7 @@ export function createOrb(canvas: HTMLCanvasElement): Orb {
     mat.size = currentSize + bass * 0.05;
 
     // Every tier stays inside the blue family so the orb never stops
-    // reading as "the site's blue AI" — tiers shift value/saturation
+    // reading as "the site's blue AI". Tiers shift value/saturation
     // (deep navy line-web vs. bright sky-blue points), not hue. Low
     // quality further desaturates toward gray on top of that, on both
     // materials, so a poorly-trained companion visibly looks washed out.

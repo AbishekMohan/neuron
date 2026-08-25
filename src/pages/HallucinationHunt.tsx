@@ -15,8 +15,8 @@ export default function HallucinationHunt() {
   const scenario = HUNT_SCENARIOS[index];
   const isLast = index === HUNT_SCENARIOS.length - 1;
   const done = scores.length === HUNT_SCENARIOS.length;
-  // The orb "says" the scenario's sentences until you check answers —
-  // speaking while it's live, settling once you've caught (or missed)
+  // The orb "says" the scenario's sentences until you check answers.
+  // Speaking while it's live, settling once you've caught (or missed)
   // what's wrong.
   const orbState: OrbState = submitted ? 'idle' : 'speaking';
 
@@ -54,10 +54,10 @@ export default function HallucinationHunt() {
     return (
       <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
         <div className="max-w-2xl mx-auto text-center">
-          <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Hallucination Hunt — complete</p>
+          <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Hallucination Hunt: complete</p>
           <p className="text-white text-5xl font-light tracking-tight mb-4">{avgPercent}%</p>
           <p className="text-white/50 text-sm font-light mb-8">
-            Average across {HUNT_SCENARIOS.length} scenarios — correctly flagged errors and correctly left-alone
+            Average across {HUNT_SCENARIOS.length} scenarios. Correctly flagged errors and correctly left-alone
             true statements both counted.
           </p>
           <div className="flex items-center justify-center gap-3">
@@ -90,7 +90,7 @@ export default function HallucinationHunt() {
           Spot the fabricated claims
         </h1>
         <p className="text-white/50 text-sm mt-4 max-w-xl font-light">
-          Click every sentence you believe is factually wrong. Not everything is — leaving a true sentence
+          Click every sentence you believe is factually wrong. Not everything is. Leaving a true sentence
           unclicked matters just as much as catching a false one.
         </p>
 
