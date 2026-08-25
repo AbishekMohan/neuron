@@ -12,8 +12,8 @@ const STEPS = [
   },
   {
     Icon: Layers,
-    title: 'Six modules',
-    body: 'The curriculum is six modules, from AI fundamentals to the future of the field. Work through them in order, or jump around from the Modules page.',
+    title: 'Seven modules',
+    body: 'The curriculum is seven modules, from AI fundamentals to the future of the field. Work through them in order, or jump around from the Modules page.',
   },
   {
     Icon: ListChecks,

@@ -9,6 +9,7 @@ import FAQ, { type FAQItem } from './FAQ';
 import HowItWorksShowcase from './HowItWorksShowcase';
 import CurriculumScrollCarousel from './CurriculumScrollCarousel';
 import WhyItMattersScroll from './WhyItMattersScroll';
+import NewsFeedStrip from './NewsFeedStrip';
 
 const FAQ_ITEMS: FAQItem[] = [
   {
@@ -154,6 +155,10 @@ export default function HeroContent() {
               </Link>
             </div>
           </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto w-full mt-14">
+          <NewsFeedStrip />
         </div>
       </section>
 

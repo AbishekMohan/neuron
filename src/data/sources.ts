@@ -309,6 +309,43 @@ export const SOURCE_GROUPS: { module: string; sources: Source[] }[] = [
       },
     ],
   },
+  {
+    module: 'Sustainable & Efficient AI',
+    sources: [
+      {
+        id: 'strubell-mit-2019',
+        title: 'Training a Single AI Model Can Emit as Much Carbon as Five Cars in Their Lifetimes (reporting on Strubell, Ganesh & McCallum, U. Mass. Amherst)',
+        publisher: 'MIT Technology Review',
+        year: '2019',
+        url: 'https://www.technologyreview.com/2019/06/06/239031/training-a-single-ai-model-can-emit-as-much-carbon-as-five-cars-in-their-lifetimes/',
+        note: 'Estimated 626,000+ lbs CO2e for one large Transformer trained with neural architecture search — roughly 5x an average car\'s lifetime emissions (incl. manufacture).',
+      },
+      {
+        id: 'iea-energy-ai-2025',
+        title: 'AI: Five Charts That Put Data-Centre Energy Use – and Emissions – into Context (reporting on the IEA\'s Energy and AI report)',
+        publisher: 'Carbon Brief',
+        year: '2025',
+        url: 'https://www.carbonbrief.org/ai-five-charts-that-put-data-centre-energy-use-and-emissions-into-context',
+        note: 'Data centres: just over 1% of global electricity in 2024, growing ~12%/year since 2017, projected to reach 945 TWh by 2030; AI\'s share of data-centre power projected to rise from 5-15% to 35-50% by 2030.',
+      },
+      {
+        id: 'loihi-open-neuromorphic',
+        title: 'A Look at Loihi (Intel neuromorphic chip)',
+        publisher: 'Open Neuromorphic',
+        year: 'current',
+        url: 'https://open-neuromorphic.org/neuromorphic-computing/hardware/loihi-intel/',
+        note: '~130,000 neurons, 130 million synapses, <1.5W; pre-silicon benchmarks showed 5,000x+ better energy-delay product than conventional hardware on a sparse-coding task.',
+      },
+      {
+        id: 'truenorth-open-neuromorphic',
+        title: 'A Look at TrueNorth (IBM neuromorphic chip)',
+        publisher: 'Open Neuromorphic',
+        year: 'current',
+        url: 'https://open-neuromorphic.org/neuromorphic-computing/hardware/truenorth-ibm/',
+        note: '1 million neurons, 256 million synapses, demonstrated 2014; as little as 65mW running a typical real-time neural-network application.',
+      },
+    ],
+  },
 ];
 
 export const ALL_SOURCES: Source[] = SOURCE_GROUPS.flatMap((g) => g.sources);

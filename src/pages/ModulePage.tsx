@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Brain, Wrench, Scale, Globe, Palette, Rocket, Undo2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Brain, Wrench, Scale, Globe, Palette, Rocket, Leaf, Undo2 } from 'lucide-react';
 import { MODULES, getModule, XP, STEP_ORDER, type StepId } from '../data/modules';
 import { useProgress } from '../context/ProgressContext';
 import ProgressBar from '../components/ProgressBar';
@@ -16,7 +16,7 @@ import RoyaleGame from '../components/lesson/RoyaleGame';
 import GameModeSelect, { type GameMode } from '../components/lesson/GameModeSelect';
 import QuizStep from '../components/lesson/QuizStep';
 
-const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket };
+const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket, leaf: Leaf };
 
 export default function ModulePage() {
   const { moduleId } = useParams<{ moduleId: string }>();

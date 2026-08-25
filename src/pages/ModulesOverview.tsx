@@ -1,13 +1,15 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Brain, Wrench, Scale, Globe, Palette, Rocket, ArrowRight } from 'lucide-react';
+import { Brain, Wrench, Scale, Globe, Palette, Rocket, Leaf, ArrowRight, List, GitBranch } from 'lucide-react';
 import { MODULES } from '../data/modules';
 import { useProgress } from '../context/ProgressContext';
 import { getMasteryLevel } from '../lib/mastery';
 import ProgressBar from '../components/ProgressBar';
 import MasteryPill from '../components/MasteryPill';
 import BorderGlow from '../components/BorderGlow';
+import SkillTreeView from '../components/SkillTreeView';
 
-const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket };
+const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket, leaf: Leaf };
 
 // Blue glow, matching the site's sky/blue palette rather than the
 // component's default purple-pink-blue mix.
@@ -58,26 +60,57 @@ function ModuleRow({ index, isNext }: { index: number; isNext: boolean }) {
 export default function ModulesOverview() {
   const { moduleProgress } = useProgress();
   const nextModuleId = MODULES.find((mod) => !moduleProgress[mod.id]?.isComplete)?.id;
+  const [view, setView] = useState<'list' | 'tree'>('list');
 
   return (
     <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
       <div className="max-w-3xl mx-auto">
-        <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Learning Modules</p>
-        <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight max-w-2xl">
-          Six modules. One path to AI literacy.
-        </h1>
+        <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+          <div>
+            <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Learning Modules</p>
+            <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight max-w-2xl">
+              Seven modules. One path to AI literacy.
+            </h1>
+          </div>
+          <div className="flex items-center gap-1 rounded-full border border-white/10 p-1 shrink-0 sm:mt-1">
+            <button
+              type="button"
+              onClick={() => setView('list')}
+              aria-label="List view"
+              aria-pressed={view === 'list'}
+              className={`p-1.5 rounded-full transition-colors ${view === 'list' ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white'}`}
+            >
+              <List className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setView('tree')}
+              aria-label="Skill tree view"
+              aria-pressed={view === 'tree'}
+              className={`p-1.5 rounded-full transition-colors ${view === 'tree' ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white'}`}
+            >
+              <GitBranch className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
         <p className="text-white/50 text-sm mt-4 max-w-xl font-light">
           Work through them in order, or jump around. Your progress is saved automatically on this
           device.
         </p>
 
-        <div className="mt-12 rounded-2xl liquid-glass p-3 sm:p-4">
-          <div className="flex flex-col gap-1">
-            {MODULES.map((mod, index) => (
-              <ModuleRow key={mod.id} index={index} isNext={mod.id === nextModuleId} />
-            ))}
+        {view === 'list' ? (
+          <div className="mt-12 rounded-2xl liquid-glass p-3 sm:p-4">
+            <div className="flex flex-col gap-1">
+              {MODULES.map((mod, index) => (
+                <ModuleRow key={mod.id} index={index} isNext={mod.id === nextModuleId} />
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="mt-12 rounded-2xl liquid-glass p-6 sm:p-8">
+            <SkillTreeView />
+          </div>
+        )}
       </div>
     </section>
   );

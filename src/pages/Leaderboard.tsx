@@ -46,7 +46,7 @@ export default function Leaderboard() {
           Top learners
         </h1>
         <p className="text-white/50 text-sm mt-4 max-w-xl font-light">
-          Ranked by total XP earned across all six modules. Only students who’ve set up a public profile appear
+          Ranked by total XP earned across all seven modules. Only students who’ve set up a public profile appear
           here: no emails, ever.
         </p>
 

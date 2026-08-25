@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Loader2, UserCircle, Trophy, Flame, Brain, Wrench, Scale, Globe, Palette, Rocket } from 'lucide-react';
+import { Loader2, UserCircle, Trophy, Flame, Brain, Wrench, Scale, Globe, Palette, Rocket, Leaf } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useProfile, AVATAR_COLORS } from '../context/ProfileContext';
 import { useProgress } from '../context/ProgressContext';
@@ -14,7 +14,7 @@ import Badge3D from '../components/Badge3D';
 import MasteryPill from '../components/MasteryPill';
 import AuthWidget from '../components/AuthWidget';
 
-const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket };
+const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket, leaf: Leaf };
 const DISPLAY_NAME_PATTERN = /^[A-Za-z0-9 _-]{3,24}$/;
 
 type PublicRow = {
@@ -408,7 +408,13 @@ function PublicProfile({ displayName }: { displayName: string }) {
 
   const moduleProgress = moduleProgressFromMasteredIds(row.mastered_module_ids ?? []);
   const fakeStepsSet = new Set(Array.from({ length: row.steps_completed }, (_, i) => `s${i}`));
-  const earnedBadgeIds = BADGES.filter((b) => b.check({ completedSteps: fakeStepsSet, xp: row.xp, moduleProgress })).map((b) => b.id);
+  // Companion training lives in localStorage only (never synced to
+  // Supabase), so there's no way to know another student's companion
+  // mastery from their profile row — a public profile conservatively
+  // shows 0 rather than guessing.
+  const earnedBadgeIds = BADGES.filter((b) =>
+    b.check({ completedSteps: fakeStepsSet, xp: row.xp, moduleProgress, companionMasteredCount: 0 }),
+  ).map((b) => b.id);
 
   return (
     <ProfileStats

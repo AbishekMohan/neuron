@@ -4,14 +4,27 @@ import Nav from './components/Nav';
 import Footer from './components/Footer';
 import CodeBackdrop from './components/CodeBackdrop';
 import Tutorial, { TUTORIAL_STORAGE_KEY } from './components/Tutorial';
-import AssistantPanel from './components/AssistantPanel';
 import Home from './pages/Home';
 import ModulesOverview from './pages/ModulesOverview';
 import ModulePage from './pages/ModulePage';
 import Dashboard from './pages/Dashboard';
+import Companion from './pages/Companion';
 import Leaderboard from './pages/Leaderboard';
 import Profile from './pages/Profile';
 import Reference from './pages/Reference';
+import Glossary from './pages/Glossary';
+import Report from './pages/Report';
+import Challenges from './pages/Challenges';
+import HallucinationHunt from './pages/HallucinationHunt';
+import EthicsCourtroom from './pages/EthicsCourtroom';
+import BiasDetective from './pages/BiasDetective';
+import TeacherView from './pages/TeacherView';
+import DuelMode from './pages/DuelMode';
+import ConceptMapBuilder from './pages/ConceptMapBuilder';
+import DebugTheAI from './pages/DebugTheAI';
+import EthicsStory from './pages/EthicsStory';
+import ToolCompare from './pages/ToolCompare';
+import AdaptiveQuiz from './pages/AdaptiveQuiz';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -48,15 +61,28 @@ function App() {
         <Route path="/modules" element={<ModulesOverview />} />
         <Route path="/modules/:moduleId" element={<ModulePage />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/companion" element={<Companion />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/u/:displayName" element={<Profile />} />
         <Route path="/reference" element={<Reference />} />
+        <Route path="/glossary" element={<Glossary />} />
+        <Route path="/report" element={<Report />} />
+        <Route path="/challenges" element={<Challenges />} />
+        <Route path="/challenges/hallucination-hunt" element={<HallucinationHunt />} />
+        <Route path="/challenges/ethics-courtroom" element={<EthicsCourtroom />} />
+        <Route path="/challenges/bias-detective" element={<BiasDetective />} />
+        <Route path="/teacher" element={<TeacherView />} />
+        <Route path="/challenges/duel" element={<DuelMode />} />
+        <Route path="/challenges/concept-map" element={<ConceptMapBuilder />} />
+        <Route path="/challenges/debug-the-ai" element={<DebugTheAI />} />
+        <Route path="/challenges/ethics-story" element={<EthicsStory />} />
+        <Route path="/challenges/adaptive" element={<AdaptiveQuiz />} />
+        <Route path="/tools" element={<ToolCompare />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
       <Footer />
-      <AssistantPanel />
       <Tutorial open={tutorialOpen} onClose={() => setTutorialOpen(false)} />
     </div>
   );

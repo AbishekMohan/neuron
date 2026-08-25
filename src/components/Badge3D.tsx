@@ -199,6 +199,15 @@ function BadgeGeometry({ shape, color, earned }: { shape: BadgeShape; color: str
           </lineSegments>
         </>
       )}
+
+      {shape === 'neural-web' && (
+        <>
+          <mesh geometry={new THREE.DodecahedronGeometry(0.82, 0)}>
+            <meshBasicMaterial color={color} wireframe transparent opacity={opacity * 0.65} />
+          </mesh>
+          <mesh geometry={new THREE.IcosahedronGeometry(0.4, 1)}>{standardMat}</mesh>
+        </>
+      )}
     </group>
   );
 }

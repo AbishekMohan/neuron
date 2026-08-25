@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Brain, Wrench, Scale, Globe, Palette, Rocket } from 'lucide-react';
+import { Brain, Wrench, Scale, Globe, Palette, Rocket, Leaf } from 'lucide-react';
 import { MODULES } from '../data/modules';
 
-const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket };
+const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket, leaf: Leaf };
 
 const CARD_SPACING = 260;
 
@@ -66,7 +66,7 @@ export default function CurriculumScrollCarousel() {
       <section className="sticky top-0 h-screen w-full overflow-hidden border-t border-white/5 flex flex-col items-center justify-center px-6">
         <div className="max-w-2xl mx-auto text-center mb-12">
           <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Curriculum</p>
-          <h2 className="text-white text-2xl sm:text-3xl font-light tracking-tight">Six modules, from fundamentals to the future.</h2>
+          <h2 className="text-white text-2xl sm:text-3xl font-light tracking-tight">Seven modules, from fundamentals to the future.</h2>
         </div>
 
         <div

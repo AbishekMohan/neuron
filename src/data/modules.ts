@@ -66,7 +66,7 @@ export type Module = {
   title: string;
   tagline: string;
   description: string;
-  icon: 'brain' | 'wrench' | 'scale' | 'globe' | 'palette' | 'rocket';
+  icon: 'brain' | 'wrench' | 'scale' | 'globe' | 'palette' | 'rocket' | 'leaf';
   steps: {
     article: { sections: ArticleSection[] };
     flashcards: { cards: Flashcard[] };
@@ -1259,6 +1259,210 @@ export const MODULES: Module[] = [
             ],
             correctIndex: 1,
             explanation: 'Specific tools go stale fast; the underlying verification habits this course teaches don’t.',
+          },
+        ],
+      },
+    },
+  },
+
+  // ── 7. Sustainable & Efficient AI ───────────────────────────────────
+  {
+    id: 'sustainability',
+    title: 'Sustainable & Efficient AI',
+    tagline: 'The real, physical cost behind every AI response',
+    description:
+      'Training and running AI models takes real electricity, in real data centers, with a real carbon footprint. This module covers what that cost actually looks like, why it varies so much by model, and how researchers are working to shrink it.',
+    icon: 'leaf',
+    steps: {
+      article: {
+        sections: [
+          {
+            id: 'training-is-expensive',
+            heading: 'Training Is Expensive',
+            paragraphs: [
+              'Large AI models don’t learn for free. Training one means running enormous amounts of computation, often across thousands of specialized chips (GPUs or TPUs), continuously, for days or weeks at a time. All of that computation draws real electricity from a real power grid.',
+              'In 2019, researchers at the University of Massachusetts Amherst estimated the carbon footprint of training several NLP models. Training one large Transformer model with neural architecture search (a process that trains many candidate versions to find the best one) was estimated to produce over 626,000 pounds of CO2-equivalent emissions: roughly five times the lifetime emissions of an average car, including the car’s manufacture. Training BERT alone, without that search process, was estimated at around 1,400 pounds of CO2: comparable to one person’s round-trip flight across the United States.',
+            ],
+            sourceIds: ['strubell-mit-2019'],
+            checkpoint: {
+              id: 'check-training-cost',
+              prompt: 'What did researchers estimate for training one large Transformer model with neural architecture search?',
+              choices: [
+                'Zero measurable emissions, since it just runs in software',
+                'Emissions comparable to roughly five cars\' lifetime footprint, including manufacturing',
+                'Exactly the same footprint as a single Google search',
+              ],
+              correctIndex: 1,
+              explanation: 'University of Massachusetts Amherst researchers estimated over 626,000 lbs of CO2-equivalent for this specific training process.',
+              sourceId: 'strubell-mit-2019',
+            },
+          },
+          {
+            id: 'data-center-boom',
+            heading: 'The Data Center Boom',
+            paragraphs: [
+              'AI doesn’t run in an abstract "cloud" — it runs in data centers: large, physical buildings full of servers that consume real power and need real cooling. According to the International Energy Agency, data centers used just over 1% of global electricity in 2024, and that consumption has grown by roughly 12% a year since 2017, well outpacing electricity demand growth overall.',
+              'The IEA projects data-center electricity use will more than double by 2030, reaching around 945 terawatt-hours. AI is a major driver of that growth specifically: the agency estimates AI has accounted for roughly 5-15% of data-center power use in recent years, but projects that could rise to 35-50% by 2030 as AI workloads keep expanding.',
+            ],
+            sourceIds: ['iea-energy-ai-2025'],
+            checkpoint: {
+              id: 'check-ai-share',
+              prompt: 'According to the IEA, how is AI’s share of data-center electricity use expected to change by 2030?',
+              choices: [
+                'Stay exactly the same as today',
+                'Rise from roughly 5-15% today to a projected 35-50%',
+                'Drop to nearly 0%',
+              ],
+              correctIndex: 1,
+              explanation: 'The IEA projects AI-specific power use growing substantially faster than data-center demand overall.',
+              sourceId: 'iea-energy-ai-2025',
+            },
+          },
+          {
+            id: 'training-vs-inference',
+            heading: 'Training vs. Everyday Use',
+            paragraphs: [
+              'It helps to separate two different costs. "Training" is the one-time (or occasional) process of building a model from data — the extremely expensive part described above. "Inference" is using an already-trained model to answer one request, like a single chatbot response. Inference is far cheaper per use, but it happens an enormous number of times, so its total cost adds up too.',
+              'Model size matters a lot here. Roughly speaking, a model with more parameters (adjustable internal values) needs more computation to train and to answer each request. That’s part of why AI companies increasingly offer smaller, faster model variants alongside their largest ones: a smaller model that’s good enough for a simple task uses meaningfully less energy than always reaching for the biggest available model.',
+            ],
+          },
+          {
+            id: 'neuromorphic-computing',
+            heading: 'Efficiency by Design: Neuromorphic Computing',
+            paragraphs: [
+              'One active research direction asks a different question: instead of running neural-network math on general-purpose chips, what if the hardware itself were built to physically mimic how biological neurons and synapses work? This is called neuromorphic computing. Intel’s Loihi chip, introduced in 2017, packs roughly 130,000 artificial neurons and 130 million synapses onto a chip that draws under 1.5 watts; pre-silicon benchmarks showed more than 5,000 times better energy-delay product than conventional hardware on a sparse-coding task.',
+              'IBM’s TrueNorth chip, demonstrated in 2014, went further in scale: 1 million neurons and 256 million synapses, able to run a typical real-time neural-network application on as little as 65 milliwatts, a small fraction of what a conventional processor doing similar work would draw. Neither chip is mainstream production hardware today, but both are proof that AI’s current energy cost isn’t some fixed law of nature. It’s partly a property of the specific hardware approach the industry mostly uses right now, and researchers are actively working on alternatives.',
+            ],
+            sourceIds: ['loihi-open-neuromorphic', 'truenorth-open-neuromorphic'],
+            checkpoint: {
+              id: 'check-neuromorphic',
+              prompt: 'What is the basic idea behind neuromorphic (brain-inspired) computing chips?',
+              choices: [
+                'Hardware physically designed to mimic neurons and synapses, aiming for much lower energy use',
+                'A purely software technique that requires no special hardware',
+                'A type of data encryption used to protect AI training data',
+              ],
+              correctIndex: 0,
+              explanation: 'Chips like Loihi and TrueNorth build the "neuron and synapse" structure into the hardware itself, not just the software running on it.',
+              sourceId: 'loihi-open-neuromorphic',
+            },
+          },
+          {
+            id: 'what-this-means',
+            heading: 'What This Means for You',
+            paragraphs: [
+              'The "free" AI tools you use every day have a real infrastructure cost behind them, the same way streaming video or cloud storage do. Being AI-literate about this doesn’t mean avoiding AI; it means using judgment. Reaching for the largest, most powerful model available for every single task, including ones a smaller tool or a plain search could handle just as well, has a real resource cost that a lot of people never think about.',
+              'This connects to the rest of the course: the same critical-thinking habits that help you evaluate whether an AI answer is accurate or biased also apply to evaluating AI’s resource footprint. As AI becomes more embedded in daily life, understanding its actual physical costs, not just its capabilities, is part of being an informed user, and eventually, maybe a voter or professional weighing in on how it should be built and regulated.',
+            ],
+          },
+        ],
+      },
+      flashcards: {
+        cards: [
+          { term: 'Training vs. Inference', definition: 'Training builds a model from data (extremely expensive, usually one-time); inference is using an already-trained model to answer a request (cheap per use, but happens constantly).' },
+          { term: 'Carbon Footprint (of AI)', definition: 'The greenhouse gas emissions associated with the electricity used to train or run an AI model.', sourceId: 'strubell-mit-2019' },
+          { term: 'Data Center', definition: 'A physical facility of networked servers that runs cloud services, including most AI training and inference — "the cloud" is real hardware, not an abstraction.', sourceId: 'iea-energy-ai-2025' },
+          { term: 'Neuromorphic Computing', definition: 'A hardware design approach that mimics the structure of biological neurons and synapses to run AI-like computation far more energy-efficiently.', sourceId: 'loihi-open-neuromorphic' },
+          { term: 'Energy-Delay Product', definition: 'A metric combining a chip’s energy use and processing speed, used to compare hardware efficiency.', sourceId: 'loihi-open-neuromorphic' },
+          { term: 'Model Size (Parameters)', definition: 'Roughly, how many adjustable internal values a model has; larger models generally need more computation to train and to run.' },
+          { term: 'IEA (International Energy Agency)', definition: 'An intergovernmental organization that tracks and forecasts global energy use, including electricity demand from AI and data centers.', sourceId: 'iea-energy-ai-2025' },
+        ],
+      },
+      video: {
+        title: 'The Hidden Cost of AI',
+        embedUrl: null,
+        description: 'Covers the real energy and carbon cost of training and running AI models, and research into more efficient hardware.',
+      },
+      game: {
+        prompt: 'Sort each claim: is it True, or a Common Misconception?',
+        buckets: ['True', 'Misconception'],
+        blastTarget: 'True',
+        cards: [
+          { id: 'g1', text: 'Training a single large AI model can produce a carbon footprint comparable to several cars\' lifetime emissions.', bucket: 'True', why: 'Researchers estimated one training run at roughly 5x an average car\'s lifetime footprint.', sourceId: 'strubell-mit-2019' },
+          { id: 'g2', text: 'Using an AI chatbot has no real-world energy cost, since it "just runs in the cloud."', bucket: 'Misconception', why: 'The cloud is physical data centers that consume real electricity.', sourceId: 'iea-energy-ai-2025' },
+          { id: 'g3', text: 'Data centers currently use more than half of the world\'s electricity.', bucket: 'Misconception', why: 'It\'s just over 1% today, per the IEA, though growing quickly.', sourceId: 'iea-energy-ai-2025' },
+          { id: 'g4', text: 'AI\'s share of data-center electricity use is projected to grow significantly by 2030.', bucket: 'True', why: 'The IEA projects a rise from roughly 5-15% today to 35-50% by 2030.', sourceId: 'iea-energy-ai-2025' },
+          { id: 'g5', text: 'All AI models, big or small, use roughly the same amount of energy per response.', bucket: 'Misconception', why: 'Larger models generally require more computation, and more energy, per response.' },
+          { id: 'g6', text: 'Some researchers are designing brain-inspired chips specifically to cut AI\'s energy use.', bucket: 'True', why: 'Neuromorphic chips like Loihi and TrueNorth are real, active research directions.', sourceId: 'loihi-open-neuromorphic' },
+          { id: 'g7', text: 'Neuromorphic chips like Loihi and TrueNorth are already the standard hardware powering most AI today.', bucket: 'Misconception', why: 'They remain research hardware, not mainstream deployed infrastructure.', sourceId: 'truenorth-open-neuromorphic' },
+        ],
+      },
+      quiz: {
+        passingScore: 0.8,
+        questions: [
+          {
+            id: 'q1',
+            prompt: 'What did researchers estimate for training one large Transformer model with neural architecture search?',
+            choices: ['Emissions comparable to roughly 5 cars\' lifetime footprint', 'Zero measurable emissions', 'Exactly the same as one Google search'],
+            correctIndex: 0,
+            explanation: 'University of Massachusetts Amherst researchers estimated over 626,000 lbs of CO2-equivalent for this training process.',
+            sourceId: 'strubell-mit-2019',
+          },
+          {
+            id: 'q2',
+            prompt: 'Roughly what share of global electricity did data centers use in 2024, per the IEA?',
+            choices: ['Just over 1%', 'About 50%', 'Less than 0.01%'],
+            correctIndex: 0,
+            explanation: 'A modest but fast-growing share of global electricity use.',
+            sourceId: 'iea-energy-ai-2025',
+          },
+          {
+            id: 'q3',
+            prompt: 'How has data-center electricity consumption been growing, according to the IEA?',
+            choices: ['About 12% per year since 2017', 'It has shrunk every year since 2017', 'Only in years divisible by 4'],
+            correctIndex: 0,
+            explanation: 'That growth rate has significantly outpaced overall global electricity demand growth.',
+            sourceId: 'iea-energy-ai-2025',
+          },
+          {
+            id: 'q4',
+            prompt: 'What share of data-center power use is AI projected to reach by 2030, per the IEA?',
+            choices: ['35-50%, up from roughly 5-15% today', 'Exactly 100%', 'It will drop to 1%'],
+            correctIndex: 0,
+            explanation: 'A substantial projected increase in AI\'s specific share of data-center power.',
+            sourceId: 'iea-energy-ai-2025',
+          },
+          {
+            id: 'q5',
+            prompt: 'What\'s the difference between "training" and "inference" for an AI model?',
+            choices: [
+              'Training builds the model from data (expensive, usually one-time); inference is using it to answer requests (cheaper per use, but constant)',
+              'They\'re the same process with different names',
+              'Inference always costs more total energy than training',
+            ],
+            correctIndex: 0,
+            explanation: 'Separating these two costs is key to understanding where AI\'s energy use actually comes from.',
+          },
+          {
+            id: 'q6',
+            prompt: 'What is neuromorphic computing?',
+            choices: [
+              'Hardware physically designed to mimic neurons and synapses for energy efficiency',
+              'A purely software technique needing no special hardware',
+              'A method for encrypting AI training data',
+            ],
+            correctIndex: 0,
+            explanation: 'Chips like Loihi and TrueNorth build neuron/synapse-like structure directly into hardware.',
+            sourceId: 'loihi-open-neuromorphic',
+          },
+          {
+            id: 'q7',
+            prompt: 'What did Intel\'s Loihi chip demonstrate in pre-silicon benchmarks on a sparse-coding task?',
+            choices: ['Over 5,000x better energy-delay product than conventional hardware', 'No measurable difference from conventional hardware', '5% worse efficiency than conventional hardware'],
+            correctIndex: 0,
+            explanation: 'A striking efficiency gain on that specific benchmark task.',
+            sourceId: 'loihi-open-neuromorphic',
+          },
+          {
+            id: 'q8',
+            prompt: 'What\'s a practical AI-literacy takeaway about sustainability from this module?',
+            choices: [
+              'The biggest, most powerful model isn\'t automatically the right choice for every task, given its resource cost',
+              'AI has no real resource cost, so this consideration never matters',
+              'You should always default to the largest available model for any task',
+            ],
+            correctIndex: 0,
+            explanation: 'Matching tool size to task, not defaulting to "biggest," is a concrete way to apply what this module covers.',
           },
         ],
       },

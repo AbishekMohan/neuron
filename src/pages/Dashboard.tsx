@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { RotateCcw, Brain, Wrench, Scale, Globe, Palette, Rocket, Cloud, CloudOff, Loader2, Trophy, UserCircle, Flame } from 'lucide-react';
+import { RotateCcw, Brain, Wrench, Scale, Globe, Palette, Rocket, Leaf, Cloud, CloudOff, Loader2, Trophy, UserCircle, Flame } from 'lucide-react';
 import { MODULES } from '../data/modules';
-import { BADGES } from '../data/badges';
+import { BADGES, type Badge } from '../data/badges';
 import { useAuth } from '../context/AuthContext';
 import { useProfile } from '../context/ProfileContext';
 import { useProgress } from '../context/ProgressContext';
@@ -9,8 +10,9 @@ import { getMasteryLevel } from '../lib/mastery';
 import ProgressBar from '../components/ProgressBar';
 import Badge3D from '../components/Badge3D';
 import MasteryPill from '../components/MasteryPill';
+import BadgeModal from '../components/BadgeModal';
 
-const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket };
+const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket, leaf: Leaf };
 
 function SyncStatus() {
   const { user, isConfigured } = useAuth();
@@ -47,7 +49,9 @@ function SyncStatus() {
 export default function Dashboard() {
   const { user, isConfigured } = useAuth();
   const { profile } = useProfile();
-  const { xp, totalXpPossible, level, moduleProgress, earnedBadgeIds, completedSteps, resetProgress } = useProgress();
+  const { xp, totalXpPossible, level, moduleProgress, earnedBadgeIds, badgeEarnedAt, completedSteps, resetProgress } =
+    useProgress();
+  const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
 
   const handleReset = () => {
     if (window.confirm('Reset all progress on this device? This can’t be undone.')) {
@@ -159,9 +163,12 @@ export default function Dashboard() {
             {BADGES.map((badge) => {
               const earned = earnedBadgeIds.includes(badge.id);
               return (
-                <div
+                <button
                   key={badge.id}
-                  className={`rounded-xl border p-4 flex flex-col items-center text-center gap-2 transition-colors ${
+                  type="button"
+                  onClick={() => setSelectedBadge(badge)}
+                  aria-label={`${badge.title}: ${earned ? 'earned, view details' : 'not yet earned, view criteria'}`}
+                  className={`rounded-xl border p-4 flex flex-col items-center text-center gap-2 transition-colors hover:border-white/30 ${
                     earned ? 'border-sky-400/40 bg-sky-400/5' : 'border-white/10 bg-white/[0.02]'
                   }`}
                 >
@@ -170,7 +177,7 @@ export default function Dashboard() {
                     {badge.title}
                   </p>
                   <p className="text-white/30 text-[11px] leading-snug">{badge.description}</p>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -184,6 +191,13 @@ export default function Dashboard() {
           Reset progress on this device
         </button>
       </div>
+
+      <BadgeModal
+        badge={selectedBadge}
+        earned={selectedBadge ? earnedBadgeIds.includes(selectedBadge.id) : false}
+        earnedAt={selectedBadge ? badgeEarnedAt[selectedBadge.id] : undefined}
+        onClose={() => setSelectedBadge(null)}
+      />
     </section>
   );
 }
