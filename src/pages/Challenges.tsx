@@ -15,7 +15,7 @@ import type { OrbState } from '../lib/carvisOrb';
 
 // Reuses real, already fact-checked-false lines from Hallucination Hunt's
 // own content rather than inventing new "wrong facts" just for this demo
-// — one honesty surface less to maintain.
+//. One honesty surface less to maintain.
 const DEMO_LINES = HUNT_SCENARIOS.flatMap((s) => s.sentences.filter((sen) => sen.isError));
 
 const CHALLENGES = [
@@ -44,7 +44,7 @@ const CHALLENGES = [
     to: '/challenges/debug-the-ai',
     Icon: Bug,
     title: 'Debug the AI',
-    description: 'A pipeline broke somewhere — prompt, data, generation, or interpretation. Find it.',
+    description: 'A pipeline broke somewhere. Prompt, data, generation, or interpretation. Find it.',
     count: `${DEBUG_SCENARIOS.length} cases`,
   },
   {
@@ -58,7 +58,7 @@ const CHALLENGES = [
     to: '/challenges/ethics-story',
     Icon: BookOpen,
     title: 'Ethics Story: The Deadline',
-    description: 'A choose-your-own-adventure — some endings are a lot worse than others.',
+    description: 'A choose-your-own-adventure. Some endings are a lot worse than others.',
     count: 'branching',
   },
   {
@@ -79,7 +79,7 @@ const CHALLENGES = [
 
 // A small demo, not a real interaction: a companion at full visual
 // "mastered" quality still delivers a confidently wrong line, on a loop.
-// The point is literal — mastery makes a companion sharp and capable, it
+// The point is literal. Mastery makes a companion sharp and capable, it
 // doesn't make it infallible, which is exactly what Hallucination Hunt is
 // about. Cycles: idle -> thinking -> "says" a false line -> reveals it's
 // wrong -> idle.
@@ -136,7 +136,7 @@ function HallucinationDemo() {
             >
               <XCircle className="w-4 h-4 text-white/30 shrink-0" />
               <span>
-                That's confidently wrong — even at full mastery. <span className="text-white/70">That's the whole point.</span>
+                That's confidently wrong. Even at full mastery. <span className="text-white/70">That's the whole point.</span>
               </span>
             </motion.div>
           )}

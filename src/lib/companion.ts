@@ -1,4 +1,4 @@
-// "Train Your Companion" — the client-side classifier itself.
+// "Train Your Companion". The client-side classifier itself.
 //
 // This is a real (if small) supervised-learning loop, not a simulated
 // progress bar: a bag-of-words perceptron trained on whatever label the
@@ -8,8 +8,8 @@
 //
 //  1. "Mastery" reflects whether the model actually generalizes (held-out
 //     accuracy), not how many times the student clicked a button.
-//  2. Feeding it deliberately wrong labels measurably makes it worse —
-//     the perceptron update rule doesn't know or care whether the label
+//  2. Feeding it deliberately wrong labels measurably makes it worse.
+//     The perceptron update rule doesn't know or care whether the label
 //     it's given is "correct", so bad data straightforwardly produces a
 //     worse classifier. Mastery can regress because the model can.
 
@@ -28,16 +28,16 @@ export const MASTERY_TIER_LABELS: Record<CompanionMasteryTier, string> = {
   mastered: 'Mastered',
 };
 
-// Deliberately brutal: mastery takes real, sustained, careful practice —
-// not a handful of clicks, and not achievable by accident. Reaching
+// Deliberately brutal: mastery takes real, sustained, careful practice.
+// Not a handful of clicks, and not achievable by accident. Reaching
 // "Mastered" requires both a large volume of repetitions AND landing at
-// (or within a hair of) the literal ceiling accuracy — the best any
+// (or within a hair of) the literal ceiling accuracy. The best any
 // version of this exact classifier could ever score on this exact
 // held-out set, verified against the real training corpus, not assumed.
 // A flat threshold like "90%" would have been silently impossible for
 // some categories here (bag-of-words on short, topically diverse
-// sentences has a real, low ceiling for e.g. the hallucination category —
-// confirmed by simulating 200 epochs of perfect training and checking
+// sentences has a real, low ceiling for e.g. the hallucination category.
+// Confirmed by simulating 200 epochs of perfect training and checking
 // what it actually reaches), so the bar is anchored to getCeilingAccuracy
 // below instead of a number picked without checking.
 const MIN_LABELS_UNTRAINED_END = 15; // fewer than this: not enough signal to score at all
@@ -94,8 +94,8 @@ export function predictLabel(weights: Weights, features: string[]): 0 | 1 {
 }
 
 // Standard binary perceptron update: only nudges weights when the current
-// weights actually get this example wrong (relative to `assignedLabel` —
-// deliberately not necessarily the ground truth). Each present feature
+// weights actually get this example wrong (relative to `assignedLabel`.
+// Deliberately not necessarily the ground truth). Each present feature
 // moves toward the assigned class by `learningRate`.
 export function trainOnLabel(weights: Weights, features: string[], assignedLabel: 0 | 1, learningRate = 1): Weights {
   const target = assignedLabel === 1 ? 1 : -1;
@@ -123,7 +123,7 @@ export function evaluateAccuracy(weights: Weights, category: TrainingCategory): 
 // student's clicks. Computed on the fly (the corpora are tiny) rather
 // than hand-authored weights, so it stays honest to the same algorithm.
 // 200 epochs is well past where this converges (verified: further epochs
-// don't change the result) — this is also, not incidentally, the exact
+// don't change the result). This is also, not incidentally, the exact
 // ceiling getCompanionMastery measures "Mastered" against below.
 const referenceCache = new Map<string, Weights>();
 export function getReferenceWeights(category: TrainingCategory, epochs = 200): Weights {
@@ -143,7 +143,7 @@ export function getReferenceWeights(category: TrainingCategory, epochs = 200): W
 }
 
 // The best held-out accuracy any set of weights from this perceptron
-// could ever reach on this category's data — i.e. the reference model's
+// could ever reach on this category's data. I.e. the reference model's
 // own accuracy. Bag-of-words on short, topically varied sentences has a
 // real ceiling well under 100% for some categories (some held-out
 // sentences share almost no vocabulary with anything in the training
@@ -161,15 +161,15 @@ export function getCeilingAccuracy(category: TrainingCategory): number {
 export function getCompanionMastery(category: TrainingCategory, labelsCount: number, weights: Weights): CompanionMasteryTier {
   const accuracy = evaluateAccuracy(weights, category);
   const ceiling = getCeilingAccuracy(category);
-  // Perceptrons don't converge to a single "best" separator — the exact
+  // Perceptrons don't converge to a single "best" separator. The exact
   // hyperplane a real student's weights land on depends on the order
   // labels happened to arrive in, not just whether each one was correct
   // (verified by simulation: even 60 straight *correct* labels sometimes
   // never reach the literal reference ceiling, since once weights stop
-  // misclassifying the pool, they stop updating at all — order-dependent
+  // misclassifying the pool, they stop updating at all. Order-dependent
   // luck, not skill). Two test items of slack below the ceiling absorbs
   // that variance while staying genuinely close to the theoretical best
-  // — simulated at ~97% reachable through sustained correct labeling,
+  //. Simulated at ~97% reachable through sustained correct labeling,
   // effectively 0% by accident or occasional bad-faith labels.
   const masteredBar = ceiling - 2 / category.testSet.length - 0.001;
 
@@ -183,7 +183,7 @@ export function getCompanionMastery(category: TrainingCategory, labelsCount: num
 // A real (if simple) confidence signal, not a fabricated one: how far the
 // weighted score sits from the 0 decision boundary, squashed to 0.5-1
 // with a logistic curve. Score 0 (no learned signal either way) reads as
-// 50% — genuine uncertainty — rather than a falsely reassuring number.
+// 50%. Genuine uncertainty. Rather than a falsely reassuring number.
 // This is exactly what makes a badly-trained model dangerous: it can
 // have plenty of *feature overlap* (so a large |score|, so high
 // "confidence") while still being trained toward the wrong class.
@@ -202,8 +202,8 @@ export function classify(weights: Weights, category: TrainingCategory, example: 
 // One localStorage entry per category, holding the trained weights and
 // which examples have been labeled (so accuracy/mastery survive reload).
 // `peakAccuracy` is tracked separately so the UI can show a concrete
-// "down from your best" signal when bad labels regress the model —
-// otherwise a student would have no way to see the regression happened.
+// "down from your best" signal when bad labels regress the model.
+// Otherwise a student would have no way to see the regression happened.
 
 export type CompanionState = {
   weights: Weights;
@@ -239,7 +239,7 @@ export function saveCompanionState(categoryId: string, state: CompanionState) {
   if (typeof window === 'undefined') return;
   window.localStorage.setItem(storageKey(categoryId), JSON.stringify(state));
   // Same-tab listeners (ProgressContext's badge recompute) don't get the
-  // native `storage` event — that only fires in *other* tabs — so this
+  // native `storage` event. That only fires in *other* tabs. So this
   // panel dispatches its own so anything caring about companion mastery
   // can react without polling localStorage on every render.
   window.dispatchEvent(new Event(COMPANION_UPDATED_EVENT));
@@ -249,7 +249,7 @@ export function resetCompanionState(categoryId: string) {
   saveCompanionState(categoryId, EMPTY_STATE);
 }
 
-// Used by badges.ts (via ProgressContext) — doesn't need per-category
+// Used by badges.ts (via ProgressContext). Doesn't need per-category
 // detail, just "has the student mastered at least one companion".
 export function getMasteredCompanionCount(categories: TrainingCategory[]): number {
   let count = 0;
@@ -270,7 +270,7 @@ export const TIER_QUALITY: Record<CompanionMasteryTier, number> = {
 };
 
 // The companion is one entity even though training happens per-category
-// — its visual growth (the orb, everywhere it appears including chat)
+//. Its visual growth (the orb, everywhere it appears including chat)
 // reflects overall progress across every skill, not just whichever
 // category tab happens to be selected. Plain average of each category's
 // tier-quality; a category never labeled at all sits at "untrained"

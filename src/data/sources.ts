@@ -318,7 +318,7 @@ export const SOURCE_GROUPS: { module: string; sources: Source[] }[] = [
         publisher: 'MIT Technology Review',
         year: '2019',
         url: 'https://www.technologyreview.com/2019/06/06/239031/training-a-single-ai-model-can-emit-as-much-carbon-as-five-cars-in-their-lifetimes/',
-        note: 'Estimated 626,000+ lbs CO2e for one large Transformer trained with neural architecture search — roughly 5x an average car\'s lifetime emissions (incl. manufacture).',
+        note: 'Estimated 626,000+ lbs CO2e for one large Transformer trained with neural architecture search. Roughly 5x an average car\'s lifetime emissions (incl. manufacture).',
       },
       {
         id: 'iea-energy-ai-2025',

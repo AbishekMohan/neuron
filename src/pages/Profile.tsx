@@ -65,7 +65,7 @@ function ProfileStats({
   // Only available for the signed-in user's own profile: public profiles
   // read from leaderboard_stats, which only stores which modules are
   // mastered, not per-step detail, so there's no accurate mastery tier to
-  // show for someone else (deliberately — that's less data exposed, not
+  // show for someone else (deliberately. That's less data exposed, not
   // a bug).
   completedSteps?: Set<string>;
   isOwn: boolean;
@@ -383,7 +383,7 @@ function PublicProfile({ displayName }: { displayName: string }) {
       setRow(null);
       return;
     }
-    // leaderboard_stats is a plain, publicly-readable table — see the
+    // leaderboard_stats is a plain, publicly-readable table. See the
     // migration in the Supabase project.
     supabase
       .from('leaderboard_stats')
@@ -410,7 +410,7 @@ function PublicProfile({ displayName }: { displayName: string }) {
   const fakeStepsSet = new Set(Array.from({ length: row.steps_completed }, (_, i) => `s${i}`));
   // Companion training lives in localStorage only (never synced to
   // Supabase), so there's no way to know another student's companion
-  // mastery from their profile row — a public profile conservatively
+  // mastery from their profile row. A public profile conservatively
   // shows 0 rather than guessing.
   const earnedBadgeIds = BADGES.filter((b) =>
     b.check({ completedSteps: fakeStepsSet, xp: row.xp, moduleProgress, companionMasteredCount: 0 }),

@@ -36,7 +36,7 @@ export default function EthicsCourtroom() {
     return (
       <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
         <div className="max-w-2xl mx-auto text-center">
-          <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Ethics Courtroom — complete</p>
+          <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Ethics Courtroom: complete</p>
           <p className="text-white text-5xl font-light tracking-tight mb-4">
             {correct}/{COURTROOM_SCENARIOS.length}
           </p>

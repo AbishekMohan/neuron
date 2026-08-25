@@ -13,13 +13,13 @@ export type AssistantMessage = { role: 'user' | 'assistant'; content: string };
 export type AssistantContext = {
   moduleTitle?: string;
   sectionHeading?: string;
-  /** The name the student gave their companion (see lib/companionIdentity.ts) — lets the model refer to itself by that name. */
+  /** The name the student gave their companion (see lib/companionIdentity.ts). Lets the model refer to itself by that name. */
   companionName?: string;
   /**
    * Real mastery tier from lib/companion.ts's held-out-accuracy classifier
    * (untrained/learning/competent/mastered), passed straight through so
    * the edge function can modulate its own *style and helpfulness* to
-   * match — terse and rough when untrained, sharp and personable once
+   * match. Terse and rough when untrained, sharp and personable once
    * mastered. Never used to change factual accuracy: see the edge
    * function's system prompt for the actual behavior split.
    */

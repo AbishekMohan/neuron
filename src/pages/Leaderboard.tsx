@@ -25,7 +25,7 @@ export default function Leaderboard() {
     if (!supabase) return;
     // leaderboard_stats is a plain table with a public-read RLS policy,
     // kept in sync by triggers on step_completions/quiz_attempts/profiles
-    // (see the migration) — no SECURITY DEFINER object in the read path
+    // (see the migration). No SECURITY DEFINER object in the read path
     // at all.
     supabase
       .from('leaderboard_stats')

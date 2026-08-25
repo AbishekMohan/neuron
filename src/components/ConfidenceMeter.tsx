@@ -1,5 +1,5 @@
 // Shown next to genuinely AI/model-generated predictions (not decorative
-// — see lib/companion.ts's predictConfidence). Deliberately doesn't
+//. See lib/companion.ts's predictConfidence). Deliberately doesn't
 // recolor "confident" as automatically good: a badly-trained model can
 // be just as confident as a well-trained one, which is the whole point
 // of pairing this with `correct` when the answer is already known.

@@ -8,8 +8,8 @@ import MasteryPill from './MasteryPill';
 
 const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket, leaf: Leaf };
 
-// Groups the modules into the progression tiers a skill tree implies —
-// purely a visual/organizational read of the existing curriculum order
+// Groups the modules into the progression tiers a skill tree implies.
+// Purely a visual/organizational read of the existing curriculum order
 // (data/modules.ts), not a new gating mechanism: every module stays
 // reachable exactly as it is today, so this can't strand progress anyone
 // already has out of order.

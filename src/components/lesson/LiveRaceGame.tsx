@@ -16,7 +16,7 @@ function shuffled<T>(arr: T[]): T[] {
 }
 
 // "Classic Live": answer every question correctly, in a row, before your
-// opponents. One wrong answer resets your streak to zero — you keep
+// opponents. One wrong answer resets your streak to zero. You keep
 // going, racing to be first to a clean run through the whole set.
 export default function LiveRaceGame({
   questions,

@@ -6,24 +6,24 @@ import type { OrbState, FrequencyDataSource } from '../lib/carvisOrb';
 type InteractiveOrbStageProps = {
   state: OrbState;
   quality: number;
-  hueFilter: string;
   analyser?: FrequencyDataSource | null;
-  accentSwatch: string;
   size?: number;
   onTouch?: () => void;
 };
 
+// One blue, always. No hueFilter or accent-color prop at all, so there's
+// no per-caller color to drift off-brand.
+const ACCENT_SWATCH = '#38bdf8';
+
 // A large, centered, pointer-reactive stage for the orb: real 3D tilt
 // (CSS perspective, not the WebGL camera) that follows the cursor, plus
 // a soft breathing glow behind it. Deliberately no clipping circle or
-// ring border around the canvas — the particle cloud is left to read as
+// ring border around the canvas. The particle cloud is left to read as
 // an open field rather than a ball contained in a frame.
 export default function InteractiveOrbStage({
   state,
   quality,
-  hueFilter,
   analyser = null,
-  accentSwatch,
   size = 400,
   onTouch,
 }: InteractiveOrbStageProps) {
@@ -57,12 +57,10 @@ export default function InteractiveOrbStage({
       style={{ width: size, height: size, perspective: 1000 }}
       className="relative mx-auto touch-none select-none cursor-grab active:cursor-grabbing"
     >
-      {/* Breathing glow halo, well behind everything, colored to match
-          the companion's chosen accent so a hue change actually reads
-          here too, not just on the orb itself. */}
+      {/* Breathing glow halo, well behind everything, the site's one blue. */}
       <motion.div
         className="absolute -inset-10 rounded-full blur-3xl pointer-events-none"
-        style={{ background: `radial-gradient(circle, ${accentSwatch}33 0%, transparent 70%)` }}
+        style={{ background: `radial-gradient(circle, ${ACCENT_SWATCH}33 0%, transparent 70%)` }}
         animate={{ opacity: [0.5, 0.85, 0.5], scale: [0.96, 1.04, 0.96] }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
       />
@@ -71,9 +69,7 @@ export default function InteractiveOrbStage({
         style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
         className="relative w-full h-full"
       >
-        <div className="absolute inset-0" style={{ filter: hueFilter }}>
-          <CarvisOrb state={state} quality={quality} analyser={analyser} />
-        </div>
+        <CarvisOrb state={state} quality={quality} analyser={analyser} />
       </motion.div>
     </div>
   );

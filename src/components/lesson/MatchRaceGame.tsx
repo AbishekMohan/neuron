@@ -22,7 +22,7 @@ function buildBoard(cards: Flashcard[]): Tile[] {
 }
 
 // Every player races their own shuffled board of the same term/definition
-// pairs — first to clear all pairs wins. Independent boards (not a shared
+// pairs. First to clear all pairs wins. Independent boards (not a shared
 // grid) avoids any need to reconcile simultaneous flips between players.
 export default function MatchRaceGame({
   cards,

@@ -37,7 +37,7 @@ export type SpeakCallbacks = {
 
 const isSpeechSupported = () => typeof window !== 'undefined' && 'speechSynthesis' in window;
 
-// The voice list is genuinely async in most browsers — it's often empty
+// The voice list is genuinely async in most browsers. It's often empty
 // on the very first call and only populated once the 'voiceschanged'
 // event fires (sometimes not at all, e.g. some Linux/CI environments
 // with zero system voices installed). This resolves once, waiting for
@@ -56,7 +56,7 @@ export function getAvailableVoices(): Promise<SpeechSynthesisVoice[]> {
       };
       window.speechSynthesis.addEventListener('voiceschanged', handler);
       // Some browsers never fire the event when there's nothing to
-      // report — don't hang forever waiting for it.
+      // report. Don't hang forever waiting for it.
       setTimeout(() => resolve(window.speechSynthesis.getVoices()), 1000);
     });
   }
@@ -64,7 +64,7 @@ export function getAvailableVoices(): Promise<SpeechSynthesisVoice[]> {
 }
 
 // Speaks `text` aloud via the browser's built-in TTS voice. Cancels any
-// utterance already in flight first — only one reply should ever be
+// utterance already in flight first. Only one reply should ever be
 // talking at once. Returns a handle to cancel this one early (e.g. the
 // user closes the panel or sends a new message mid-reply), and a no-op
 // handle if this browser has no speech synthesis at all.

@@ -18,7 +18,7 @@ export default function ToolCompare() {
           Tools students actually use
         </h1>
         <p className="text-white/50 text-sm mt-4 max-w-xl font-light">
-          Pricing and features change often — treat this as a starting point for what to ask about, not a final
+          Pricing and features change often. Treat this as a starting point for what to ask about, not a final
           verdict. School policies on AI tools vary; when in doubt, ask your teacher.
         </p>
 
