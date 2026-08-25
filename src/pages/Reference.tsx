@@ -93,6 +93,42 @@ export default function Reference() {
         </div>
 
         <div className="mt-5 rounded-2xl liquid-glass p-6">
+          <h2 className="text-white text-base font-normal mb-3">How we built this</h2>
+          <div className="flex flex-col gap-4 text-white/60 text-sm font-light leading-relaxed">
+            <p>
+              The course content (articles, flashcards, mini-game cards, and quizzes) was researched and written
+              first, against the sources listed above — the site was built around that content, not the other way
+              around.
+            </p>
+            <p>
+              <span className="text-white/80">Progress, XP, and levels</span> are computed live from which lesson
+              steps a student has completed, stored locally and synced to Supabase when signed in. Every number
+              shown (XP, module percent, quiz history) is derived from that one source of truth rather than tracked
+              separately in multiple places.
+            </p>
+            <p>
+              <span className="text-white/80">Train Your Companion</span> is a real client-side classifier, not a
+              scripted animation: labeling an example runs one step of a bag-of-words perceptron (
+              <code className="text-white/70">src/lib/companion.ts</code>), and its "mastery" tier is scored against
+              a held-out test set the student never labels — so accuracy, and therefore mastery, can go down if
+              fed deliberately bad labels. The capstone's "reference model" is the same algorithm trained on the
+              same examples with correct labels, computed on the fly rather than hand-authored.
+            </p>
+            <p>
+              <span className="text-white/80">Badges</span> are 9 (soon more) procedurally generated 3D shapes built
+              from Three.js primitives — no image assets — so every badge is code, not art.
+            </p>
+            <p>
+              <span className="text-white/80">The homework assistant</span> proxies to Groq's chat completion API
+              through a Supabase Edge Function, so the API key never reaches the browser. It's honest about being
+              text-in, spoken-out (browser text-to-speech) rather than a real conversational voice pipeline — there's
+              no way to sample that speech's actual audio in-browser, so the assistant orb's "reactive" pulsing while
+              it talks is timed to real word-boundary events, not fabricated.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-5 rounded-2xl liquid-glass p-6">
           <h2 className="text-white text-base font-normal mb-3">Framework & template statement</h2>
           <p className="text-white/60 text-sm font-light leading-relaxed">
             This website was built from scratch by our team using React, TypeScript, and Tailwind CSS.

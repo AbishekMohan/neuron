@@ -4,9 +4,12 @@ import { BADGES, type ModuleProgress } from '../data/badges';
 import { useAuth } from './AuthContext';
 import { supabase } from '../lib/supabase';
 import { getLevel, type Level } from '../lib/level';
+import { TRAINING_CATEGORIES } from '../data/training';
+import { COMPANION_UPDATED_EVENT, getMasteredCompanionCount } from '../lib/companion';
 
 const STEPS_STORAGE_KEY = 'neuron-progress-v2';
 const QUIZ_STORAGE_KEY = 'neuron-quiz-v1';
+const BADGE_DATES_STORAGE_KEY = 'neuron-badge-dates-v1';
 
 export type QuizAttempt = { score: number; total: number; passed: boolean; attemptedAt: string };
 type QuizAttempts = Record<string, QuizAttempt>; // keyed by moduleId, latest passing (or latest) attempt
@@ -23,9 +26,23 @@ type ProgressContextValue = {
   level: Level;
   moduleProgress: ModuleProgress;
   earnedBadgeIds: string[];
+  /** First-earned ISO timestamp per badge id, recorded the moment each badge's check first passes. */
+  badgeEarnedAt: Record<string, string>;
   resetProgress: () => void;
   syncState: 'local' | 'syncing' | 'synced';
 };
+
+function loadBadgeDates(): Record<string, string> {
+  if (typeof window === 'undefined') return {};
+  try {
+    const raw = window.localStorage.getItem(BADGE_DATES_STORAGE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    return typeof parsed === 'object' && parsed !== null ? parsed : {};
+  } catch {
+    return {};
+  }
+}
 
 const ProgressContext = createContext<ProgressContextValue | null>(null);
 
@@ -59,6 +76,28 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const [quizAttempts, setQuizAttempts] = useState<QuizAttempts>(loadQuizAttempts);
   const [syncState, setSyncState] = useState<'local' | 'syncing' | 'synced'>('local');
   const syncedUserId = useRef<string | null>(null);
+
+  // Companion training state lives in its own localStorage keys (see
+  // lib/companion.ts), written directly by the Companion page rather than
+  // through this context — so this listens for its "something changed"
+  // event to know when to re-derive companionMasteredCount below, instead
+  // of that value silently going stale until some unrelated state change
+  // happened to re-render this provider.
+  const [companionVersion, setCompanionVersion] = useState(0);
+  useEffect(() => {
+    const bump = () => setCompanionVersion((v) => v + 1);
+    window.addEventListener(COMPANION_UPDATED_EVENT, bump);
+    window.addEventListener('storage', bump);
+    return () => {
+      window.removeEventListener(COMPANION_UPDATED_EVENT, bump);
+      window.removeEventListener('storage', bump);
+    };
+  }, []);
+  const companionMasteredCount = useMemo(
+    () => getMasteredCompanionCount(TRAINING_CATEGORIES),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [companionVersion],
+  );
 
   useEffect(() => {
     window.localStorage.setItem(STEPS_STORAGE_KEY, JSON.stringify(Array.from(completedSteps)));
@@ -239,13 +278,33 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const level = useMemo<Level>(() => getLevel(xp), [xp]);
 
   const earnedBadgeIds = useMemo(
-    () => BADGES.filter((b) => b.check({ completedSteps, xp, moduleProgress })).map((b) => b.id),
-    [completedSteps, xp, moduleProgress],
+    () =>
+      BADGES.filter((b) => b.check({ completedSteps, xp, moduleProgress, companionMasteredCount })).map((b) => b.id),
+    [completedSteps, xp, moduleProgress, companionMasteredCount],
   );
+
+  const [badgeEarnedAt, setBadgeEarnedAt] = useState<Record<string, string>>(loadBadgeDates);
+
+  // Records the moment a badge first appears in earnedBadgeIds — a plain
+  // derived boolean has no memory of "when", so this is the one place
+  // that needs its own persisted state rather than being computed live.
+  useEffect(() => {
+    setBadgeEarnedAt((prev) => {
+      const newlyEarned = earnedBadgeIds.filter((id) => !prev[id]);
+      if (newlyEarned.length === 0) return prev;
+      const next = { ...prev };
+      const now = new Date().toISOString();
+      for (const id of newlyEarned) next[id] = now;
+      window.localStorage.setItem(BADGE_DATES_STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+  }, [earnedBadgeIds]);
 
   const resetProgress = () => {
     setCompletedSteps(new Set());
     setQuizAttempts({});
+    setBadgeEarnedAt({});
+    window.localStorage.removeItem(BADGE_DATES_STORAGE_KEY);
     if (supabase && user) {
       supabase
         .from('step_completions')
@@ -276,6 +335,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     level,
     moduleProgress,
     earnedBadgeIds,
+    badgeEarnedAt,
     resetProgress,
     syncState,
   };

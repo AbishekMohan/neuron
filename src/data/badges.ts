@@ -9,6 +9,8 @@ export type BadgeCheckContext = {
   completedSteps: Set<string>;
   xp: number;
   moduleProgress: ModuleProgress;
+  /** How many Train Your Companion categories have reached "Mastered" (held-out accuracy, not click count). */
+  companionMasteredCount: number;
 };
 
 // Drives the procedural 3D geometry in Badge3D.tsx. No two badges share a
@@ -22,7 +24,8 @@ export type BadgeShape =
   | 'crystal'
   | 'tetra-lattice'
   | 'nested-rings'
-  | 'node-cluster';
+  | 'node-cluster'
+  | 'neural-web';
 
 export type Badge = {
   id: string;
@@ -93,7 +96,7 @@ export const BADGES: Badge[] = [
   {
     id: 'full-circuit',
     title: 'Full Circuit',
-    description: 'Master all six learning modules.',
+    description: 'Master every learning module.',
     shape: 'nested-rings',
     color: '#facc15',
     check: ({ moduleProgress }) => MODULES.every((m) => moduleProgress[m.id]?.isComplete),
@@ -105,5 +108,21 @@ export const BADGES: Badge[] = [
     shape: 'node-cluster',
     color: '#f472b6',
     check: ({ xp }) => xp >= 500,
+  },
+  {
+    id: 'model-trainer',
+    title: 'Model Trainer',
+    description: 'Train your companion to Mastered — measured by its accuracy on unseen examples, not clicks.',
+    shape: 'neural-web',
+    color: '#7dd3fc',
+    check: ({ companionMasteredCount }) => companionMasteredCount >= 1,
+  },
+  {
+    id: 'green-computing',
+    title: 'Green Computing',
+    description: 'Master every step in Sustainable & Efficient AI.',
+    shape: 'gyroscope',
+    color: '#38bdf8',
+    check: ({ moduleProgress }) => moduleProgress.sustainability?.isComplete ?? false,
   },
 ];

@@ -7,6 +7,8 @@ import AuthWidget from './AuthWidget';
 const NAV_LINKS = [
   { label: 'Home', to: '/' },
   { label: 'Modules', to: '/modules' },
+  { label: 'Companion', to: '/companion' },
+  { label: 'Challenges', to: '/challenges' },
   { label: 'Leaderboard', to: '/leaderboard' },
   { label: 'Dashboard', to: '/dashboard' },
   { label: 'Reference', to: '/reference' },
@@ -51,7 +53,7 @@ export default function Nav({ onOpenTutorial }: { onOpenTutorial: () => void }) 
           <span className="font-normal tracking-widest">NEURON</span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden lg:flex items-center gap-2">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.to}
@@ -84,7 +86,7 @@ export default function Nav({ onOpenTutorial }: { onOpenTutorial: () => void }) 
         </div>
 
         <button
-          className="md:hidden relative z-[60] w-10 h-10 flex items-center justify-center text-white"
+          className="lg:hidden relative z-[60] w-10 h-10 flex items-center justify-center text-white"
           onClick={() => setIsOpen((prev) => !prev)}
           aria-label="Toggle menu"
         >
@@ -118,7 +120,7 @@ export default function Nav({ onOpenTutorial }: { onOpenTutorial: () => void }) 
 
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-[55] md:hidden">
+          <div className="fixed inset-0 z-[55] lg:hidden">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

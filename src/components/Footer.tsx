@@ -14,9 +14,23 @@ export default function Footer() {
         style={{ background: 'radial-gradient(ellipse 480px 220px at 100% 0%, rgba(56,189,248,0.14), transparent 70%)' }}
       />
       <span className="relative">Neuron: an AI learning portal for high school students.</span>
-      <Link to="/reference" className="relative hover:text-white/60 transition-colors">
-        Reference Page
-      </Link>
+      <div className="relative flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
+        <Link to="/glossary" className="hover:text-white/60 transition-colors">
+          Glossary
+        </Link>
+        <Link to="/tools" className="hover:text-white/60 transition-colors">
+          AI Tools
+        </Link>
+        <Link to="/report" className="hover:text-white/60 transition-colors">
+          My Literacy Report
+        </Link>
+        <Link to="/reference" className="hover:text-white/60 transition-colors">
+          Reference Page
+        </Link>
+        <Link to="/teacher" className="hover:text-white/60 transition-colors">
+          For Teachers
+        </Link>
+      </div>
     </footer>
   );
 }
