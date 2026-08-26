@@ -30,7 +30,7 @@ export default function EthicsStory() {
 
   return (
     <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Ethics Story</p>
         <h1 className="text-white text-3xl sm:text-4xl font-light leading-tight tracking-tight">The Deadline</h1>
         <p className="text-white/50 text-sm mt-4 max-w-xl font-light">

@@ -35,7 +35,7 @@ export default function BiasDetective() {
     const correct = scores.filter(Boolean).length;
     return (
       <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
-        <div className="max-w-2xl mx-auto text-center">
+        <div className="max-w-4xl mx-auto text-center">
           <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Bias Detective: complete</p>
           <p className="text-white text-5xl font-light tracking-tight mb-4">
             {correct}/{DETECTIVE_SCENARIOS.length}
@@ -65,7 +65,7 @@ export default function BiasDetective() {
 
   return (
     <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Bias Detective</p>
         <h1 className="text-white text-3xl sm:text-4xl font-light leading-tight tracking-tight">
           Trace the bias to its root

@@ -68,7 +68,7 @@ export default function Report() {
 
   return (
     <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Your AI Literacy Report</p>
         <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight">
           One score never tells the whole story
