@@ -11,7 +11,7 @@ export default function InlineCheck({ question }: { question: InlineQuestion }) 
   const source = question.sourceId ? getSource(question.sourceId) : undefined;
 
   return (
-    <div className="rounded-xl liquid-glass p-5 my-2">
+    <div className="border-l-2 border-sky-400/30 pl-5 my-6">
       <div className="flex items-center gap-2 mb-3 text-sky-300/90 text-xs uppercase tracking-widest">
         <HelpCircle className="w-3.5 h-3.5" />
         Quick check

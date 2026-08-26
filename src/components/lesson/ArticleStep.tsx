@@ -76,7 +76,7 @@ export default function ArticleStep({ sections, complete, onComplete }: ArticleS
 
   return (
     <div>
-      <div className="flex items-center gap-3 mb-8 rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3">
+      <div className="flex items-center gap-3 mb-8 border-b border-white/10 pb-4">
         <Volume2 className="w-4 h-4 text-sky-300 shrink-0" />
         <p className="text-white/50 text-xs font-light flex-1">
           {readingIndex === null
