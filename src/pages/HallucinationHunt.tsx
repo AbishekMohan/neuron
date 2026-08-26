@@ -101,7 +101,7 @@ export default function HallucinationHunt() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="mt-8 rounded-2xl liquid-glass p-6"
+            className="mt-8 pt-8 border-t border-white/10"
           >
             <p className="text-white/40 text-xs uppercase tracking-widest mb-1">
               Scenario {index + 1} of {HUNT_SCENARIOS.length}

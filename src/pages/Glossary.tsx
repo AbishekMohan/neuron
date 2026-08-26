@@ -57,12 +57,12 @@ export default function Glossary() {
           ))}
         </div>
 
-        <div className="mt-8 flex flex-col gap-3">
+        <div className="mt-8 border-t border-white/10">
           {filtered.length === 0 && (
-            <p className="text-white/40 text-sm">No terms match “{query}”.</p>
+            <p className="text-white/40 text-sm py-5">No terms match “{query}”.</p>
           )}
           {filtered.map((t) => (
-            <div key={t.term} className="rounded-xl liquid-glass p-5">
+            <div key={t.term} className="border-b border-white/10 py-5">
               <div className="flex items-baseline justify-between gap-3 mb-1.5">
                 <p className="text-white text-base font-normal">{t.term}</p>
                 <span className="shrink-0 text-[10px] uppercase tracking-widest text-sky-300/70">{t.category}</span>

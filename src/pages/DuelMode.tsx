@@ -112,9 +112,9 @@ export default function DuelMode() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.2 }}
-                className="rounded-2xl liquid-glass p-6"
+                className="border-t border-white/10 pt-6"
               >
-                <div className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-5 mb-5">
+                <div className="flex items-start gap-3 pb-5 mb-5 border-b border-white/10">
                   <Swords className="w-4 h-4 text-sky-300 shrink-0 mt-0.5" />
                   <p className="text-white text-sm font-light leading-relaxed">{scenario.scenario}</p>
                 </div>
@@ -152,7 +152,7 @@ export default function DuelMode() {
         )}
 
         {room.phase === 'finished' && (
-          <div className="mt-8 rounded-2xl liquid-glass p-6 text-center">
+          <div className="mt-8 border-t border-white/10 pt-8 text-center">
             <Trophy className="w-6 h-6 text-amber-300 mx-auto mb-3" />
             <p className="text-white text-3xl font-light tracking-tight mb-1">
               {correctCount}/{rounds.length} correct

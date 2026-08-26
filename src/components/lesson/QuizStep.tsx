@@ -22,7 +22,7 @@ export default function QuizStep({ questions, passingScore, unlocked, bestAttemp
 
   if (!unlocked) {
     return (
-      <div className="max-w-xl rounded-2xl liquid-glass p-8 text-center">
+      <div className="max-w-xl border-t border-white/10 pt-8 text-center">
         <Lock className="w-8 h-8 text-white/20 mx-auto mb-4" strokeWidth={1.25} />
         <p className="text-white text-base font-normal mb-2">Quiz locked</p>
         <p className="text-white/50 text-sm font-light leading-relaxed">
@@ -70,7 +70,7 @@ export default function QuizStep({ questions, passingScore, unlocked, bestAttemp
 
     return (
       <div className="max-w-xl">
-        <div className="rounded-2xl liquid-glass p-8 text-center">
+        <div className="border-t border-white/10 pt-8 text-center">
           {shown?.passed ? (
             <Trophy className="w-9 h-9 text-amber-300 mx-auto mb-4" strokeWidth={1.25} />
           ) : (

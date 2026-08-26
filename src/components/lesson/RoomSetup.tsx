@@ -26,7 +26,7 @@ export default function RoomSetup({ room, title }: { room: ReturnType<typeof use
 
     return (
       <div className="max-w-md">
-        <div className="rounded-2xl liquid-glass p-6 text-center">
+        <div className="border-t border-white/10 pt-6 text-center">
           <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Room code</p>
           <div className="flex items-center justify-center gap-2 mb-6">
             <p className="text-white text-3xl font-light tracking-[0.3em]">{room.roomCode}</p>
@@ -84,7 +84,7 @@ export default function RoomSetup({ room, title }: { room: ReturnType<typeof use
       <h2 className="text-white text-lg font-normal mb-1">{title}</h2>
       <p className="text-white/50 text-sm font-light mb-6">Race up to a few classmates live. Create a room and share the code, or join one.</p>
 
-      <div className="rounded-2xl liquid-glass p-6">
+      <div className="border-t border-white/10 pt-6">
         <label className="block text-white/40 text-xs mb-2">Your name</label>
         <input
           type="text"

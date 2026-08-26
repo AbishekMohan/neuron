@@ -51,7 +51,7 @@ export default function Leaderboard() {
         </p>
 
         {!isConfigured && (
-          <div className="mt-10 rounded-2xl liquid-glass p-6 text-white/50 text-sm">
+          <div className="mt-10 border-l-2 border-white/10 pl-4 py-1 text-white/50 text-sm">
             The leaderboard isn’t configured for this deployment.
           </div>
         )}
@@ -63,10 +63,10 @@ export default function Leaderboard() {
           </div>
         )}
 
-        {error && <div className="mt-10 rounded-2xl liquid-glass p-6 text-red-300 text-sm">{error}</div>}
+        {error && <div className="mt-10 border-l-2 border-white/20 pl-4 py-1 text-white/60 text-sm">{error}</div>}
 
         {rows && rows.length === 0 && (
-          <div className="mt-10 rounded-2xl liquid-glass p-6 text-white/50 text-sm">
+          <div className="mt-10 border-l-2 border-white/10 pl-4 py-1 text-white/50 text-sm">
             Nobody’s on the board yet.{' '}
             <Link to="/profile" className="text-sky-300 hover:text-sky-200 transition-colors">
               Set up your profile
@@ -76,7 +76,7 @@ export default function Leaderboard() {
         )}
 
         {rows && rows.length > 0 && (
-          <div className="mt-10 rounded-2xl liquid-glass overflow-hidden">
+          <div className="mt-10 border-t border-white/10">
             <ol>
               {rows.map((row, i) => {
                 const isMe = user && row.user_id === user.id;

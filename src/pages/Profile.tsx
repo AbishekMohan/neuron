@@ -92,8 +92,8 @@ function ProfileStats({
 
       {bio && <p className="text-white/60 text-sm font-light leading-relaxed mt-5 max-w-xl">{bio}</p>}
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
-        <div className="rounded-2xl liquid-glass p-5">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-0 mt-8 sm:divide-x sm:divide-white/10">
+        <div className="sm:pr-6">
           <p className="text-white/40 text-xs uppercase tracking-widest mb-2">XP</p>
           <p className="text-white text-2xl font-light">{xp}</p>
           <ProgressBar
@@ -101,7 +101,7 @@ function ProfileStats({
             trailing={level.xpForNext ? `${level.xpIntoLevel}/${level.xpForNext} to next` : 'Max level'}
           />
         </div>
-        <div className="rounded-2xl liquid-glass p-5">
+        <div className="sm:px-6">
           <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Streak</p>
           <p className="text-white text-2xl font-light flex items-center gap-1.5">
             {currentStreak > 0 && <Flame className="w-4 h-4 text-orange-400" />}
@@ -109,17 +109,17 @@ function ProfileStats({
           </p>
           {longestStreak > currentStreak && <p className="text-white/30 text-xs mt-1">Best: {longestStreak}</p>}
         </div>
-        <div className="rounded-2xl liquid-glass p-5">
+        <div className="sm:px-6">
           <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Modules mastered</p>
           <p className="text-white text-2xl font-light">{MODULES.filter((m) => moduleProgress[m.id]?.isComplete).length}/{MODULES.length}</p>
         </div>
-        <div className="rounded-2xl liquid-glass p-5">
+        <div className="sm:px-6">
           <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Badges</p>
           <p className="text-white text-2xl font-light">{earnedBadgeIds.length}/{BADGES.length}</p>
         </div>
       </div>
 
-      <div className="mt-5 rounded-2xl liquid-glass p-6">
+      <div className="mt-10 pt-8 border-t border-white/10">
         <p className="text-white/40 text-xs uppercase tracking-widest mb-4">Module mastery</p>
         <div className="flex flex-col gap-4">
           {MODULES.map((mod) => {
@@ -145,7 +145,7 @@ function ProfileStats({
         </div>
       </div>
 
-      <div className="mt-5 rounded-2xl liquid-glass p-6">
+      <div className="mt-10 pt-8 border-t border-white/10">
         <p className="text-white/40 text-xs uppercase tracking-widest mb-5">Badge case</p>
         <div className="grid grid-cols-3 sm:grid-cols-5 gap-4">
           {BADGES.map((badge) => {
@@ -192,7 +192,7 @@ function ProfileSetupForm() {
   };
 
   return (
-    <div className="max-w-md rounded-2xl liquid-glass p-6">
+    <div className="max-w-md border-t border-white/10 pt-6">
       <p className="text-white text-base font-normal mb-1">Choose a display name</p>
       <p className="text-white/50 text-xs font-light mb-5">
         This is what other students see on the leaderboard. Your email is never shown publicly.
@@ -262,7 +262,7 @@ function EditProfileForm({ onDone }: { onDone: () => void }) {
   };
 
   return (
-    <div className="max-w-md rounded-2xl liquid-glass p-6">
+    <div className="max-w-md border-t border-white/10 pt-6">
       <p className="text-white text-base font-normal mb-5">Edit profile</p>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
@@ -327,7 +327,7 @@ function OwnProfile() {
 
   if (!user) {
     return (
-      <div className="max-w-md rounded-2xl liquid-glass p-6">
+      <div className="max-w-md border-t border-white/10 pt-6">
         <p className="text-white text-sm mb-4">Sign in to set up your profile and appear on the leaderboard.</p>
         <AuthWidget variant="desktop" />
       </div>

@@ -62,7 +62,7 @@ export default function TeacherView() {
         </p>
 
         {!supabase && (
-          <div className="mt-10 rounded-2xl liquid-glass p-6 text-white/50 text-sm">
+          <div className="mt-10 border-l-2 border-white/10 pl-4 py-1 text-white/50 text-sm">
             This isn't configured for this deployment.
           </div>
         )}
@@ -74,34 +74,34 @@ export default function TeacherView() {
           </div>
         )}
 
-        {error && <div className="mt-10 rounded-2xl liquid-glass p-6 text-red-300 text-sm">{error}</div>}
+        {error && <div className="mt-10 border-l-2 border-white/20 pl-4 py-1 text-white/60 text-sm">{error}</div>}
 
         {stats && (
           <>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-10">
-              <div className="rounded-2xl liquid-glass p-5 text-center">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-0 mt-10 sm:divide-x sm:divide-white/10">
+              <div className="sm:px-6 text-center">
                 <Users className="w-4 h-4 text-sky-300 mx-auto mb-2" />
                 <p className="text-white text-2xl font-light">{stats.n}</p>
                 <p className="text-white/40 text-xs mt-1">Students</p>
               </div>
-              <div className="rounded-2xl liquid-glass p-5 text-center">
+              <div className="sm:px-6 text-center">
                 <TrendingUp className="w-4 h-4 text-sky-300 mx-auto mb-2" />
                 <p className="text-white text-2xl font-light">{Math.round(stats.avgXp)}</p>
                 <p className="text-white/40 text-xs mt-1">Avg. XP</p>
               </div>
-              <div className="rounded-2xl liquid-glass p-5 text-center">
+              <div className="sm:px-6 text-center">
                 <Award className="w-4 h-4 text-sky-300 mx-auto mb-2" />
                 <p className="text-white text-2xl font-light">{stats.avgMastered.toFixed(1)}</p>
                 <p className="text-white/40 text-xs mt-1">Avg. modules mastered</p>
               </div>
-              <div className="rounded-2xl liquid-glass p-5 text-center">
+              <div className="sm:px-6 text-center">
                 <Award className="w-4 h-4 text-sky-300 mx-auto mb-2" />
                 <p className="text-white text-2xl font-light">{stats.avgSteps.toFixed(1)}</p>
                 <p className="text-white/40 text-xs mt-1">Avg. steps completed</p>
               </div>
             </div>
 
-            <div className="mt-5 rounded-2xl liquid-glass p-6">
+            <div className="mt-10 pt-8 border-t border-white/10">
               <p className="text-white/40 text-xs uppercase tracking-widest mb-5">Level distribution</p>
               <div className="flex flex-col gap-3">
                 {stats.levelCounts.map((lvl) => (
@@ -137,7 +137,7 @@ export default function TeacherView() {
         )}
 
         {rows && rows.length === 0 && (
-          <div className="mt-10 rounded-2xl liquid-glass p-6 text-white/50 text-sm">
+          <div className="mt-10 border-l-2 border-white/10 pl-4 py-1 text-white/50 text-sm">
             No students have set up a public profile yet.
           </div>
         )}

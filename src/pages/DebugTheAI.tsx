@@ -82,7 +82,7 @@ export default function DebugTheAI() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="mt-8 rounded-2xl liquid-glass p-6"
+            className="mt-8 pt-8 border-t border-white/10"
           >
             <p className="text-white/40 text-xs uppercase tracking-widest mb-5">
               Case {index + 1} of {DEBUG_SCENARIOS.length}
@@ -132,7 +132,7 @@ export default function DebugTheAI() {
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
-                className="mt-5 rounded-xl border border-white/10 bg-white/[0.02] p-4"
+                className="mt-5 pt-4 border-t border-white/10"
               >
                 <div className="flex items-center gap-2 text-sm mb-1.5">
                   {picked === scenario.failedStage ? (

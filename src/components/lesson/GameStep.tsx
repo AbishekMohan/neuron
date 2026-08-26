@@ -60,7 +60,7 @@ export default function GameStep({ prompt, buckets, cards, complete, onComplete 
   if (finished) {
     return (
       <div className="max-w-xl">
-        <div className="rounded-2xl liquid-glass p-8 text-center">
+        <div className="border-t border-white/10 pt-8 text-center">
           <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Round complete</p>
           <p className="text-white text-3xl font-light mb-1">
             {score}/{cards.length}
@@ -120,7 +120,7 @@ export default function GameStep({ prompt, buckets, cards, complete, onComplete 
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -16 }}
           transition={{ duration: 0.2 }}
-          className="rounded-2xl liquid-glass p-6"
+          className="border-t border-white/10 pt-6"
         >
           <p className="text-white text-base font-normal leading-relaxed mb-6">{card.text}</p>
 

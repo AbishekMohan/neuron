@@ -104,7 +104,7 @@ function HallucinationDemo() {
   const orbState: OrbState = phase === 'thinking' ? 'thinking' : phase === 'saying' ? 'speaking' : 'idle';
 
   return (
-    <div className="rounded-2xl liquid-glass p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6">
+    <div className="border-t border-b border-white/10 py-8 flex flex-col sm:flex-row items-center gap-6">
       <div className="relative w-28 h-28 sm:w-32 sm:h-32 shrink-0">
         <CarvisOrb state={orbState} quality={1} />
       </div>
@@ -169,7 +169,7 @@ export default function Challenges() {
           <HallucinationDemo />
         </div>
 
-        <div className="mt-8 rounded-2xl liquid-glass overflow-hidden">
+        <div className="mt-8 border-t border-white/10">
           {CHALLENGES.map((c) => (
             <Link
               key={c.to}

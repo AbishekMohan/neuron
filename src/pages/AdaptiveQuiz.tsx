@@ -141,7 +141,7 @@ export default function AdaptiveQuiz() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="mt-6 rounded-2xl liquid-glass p-6"
+            className="mt-6 pt-8 border-t border-white/10"
           >
             <p className="text-white/40 text-xs uppercase tracking-widest mb-1">
               Question {history.length + 1} of {TOTAL_QUESTIONS} · {DIFFICULTY_LABELS[current.difficulty]}

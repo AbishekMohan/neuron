@@ -70,7 +70,7 @@ export default function ModulePage() {
         </div>
 
         {progress?.isComplete && (
-          <div className="mt-4 rounded-xl liquid-glass px-4 py-3 text-sm text-sky-300 max-w-xl">
+          <div className="mt-4 border-l-2 border-sky-400/30 pl-4 py-1 text-sm text-sky-300 max-w-xl">
             Module mastered, nice work. A badge for this has been added to your dashboard.
           </div>
         )}
@@ -90,7 +90,7 @@ export default function ModulePage() {
             xpEarned={xpEarned}
           />
 
-          <div className="flex-1 min-w-0 rounded-2xl liquid-glass p-6 sm:p-8">
+          <div className="flex-1 min-w-0">
             {currentStep === 'article' && (
               <ArticleStep
                 sections={mod.steps.article.sections}

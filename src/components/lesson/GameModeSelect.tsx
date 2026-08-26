@@ -52,7 +52,7 @@ export default function GameModeSelect({ onSelect }: { onSelect: (mode: GameMode
             key={mode}
             type="button"
             onClick={() => onSelect(mode)}
-            className="group text-left rounded-2xl liquid-glass p-5 hover:bg-white/[0.03] transition-colors"
+            className="group text-left rounded-xl border border-white/10 p-5 hover:border-sky-400/30 hover:bg-white/[0.02] transition-colors"
           >
             <div className="w-10 h-10 rounded-full bg-sky-400/10 border border-sky-400/30 flex items-center justify-center mb-4 group-hover:border-sky-400/50 transition-colors">
               <Icon className="w-4.5 h-4.5 text-sky-300" strokeWidth={1.5} />

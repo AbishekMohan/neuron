@@ -99,7 +99,7 @@ export default function ModulesOverview() {
         </p>
 
         {view === 'list' ? (
-          <div className="mt-12 rounded-2xl liquid-glass p-3 sm:p-4">
+          <div className="mt-12 border-t border-white/10">
             <div className="flex flex-col gap-1">
               {MODULES.map((mod, index) => (
                 <ModuleRow key={mod.id} index={index} isNext={mod.id === nextModuleId} />
@@ -107,7 +107,7 @@ export default function ModulesOverview() {
             </div>
           </div>
         ) : (
-          <div className="mt-12 rounded-2xl liquid-glass p-6 sm:p-8">
+          <div className="mt-12 border-t border-white/10 pt-8">
             <SkillTreeView />
           </div>
         )}

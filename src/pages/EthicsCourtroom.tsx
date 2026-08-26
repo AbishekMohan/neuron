@@ -81,12 +81,12 @@ export default function EthicsCourtroom() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="mt-8 rounded-2xl liquid-glass p-6"
+            className="mt-8 pt-8 border-t border-white/10"
           >
             <p className="text-white/40 text-xs uppercase tracking-widest mb-1">
               Case {index + 1} of {COURTROOM_SCENARIOS.length}
             </p>
-            <div className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-5 my-5">
+            <div className="flex items-start gap-3 py-5 my-5 border-y border-white/10">
               <Gavel className="w-4 h-4 text-sky-300 shrink-0 mt-0.5" />
               <p className="text-white text-sm font-light leading-relaxed">{scenario.scenario}</p>
             </div>
@@ -123,7 +123,7 @@ export default function EthicsCourtroom() {
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
-                className="mt-5 rounded-xl border border-white/10 bg-white/[0.02] p-4"
+                className="mt-5 pt-4 border-t border-white/10"
               >
                 <p className="text-white/40 text-xs uppercase tracking-widest mb-1.5">Rubric</p>
                 <p className="text-white/60 text-sm font-light leading-relaxed">{scenario.rubric}</p>

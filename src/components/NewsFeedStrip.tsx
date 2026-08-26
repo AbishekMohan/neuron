@@ -48,7 +48,7 @@ export default function NewsFeedStrip() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: i * 0.06 }}
-              className="group shrink-0 w-64 rounded-xl liquid-glass p-4 hover:bg-white/[0.04] transition-colors"
+              className="group shrink-0 w-64 border-r border-white/10 pr-4 last:border-0 hover:opacity-80 transition-opacity"
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-white/30 text-[10px] uppercase tracking-widest">{h.source}</span>
