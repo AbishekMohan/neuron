@@ -36,7 +36,7 @@ export default function StepSidebar({
       {/* Desktop: sticky vertical checklist */}
       <nav
         aria-label={`${moduleTitle} unit steps`}
-        className="hidden md:flex md:flex-col md:sticky md:top-28 w-64 shrink-0 rounded-2xl liquid-glass p-5 h-fit"
+        className="hidden md:flex md:flex-col md:sticky md:top-28 w-64 shrink-0 h-fit border-r border-white/10 pr-5"
       >
         <div className="flex items-center gap-2 mb-5">
           <ModuleIcon className="w-4 h-4 text-sky-300 shrink-0" strokeWidth={1.5} />
