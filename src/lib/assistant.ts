@@ -33,14 +33,25 @@ export type AssistantContext = {
   companionQualityPercent?: number;
 };
 
-const NOT_CONNECTED_NOTICE =
+const NOT_CONFIGURED_NOTICE =
   'Your companion isn’t connected to a live AI model yet. Once a Groq API key is added to this project’s Supabase secrets (see supabase/functions/assistant), it’ll answer for real: explaining how AI works and coaching through homework without just handing you the answer.';
+
+// Deliberately a different message from NOT_CONFIGURED_NOTICE above: that
+// one means Supabase itself isn't set up at all (a deployment issue this
+// site's owner needs to fix). This one means Supabase IS configured and
+// the request actually reached the function, but something failed along
+// the way (a Groq hiccup, a network blip, a rate limit) — a transient
+// problem worth retrying, not a "go configure something" problem. Showing
+// the same text for both was actively misleading: it told a student to
+// go check a secret that was already set correctly.
+const REQUEST_FAILED_NOTICE =
+  'Something went wrong reaching your companion just now. This isn’t a configuration problem, it’s usually temporary (a busy moment on the AI provider’s end) — try sending your message again in a few seconds.';
 
 export async function sendMessage(
   messages: AssistantMessage[],
   context?: AssistantContext,
 ): Promise<{ reply: string; flags: AssistantFlag[]; error: string | null }> {
-  if (!supabase) return { reply: NOT_CONNECTED_NOTICE, flags: [], error: null };
+  if (!supabase) return { reply: NOT_CONFIGURED_NOTICE, flags: [], error: null };
 
   const { data, error } = await supabase.functions.invoke<{ reply?: string; flags?: AssistantFlag[]; error?: string }>(
     'assistant',
@@ -48,11 +59,17 @@ export async function sendMessage(
   );
 
   if (error || data?.error) {
-    console.error('Assistant request failed', error ?? data?.error);
-    return { reply: NOT_CONNECTED_NOTICE, flags: [], error: (error?.message ?? data?.error) || 'Unknown error' };
+    const detail = (error?.message ?? data?.error) || 'Unknown error';
+    console.error('Assistant request failed:', detail);
+    // GROQ_API_KEY specifically missing is the one real "not configured"
+    // case that can surface here (the function itself checks and reports
+    // it) — everything else genuinely is a request failure, not a setup
+    // problem, so it gets the honest, retry-oriented message instead.
+    const isConfigError = typeof data?.error === 'string' && data.error.includes('GROQ_API_KEY');
+    return { reply: isConfigError ? NOT_CONFIGURED_NOTICE : REQUEST_FAILED_NOTICE, flags: [], error: detail };
   }
 
-  return { reply: data?.reply ?? NOT_CONNECTED_NOTICE, flags: data?.flags ?? [], error: null };
+  return { reply: data?.reply ?? REQUEST_FAILED_NOTICE, flags: data?.flags ?? [], error: null };
 }
 
 export const SUGGESTED_PROMPTS = [
