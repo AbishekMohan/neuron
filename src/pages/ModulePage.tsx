@@ -55,7 +55,7 @@ export default function ModulePage() {
 
   return (
     <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <Link to="/modules" className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-xs mb-6 transition-colors">
           <ArrowLeft className="w-3.5 h-3.5" />
           All modules

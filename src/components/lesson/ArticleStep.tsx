@@ -103,7 +103,7 @@ export default function ArticleStep({ sections, complete, onComplete }: ArticleS
         )}
       </div>
 
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-10 max-w-3xl">
         {sections.map((section, i) => (
           <section
             key={section.id}

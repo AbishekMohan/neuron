@@ -437,7 +437,7 @@ export default function Profile() {
 
   return (
     <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {!displayName && (
           <>
             <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Profile</p>
