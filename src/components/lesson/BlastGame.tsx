@@ -85,7 +85,7 @@ export default function BlastGame({
   if (status === 'ready') {
     return (
       <div className="max-w-xl">
-        <div className="rounded-2xl liquid-glass p-8 text-center">
+        <div className="border-t border-white/10 pt-8 text-center">
           <Target className="w-9 h-9 text-sky-300 mx-auto mb-4" strokeWidth={1.25} />
           <p className="text-white text-lg font-normal mb-2">{prompt}</p>
           <p className="text-white/40 text-xs mb-6">
@@ -107,7 +107,7 @@ export default function BlastGame({
     const won = hits >= targets;
     return (
       <div className="max-w-xl">
-        <div className="rounded-2xl liquid-glass p-8 text-center">
+        <div className="border-t border-white/10 pt-8 text-center">
           <Target className="w-9 h-9 text-sky-300 mx-auto mb-4" strokeWidth={1.25} />
           <p className="text-white/40 text-xs uppercase tracking-widest mb-2">{won ? 'Cleared' : 'Time up'}</p>
           <p className="text-white text-3xl font-light mb-1">

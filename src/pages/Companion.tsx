@@ -390,7 +390,7 @@ export default function Companion() {
 
         {/* Training panel */}
         {mode === 'train' && (
-        <div className="max-w-xl mx-auto mt-6 rounded-2xl liquid-glass p-6">
+        <div className="max-w-xl mx-auto mt-10 pt-8 border-t border-white/10">
           <p className="text-white/40 text-xs uppercase tracking-widest mb-1 text-center">{category.title}</p>
           <p className="text-white/40 text-xs font-light mb-5 text-center">{category.tagline}</p>
 
@@ -401,7 +401,7 @@ export default function Companion() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.2 }}
-              className="rounded-xl border border-white/10 bg-white/[0.03] p-5 mb-5"
+              className="pb-5 mb-5 border-b border-white/10"
             >
               <p className="text-white text-base font-light leading-relaxed">“{current.text}”</p>
             </motion.div>
@@ -430,7 +430,7 @@ export default function Companion() {
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
-              className="mt-5 rounded-xl border border-white/10 bg-white/[0.02] p-4"
+              className="mt-5 pt-4 border-t border-white/10"
             >
               <div className="flex items-center gap-2 text-sm mb-1.5">
                 {feedback.studentLabel === feedback.example.label ? (
@@ -457,7 +457,7 @@ export default function Companion() {
 
         {/* Capstone */}
         {mode === 'train' && (
-        <div className="mt-5 rounded-2xl liquid-glass p-6">
+        <div className="mt-10 pt-8 border-t border-white/10">
           <div className="flex items-center gap-2 mb-1">
             <Sparkles className="w-4 h-4 text-sky-300" />
             <p className="text-white text-base font-normal">Capstone: a brand-new example</p>
@@ -475,11 +475,11 @@ export default function Companion() {
             </div>
           ) : (
             <div>
-              <p className="text-white text-sm font-light leading-relaxed mb-5 rounded-xl border border-white/10 bg-white/[0.03] p-4">
+              <p className="text-white text-sm font-light leading-relaxed pb-5 mb-5 border-b border-white/10">
                 “{category.capstone.text}”
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="rounded-xl border border-white/10 p-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-0 sm:divide-x sm:divide-white/10">
+                <div className="sm:pr-6">
                   <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Your companion says</p>
                   <p className={`text-lg font-normal ${yourCapstoneGuess === category.capstone.label ? 'text-sky-300' : 'text-white/40'}`}>
                     {yourCapstoneGuess === 1 ? category.positiveLabel : category.negativeLabel}
@@ -491,7 +491,7 @@ export default function Companion() {
                     />
                   </div>
                 </div>
-                <div className="rounded-xl border border-sky-400/20 bg-sky-400/[0.03] p-4">
+                <div className="sm:pl-6">
                   <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Reference model says</p>
                   <p className={`text-lg font-normal ${referenceCapstoneGuess === category.capstone.label ? 'text-sky-300' : 'text-white/40'}`}>
                     {referenceCapstoneGuess === 1 ? category.positiveLabel : category.negativeLabel}
@@ -515,7 +515,7 @@ export default function Companion() {
 
         {/* Chat: the same companion, talking. Text in, voice out. */}
         {mode === 'chat' && (
-          <div className="max-w-xl mx-auto mt-6 rounded-2xl liquid-glass flex flex-col overflow-hidden" style={{ height: '60vh', maxHeight: 560 }}>
+          <div className="max-w-xl mx-auto mt-10 pt-8 border-t border-white/10 flex flex-col overflow-hidden" style={{ height: '60vh', maxHeight: 560 }}>
             <div className="flex items-center justify-between px-5 py-3 border-b border-white/10 shrink-0">
               <p className="text-white/50 text-xs">
                 Trained by you · {Math.round(overallQuality * 100)}% toward full mastery

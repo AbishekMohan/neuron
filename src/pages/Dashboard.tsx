@@ -71,7 +71,7 @@ export default function Dashboard() {
         </div>
 
         {isConfigured && user && !profile && (
-          <div className="mt-6 rounded-xl liquid-glass px-4 py-3 text-sm text-white/60 max-w-xl">
+          <div className="mt-6 border-l-2 border-sky-400/30 pl-4 py-1 text-sm text-white/60 max-w-xl">
             You haven’t set up a public profile yet.{' '}
             <Link to="/profile" className="text-sky-300 hover:text-sky-200 transition-colors">
               Choose a display name
@@ -80,8 +80,8 @@ export default function Dashboard() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-10">
-          <div className="md:col-span-1 rounded-2xl liquid-glass p-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-0 mt-10 md:divide-x md:divide-white/10">
+          <div className="md:col-span-1 md:pr-8">
             <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Level</p>
             <p className="text-white text-2xl font-light mb-4">{level.name}</p>
             <ProgressBar
@@ -126,7 +126,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="md:col-span-2 rounded-2xl liquid-glass p-6">
+          <div className="md:col-span-2 md:pl-8">
             <p className="text-white/40 text-xs uppercase tracking-widest mb-4">Module mastery</p>
             <div className="flex flex-col gap-5">
               {MODULES.map((mod) => {
@@ -155,7 +155,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="mt-5 rounded-2xl liquid-glass p-6">
+        <div className="mt-10 pt-8 border-t border-white/10">
           <p className="text-white/40 text-xs uppercase tracking-widest mb-5">
             Badges: {earnedBadgeIds.length}/{BADGES.length} earned
           </p>

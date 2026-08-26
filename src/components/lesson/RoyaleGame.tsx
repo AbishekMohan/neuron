@@ -517,7 +517,7 @@ export default function RoyaleGame({
   if (phase === 'ready') {
     return (
       <div className="max-w-xl">
-        <div className="rounded-2xl liquid-glass p-8 text-center">
+        <div className="border-t border-white/10 pt-8 text-center">
           <Swords className="w-9 h-9 text-sky-300 mx-auto mb-4" strokeWidth={1.25} />
           <p className="text-white text-lg font-normal mb-2">AI Royale</p>
           <p className="text-white/50 text-sm leading-relaxed mb-1">
@@ -542,7 +542,7 @@ export default function RoyaleGame({
     const label = winner === 'player' ? 'You won' : winner === 'bot' ? 'The bot won' : 'Draw';
     return (
       <div className="max-w-xl">
-        <div className="rounded-2xl liquid-glass p-8 text-center">
+        <div className="border-t border-white/10 pt-8 text-center">
           <Trophy className={`w-9 h-9 mx-auto mb-4 ${winner === 'player' ? 'text-amber-300' : 'text-white/40'}`} strokeWidth={1.25} />
           <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Match over</p>
           <p className="text-white text-2xl font-light mb-3">{label}</p>

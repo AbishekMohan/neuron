@@ -40,7 +40,7 @@ export default function Reference() {
           font listed at the bottom of this page.
         </p>
 
-        <div className="mt-10 rounded-2xl liquid-glass p-6">
+        <div className="mt-10 pt-8 border-t border-white/10">
           <h2 className="text-white text-base font-normal mb-1">Course content bibliography</h2>
           <p className="text-white/40 text-xs font-light mb-6">
             Grouped by module. Each entry links to the primary source: a government agency, standards body,
@@ -73,7 +73,7 @@ export default function Reference() {
           </div>
         </div>
 
-        <div className="mt-5 rounded-2xl liquid-glass p-6">
+        <div className="mt-10 pt-8 border-t border-white/10">
           <h2 className="text-white text-base font-normal mb-5">Open-source libraries & assets used</h2>
           <ul className="flex flex-col gap-4">
             {LIBRARIES.map((source) => (
@@ -92,7 +92,7 @@ export default function Reference() {
           </ul>
         </div>
 
-        <div className="mt-5 rounded-2xl liquid-glass p-6">
+        <div className="mt-10 pt-8 border-t border-white/10">
           <h2 className="text-white text-base font-normal mb-3">How we built this</h2>
           <div className="flex flex-col gap-4 text-white/60 text-sm font-light leading-relaxed">
             <p>
@@ -128,7 +128,7 @@ export default function Reference() {
           </div>
         </div>
 
-        <div className="mt-5 rounded-2xl liquid-glass p-6">
+        <div className="mt-10 pt-8 border-t border-white/10">
           <h2 className="text-white text-base font-normal mb-3">Framework & template statement</h2>
           <p className="text-white/60 text-sm font-light leading-relaxed">
             This website was built from scratch by our team using React, TypeScript, and Tailwind CSS.
@@ -137,7 +137,7 @@ export default function Reference() {
           </p>
         </div>
 
-        <div className="mt-5 rounded-2xl liquid-glass p-6 border border-amber-400/20">
+        <div className="mt-10 pt-8 border-t border-amber-400/20">
           <div className="flex items-start gap-3 mb-4">
             <AlertTriangle className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
             <h2 className="text-white text-base font-normal">Required forms</h2>

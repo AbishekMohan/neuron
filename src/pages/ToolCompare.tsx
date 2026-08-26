@@ -49,10 +49,10 @@ export default function ToolCompare() {
           </select>
         </div>
 
-        <div className="mt-8 flex flex-col gap-3">
-          {filtered.length === 0 && <p className="text-white/40 text-sm">No tools match those filters.</p>}
+        <div className="mt-8 border-t border-white/10">
+          {filtered.length === 0 && <p className="text-white/40 text-sm py-5">No tools match those filters.</p>}
           {filtered.map((tool) => (
-            <div key={tool.name} className="rounded-2xl liquid-glass p-5">
+            <div key={tool.name} className="border-b border-white/10 py-5">
               <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
                 <p className="text-white text-base font-normal">{tool.name}</p>
                 <div className="flex gap-2">

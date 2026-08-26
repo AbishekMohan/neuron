@@ -8,9 +8,9 @@ import { STORY_NODES, STORY_START_ID } from '../data/ethicsStory';
 // hues. Good outcomes read as bright/saturated blue, bad ones fade to
 // plain neutral gray, mixed sits between the two.
 const OUTCOME_STYLE = {
-  good: { icon: Sparkles, color: 'text-sky-300', border: 'border-sky-400/40', bg: 'bg-sky-400/10', label: 'Good outcome' },
-  mixed: { icon: Scale, color: 'text-sky-400/70', border: 'border-sky-400/15', bg: 'bg-sky-400/5', label: 'Mixed outcome' },
-  bad: { icon: AlertTriangle, color: 'text-white/40', border: 'border-white/10', bg: 'bg-white/[0.02]', label: 'Bad outcome' },
+  good: { icon: Sparkles, color: 'text-sky-300', border: 'border-l-sky-400/40', bg: 'bg-sky-400/10', label: 'Good outcome' },
+  mixed: { icon: Scale, color: 'text-sky-400/70', border: 'border-l-sky-400/15', bg: 'bg-sky-400/5', label: 'Mixed outcome' },
+  bad: { icon: AlertTriangle, color: 'text-white/40', border: 'border-l-white/10', bg: 'bg-white/[0.02]', label: 'Bad outcome' },
 } as const;
 
 export default function EthicsStory() {
@@ -50,7 +50,7 @@ export default function EthicsStory() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className={`mt-6 rounded-2xl liquid-glass p-6 ${node.kind === 'ending' ? OUTCOME_STYLE[node.outcome].border : ''}`}
+            className={`mt-6 pt-8 border-t border-t-white/10 ${node.kind === 'ending' ? `border-l-2 pl-5 ${OUTCOME_STYLE[node.outcome].border}` : ''}`}
           >
             {node.kind === 'ending' && (
               <div className={`inline-flex items-center gap-1.5 text-xs uppercase tracking-widest mb-4 ${OUTCOME_STYLE[node.outcome].color}`}>

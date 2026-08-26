@@ -68,7 +68,7 @@ export default function ConceptMapBuilder() {
           Not every pair of terms is related.
         </p>
 
-        <div className="mt-8 rounded-2xl liquid-glass p-6">
+        <div className="mt-8 pt-8 border-t border-white/10">
           <div className="relative w-full aspect-square max-w-md mx-auto">
             <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full" aria-hidden="true">
               {displayEdges.map((e, i) => {

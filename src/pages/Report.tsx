@@ -78,12 +78,12 @@ export default function Report() {
           generalize. Not just how much you've clicked.
         </p>
 
-        <div className="mt-10 rounded-2xl liquid-glass p-6">
+        <div className="mt-10 pt-8 border-t border-white/10">
           <p className="text-white/40 text-xs uppercase tracking-widest mb-1">Overall</p>
           <p className="text-white text-5xl font-light tracking-tight">{overall}%</p>
         </div>
 
-        <div className="mt-5 rounded-2xl liquid-glass p-6">
+        <div className="mt-10 pt-8 border-t border-white/10">
           <p className="text-white/40 text-xs uppercase tracking-widest mb-6">By category</p>
           <div className="flex flex-col gap-5">
             {rows.map((row) => (
@@ -106,7 +106,7 @@ export default function Report() {
           </div>
         </div>
 
-        <div className="mt-5 rounded-2xl liquid-glass p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="mt-10 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <p className="text-white text-sm font-normal mb-1">Save this report</p>
             <p className="text-white/40 text-xs font-light">

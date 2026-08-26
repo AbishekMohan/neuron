@@ -78,13 +78,13 @@ export default function LiveRaceGame({
 
   return (
     <div className="max-w-xl">
-      <div className="rounded-2xl liquid-glass p-5 mb-6">
+      <div className="pb-6 mb-6 border-b border-white/10">
         <p className="text-white/40 text-xs uppercase tracking-widest mb-3">Live standings</p>
         <RacerTrack racers={room.racers} selfId={room.selfId} />
       </div>
 
       {selfFinished || room.phase === 'finished' ? (
-        <div className="rounded-2xl liquid-glass p-8 text-center">
+        <div className="border-t border-white/10 pt-8 text-center">
           <Trophy className="w-9 h-9 text-amber-300 mx-auto mb-4" strokeWidth={1.25} />
           <p className="text-white text-lg font-normal mb-1">
             {winner?.id === room.selfId ? 'You won the race!' : winner ? `${winner.name} finished first` : 'You finished the streak!'}
@@ -99,7 +99,7 @@ export default function LiveRaceGame({
           </button>
         </div>
       ) : (
-        <div className="rounded-2xl liquid-glass p-6">
+        <div className="border-t border-white/10 pt-6">
           <div className="flex items-center justify-between mb-4">
             <p className="text-white/40 text-xs">Streak toward {target} in a row</p>
             {streak > 0 && (
