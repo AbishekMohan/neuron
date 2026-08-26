@@ -12,7 +12,7 @@ export default function ToolCompare() {
 
   return (
     <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">AI Tools</p>
         <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight">
           Tools students actually use

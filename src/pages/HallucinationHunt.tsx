@@ -53,7 +53,7 @@ export default function HallucinationHunt() {
     const avgPercent = Math.round((scores.reduce((a, b) => a + b, 0) / scores.length) * 100);
     return (
       <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
-        <div className="max-w-2xl mx-auto text-center">
+        <div className="max-w-4xl mx-auto text-center">
           <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Hallucination Hunt: complete</p>
           <p className="text-white text-5xl font-light tracking-tight mb-4">{avgPercent}%</p>
           <p className="text-white/50 text-sm font-light mb-8">
@@ -84,7 +84,7 @@ export default function HallucinationHunt() {
 
   return (
     <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Hallucination Hunt</p>
         <h1 className="text-white text-3xl sm:text-4xl font-light leading-tight tracking-tight">
           Spot the fabricated claims

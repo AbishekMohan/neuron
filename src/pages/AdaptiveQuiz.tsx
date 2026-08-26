@@ -75,7 +75,7 @@ export default function AdaptiveQuiz() {
     const correctCount = history.filter((h) => h.correct).length;
     return (
       <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
-        <div className="max-w-2xl mx-auto text-center">
+        <div className="max-w-4xl mx-auto text-center">
           <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Adaptive Challenge: complete</p>
           <p className="text-white text-5xl font-light tracking-tight mb-2">
             {correctCount}/{history.length}
@@ -109,7 +109,7 @@ export default function AdaptiveQuiz() {
 
   return (
     <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Adaptive Challenge</p>
         <h1 className="text-white text-3xl sm:text-4xl font-light leading-tight tracking-tight">
           Questions that keep pace with you
