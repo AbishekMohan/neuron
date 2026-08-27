@@ -1,17 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, X, BrainCircuit, HelpCircle } from 'lucide-react';
+import { Menu, X, BrainCircuit, HelpCircle, Accessibility } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import AuthWidget from './AuthWidget';
+import { useAccessibility } from '../context/AccessibilityContext';
+import type { TranslationKey } from '../lib/i18n';
 
-const NAV_LINKS = [
-  { label: 'Home', to: '/' },
-  { label: 'Modules', to: '/modules' },
-  { label: 'Companion', to: '/companion' },
-  { label: 'Challenges', to: '/challenges' },
-  { label: 'Leaderboard', to: '/leaderboard' },
-  { label: 'Dashboard', to: '/dashboard' },
-  { label: 'Reference', to: '/reference' },
+const NAV_LINKS: { key: TranslationKey; to: string }[] = [
+  { key: 'nav.home', to: '/' },
+  { key: 'nav.modules', to: '/modules' },
+  { key: 'nav.companion', to: '/companion' },
+  { key: 'nav.challenges', to: '/challenges' },
+  { key: 'nav.leaderboard', to: '/leaderboard' },
+  { key: 'nav.dashboard', to: '/dashboard' },
+  { key: 'nav.reference', to: '/reference' },
 ];
 
 export default function Nav({ onOpenTutorial }: { onOpenTutorial: () => void }) {
@@ -19,6 +21,7 @@ export default function Nav({ onOpenTutorial }: { onOpenTutorial: () => void }) 
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
   const location = useLocation();
+  const { t } = useAccessibility();
 
   const isActive = (to: string) =>
     to === '/' ? location.pathname === '/' : location.pathname.startsWith(to);
@@ -64,9 +67,19 @@ export default function Nav({ onOpenTutorial }: { onOpenTutorial: () => void }) 
                   : 'text-white/70 hover:text-white'
               }`}
             >
-              {link.label}
+              {t(link.key)}
             </Link>
           ))}
+          <Link
+            to="/settings"
+            aria-label="Accessibility settings"
+            title="Accessibility settings"
+            className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
+              isActive('/settings') ? 'text-sky-300 bg-white/5' : 'text-white/50 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <Accessibility className="w-4 h-4" />
+          </Link>
           <button
             type="button"
             onClick={onOpenTutorial}
@@ -81,7 +94,7 @@ export default function Nav({ onOpenTutorial }: { onOpenTutorial: () => void }) 
             to="/profile"
             className="bg-white text-black text-sm font-medium px-5 py-2 rounded-full hover:bg-white/90 ml-2"
           >
-            My Profile
+            {t('nav.myProfile')}
           </Link>
         </div>
 
@@ -150,7 +163,7 @@ export default function Nav({ onOpenTutorial }: { onOpenTutorial: () => void }) 
                     className="text-white text-2xl font-light"
                     onClick={() => setIsOpen(false)}
                   >
-                    {link.label}
+                    {t(link.key)}
                   </Link>
                 </motion.div>
               ))}
@@ -165,7 +178,7 @@ export default function Nav({ onOpenTutorial }: { onOpenTutorial: () => void }) 
                   onClick={() => setIsOpen(false)}
                   className="inline-block bg-white text-black text-lg font-medium px-8 py-3 rounded-full mt-4"
                 >
-                  My Profile
+                  {t('nav.myProfile')}
                 </Link>
               </motion.div>
               <motion.div
@@ -191,6 +204,21 @@ export default function Nav({ onOpenTutorial }: { onOpenTutorial: () => void }) 
                 <HelpCircle className="w-4 h-4" />
                 Site tutorial
               </motion.button>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ delay: 0.55 }}
+              >
+                <Link
+                  to="/settings"
+                  onClick={() => setIsOpen(false)}
+                  className="inline-flex items-center gap-2 text-white/50 text-sm"
+                >
+                  <Accessibility className="w-4 h-4" />
+                  Accessibility settings
+                </Link>
+              </motion.div>
             </div>
           </div>
         )}

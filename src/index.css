@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -132,4 +134,58 @@ body {
     animation: none !important;
     opacity: 0 !important;
   }
+}
+
+/* Accessibility: Settings page, applied via a class on <html> so every
+   page picks it up without each component knowing about it. */
+
+html.dyslexia-font body {
+  font-family: 'Lexend', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* Broad-brush by design: the site leans on low-opacity white/blue text and
+   borders for depth, which is exactly what low vision or bright-room
+   viewing struggles with. Rather than re-tune every component by hand,
+   this catches the utility classes that cause it wherever they appear.
+
+   Scoped to main/nav/footer only, not the page root: the fixed decorative
+   backdrop (drifting code, binary rain) is deliberately near-invisible and
+   aria-hidden, and sits as a sibling of <main>, not inside it. Without this
+   scoping, high contrast makes that ambient layer blare at full brightness
+   instead of leaving it alone. */
+html.high-contrast main [class*='text-white/'],
+html.high-contrast nav [class*='text-white/'],
+html.high-contrast footer [class*='text-white/'] {
+  color: rgba(255, 255, 255, 0.94) !important;
+}
+html.high-contrast main [class*='border-white/'],
+html.high-contrast nav [class*='border-white/'],
+html.high-contrast footer [class*='border-white/'] {
+  border-color: rgba(255, 255, 255, 0.45) !important;
+}
+html.high-contrast main [class*='text-sky-'],
+html.high-contrast nav [class*='text-sky-'],
+html.high-contrast footer [class*='text-sky-'] {
+  color: #7dd3fc !important;
+}
+html.high-contrast main [class*='border-sky-'],
+html.high-contrast nav [class*='border-sky-'],
+html.high-contrast footer [class*='border-sky-'] {
+  border-color: #38bdf8 !important;
+}
+
+/* Light Mode: a real filter-based color inversion, the same trick behind
+   the browser/OS "invert colors" accessibility feature (Chrome, Android,
+   macOS all do this) rather than a hand-built second palette. invert(1)
+   flips every color; hue-rotate(180deg) after it un-rotates the hue so the
+   site's blue reads as blue again instead of the muddy orange a plain
+   invert(1) produces. Video/canvas are re-inverted so playback and the
+   particle/orb visuals don't turn into photonegatives. No transition on
+   `filter`: this should flip instantly, not fade. */
+html.light-mode {
+  filter: invert(1) hue-rotate(180deg);
+}
+html.light-mode video,
+html.light-mode canvas {
+  filter: invert(1) hue-rotate(180deg);
 }
