@@ -6,6 +6,7 @@ import ArticleStep from './lesson/ArticleStep';
 import FlashcardsStep from './lesson/FlashcardsStep';
 import QuizStep from './lesson/QuizStep';
 import RoyaleDemoFrame from './RoyaleDemoFrame';
+import NeuronBackdrop from './NeuronBackdrop';
 
 const noop = () => {};
 const demoModule = MODULES[0];
@@ -70,11 +71,8 @@ export default function HowItWorksShowcase() {
 
   return (
     <div>
-      <div
-        className="relative w-full h-[560px] sm:h-[600px] md:h-[640px] rounded-3xl overflow-hidden flex items-center justify-center p-6 sm:p-10"
-        style={{ backgroundImage: "url('/background.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}
-      >
-        <div className="absolute inset-0 bg-black/30" />
+      <div className="relative w-full h-[560px] sm:h-[600px] md:h-[640px] rounded-3xl overflow-hidden flex items-center justify-center p-6 sm:p-10">
+        <NeuronBackdrop />
 
         <motion.div
           key={slide.key}
