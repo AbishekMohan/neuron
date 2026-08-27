@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Award, Lock, Flame } from 'lucide-react';
 import { useProgress } from '../context/ProgressContext';
 import { useProfile } from '../context/ProfileContext';
+import { useAccessibility } from '../context/AccessibilityContext';
 import { BADGES } from '../data/badges';
 import ProgressBar from './ProgressBar';
 import FAQ, { type FAQItem } from './FAQ';
@@ -57,6 +58,7 @@ const FAQ_ITEMS: FAQItem[] = [
 export default function HeroContent() {
   const { xp, level, earnedBadgeIds } = useProgress();
   const { profile } = useProfile();
+  const { t } = useAccessibility();
 
   return (
     <div>
@@ -73,29 +75,28 @@ export default function HeroContent() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start w-full">
           <div>
             <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light leading-[1.1] tracking-tight">
-              Understand AI.
+              {t('hero.line1')}
               <br />
-              Use it wisely.
+              {t('hero.line2')}
               <br />
-              Think critically.
+              {t('hero.line3')}
             </h1>
             <p className="text-white/50 text-sm mt-6 font-light max-w-md">
-              A free, interactive AI literacy course for high school students, covering the fundamentals,
-              practical tools, and ethical use. No coding or prior experience required.
+              {t('hero.subtitle')}
             </p>
             <div className="flex flex-wrap items-center gap-3 mt-8">
               <Link
                 to="/modules"
                 className="inline-flex items-center gap-2 bg-white text-black text-sm font-medium px-6 py-3 rounded-full hover:bg-white/90 transition-colors"
               >
-                Start Learning
+                {t('hero.startLearning')}
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 to="/reference"
                 className="inline-flex items-center gap-2 text-white/50 hover:text-white text-sm px-4 py-3 transition-colors"
               >
-                See our sources
+                {t('hero.seeSources')}
               </Link>
             </div>
           </div>

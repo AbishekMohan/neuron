@@ -25,6 +25,8 @@ import DebugTheAI from './pages/DebugTheAI';
 import EthicsStory from './pages/EthicsStory';
 import ToolCompare from './pages/ToolCompare';
 import AdaptiveQuiz from './pages/AdaptiveQuiz';
+import AccessibilitySettings from './pages/AccessibilitySettings';
+import AccessibilityGuide from './pages/AccessibilityGuide';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -56,6 +58,7 @@ function App() {
       <CodeBackdrop />
       <Nav onOpenTutorial={() => setTutorialOpen(true)} />
 
+      <main>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/modules" element={<ModulesOverview />} />
@@ -79,8 +82,11 @@ function App() {
         <Route path="/challenges/ethics-story" element={<EthicsStory />} />
         <Route path="/challenges/adaptive" element={<AdaptiveQuiz />} />
         <Route path="/tools" element={<ToolCompare />} />
+        <Route path="/settings" element={<AccessibilitySettings />} />
+        <Route path="/accessibility-guide" element={<AccessibilityGuide />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </main>
 
       <Footer />
       <Tutorial open={tutorialOpen} onClose={() => setTutorialOpen(false)} />
