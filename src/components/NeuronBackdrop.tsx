@@ -21,6 +21,16 @@ const NODE_COUNT = 80;
 const LINK_DIST = 165;
 const PULSE_SPAWN_MS = 200;
 
+// Deterministic 0..1 "random" from a pair of indices (classic GLSL-style
+// hash). Links are recomputed from live node positions every frame rather
+// than stored, so each curve's bend has to be re-derivable from (i, j)
+// alone, or it would flicker between straight and curved every frame
+// instead of reading as one continuous, gently wriggling thread.
+function hashPair(i: number, j: number): number {
+  const h = Math.sin(i * 12.9898 + j * 78.233) * 43758.5453;
+  return h - Math.floor(h);
+}
+
 function useReducedMotion() {
   const ref = useRef(false);
   useEffect(() => {
@@ -80,7 +90,7 @@ export default function NeuronBackdrop() {
       pulses = [];
     };
 
-    const drawFrame = () => {
+    const drawFrame = (now: number) => {
       const bg = ctx.createRadialGradient(width * 0.5, height * 0.4, 0, width * 0.5, height * 0.4, Math.max(width, height) * 0.8);
       bg.addColorStop(0, '#0b1c40');
       bg.addColorStop(0.6, '#020817');
@@ -89,21 +99,34 @@ export default function NeuronBackdrop() {
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, width, height);
 
-      // Links between nearby nodes, fading with distance and brightened
-      // slightly by how "near" (depth) the pair is.
+      // Links between nearby nodes, drawn as gently bowed curves rather
+      // than straight segments so the network reads as tangled organic
+      // threads (like real neuron/dendrite photos) instead of a geometric
+      // wireframe. Each pair's bend direction and magnitude come from a
+      // deterministic hash of (i, j), not Math.random(), so a given link
+      // curves the same way every frame; a slow sine wobble on top of that
+      // is what makes it feel alive instead of frozen.
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
+          const dx = nodes[j].x - nodes[i].x;
+          const dy = nodes[j].y - nodes[i].y;
           const dist = Math.hypot(dx, dy);
           if (dist > LINK_DIST) continue;
           const near = (nodes[i].depth + nodes[j].depth) / 2;
           const alpha = (1 - dist / LINK_DIST) * (0.1 + near * 0.28);
+
+          const seed = hashPair(i, j);
+          const side = seed > 0.5 ? 1 : -1;
+          const wobble = Math.sin(now * 0.00035 + seed * 30) * 0.12;
+          const bend = dist * (0.14 + seed * 0.22 + wobble) * side;
+          const midX = (nodes[i].x + nodes[j].x) / 2 - (dy / dist) * bend;
+          const midY = (nodes[i].y + nodes[j].y) / 2 + (dx / dist) * bend;
+
           ctx.strokeStyle = `rgba(103, 190, 248, ${alpha})`;
           ctx.lineWidth = 0.6 + near * 0.7;
           ctx.beginPath();
           ctx.moveTo(nodes[i].x, nodes[i].y);
-          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.quadraticCurveTo(midX, midY, nodes[j].x, nodes[j].y);
           ctx.stroke();
         }
       }
@@ -181,12 +204,12 @@ export default function NeuronBackdrop() {
       pulses = pulses.filter((p) => p.t < 1);
       for (const p of pulses) p.t += p.speed;
 
-      drawFrame();
+      drawFrame(now);
       raf = requestAnimationFrame(step);
     };
 
     seed();
-    drawFrame();
+    drawFrame(0);
 
     if (!reducedMotion.current) {
       raf = requestAnimationFrame(step);
@@ -194,7 +217,7 @@ export default function NeuronBackdrop() {
 
     const onResize = () => {
       seed();
-      drawFrame();
+      drawFrame(performance.now());
     };
     window.addEventListener('resize', onResize);
 
