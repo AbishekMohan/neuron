@@ -179,13 +179,36 @@ html.high-contrast footer [class*='border-sky-'] {
    macOS all do this) rather than a hand-built second palette. invert(1)
    flips every color; hue-rotate(180deg) after it un-rotates the hue so the
    site's blue reads as blue again instead of the muddy orange a plain
-   invert(1) produces. Video/canvas are re-inverted so playback and the
-   particle/orb visuals don't turn into photonegatives. No transition on
-   `filter`: this should flip instantly, not fade. */
+   invert(1) produces. No transition on `filter`: this should flip
+   instantly, not fade.
+
+   video/canvas/.liquid-glass carry the SAME filter a second time. A nested
+   element's own filter re-processes its already-rendered subtree before
+   the ancestor's filter ever sees it, so applying the identical filter
+   twice cancels out for that subtree specifically: it keeps rendering in
+   its original dark-mode colors while the rest of the page inverts to
+   light. That's required for video/canvas (so playback and the orb/
+   particle visuals don't turn into photonegatives), and for .liquid-glass
+   too: its frosted-glass look leans on translucent WHITE overlays for
+   contrast against a dark page, which would otherwise flip to translucent
+   BLACK overlays under a page-wide inversion, leaving dark text on a
+   now-also-dark card. Exempting it keeps every glass panel internally
+   consistent, a small dark "device window" floating on the light page,
+   instead of turning illegible.
+
+   .device-window (the "How it works" showcase frame) is the one spot
+   where a canvas backdrop and a .liquid-glass card sit nested inside each
+   other. Giving both their own independent exemption there compounds into
+   a washed-out mess instead of clean cancellation, so :not(.device-window
+   *) opts them out of the generic rule and .device-window gets a single
+   exemption for its whole subtree instead: canvas, card, and text all
+   cancel out together as one unit. */
 html.light-mode {
   filter: invert(1) hue-rotate(180deg);
 }
-html.light-mode video,
-html.light-mode canvas {
+html.light-mode video:not(.device-window *),
+html.light-mode canvas:not(.device-window *),
+html.light-mode .liquid-glass:not(.device-window *),
+html.light-mode .device-window {
   filter: invert(1) hue-rotate(180deg);
 }
