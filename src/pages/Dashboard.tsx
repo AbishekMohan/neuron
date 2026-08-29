@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { RotateCcw, Brain, Wrench, Scale, Globe, Palette, Rocket, Leaf, Cloud, CloudOff, Loader2, Trophy, UserCircle, Flame } from 'lucide-react';
-import { MODULES } from '../data/modules';
+import { getLocalizedModules } from '../data/modules';
 import { BADGES, type Badge } from '../data/badges';
 import { useAuth } from '../context/AuthContext';
 import { useProfile } from '../context/ProfileContext';
 import { useProgress } from '../context/ProgressContext';
+import { useAccessibility } from '../context/AccessibilityContext';
 import { getMasteryLevel } from '../lib/mastery';
 import ProgressBar from '../components/ProgressBar';
 import Badge3D from '../components/Badge3D';
@@ -51,6 +52,8 @@ export default function Dashboard() {
   const { profile } = useProfile();
   const { xp, totalXpPossible, level, moduleProgress, earnedBadgeIds, badgeEarnedAt, completedSteps, resetProgress } =
     useProgress();
+  const { language } = useAccessibility();
+  const localizedModules = getLocalizedModules(language);
   const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
 
   const handleReset = () => {
@@ -129,7 +132,7 @@ export default function Dashboard() {
           <div className="md:col-span-2 md:pl-8">
             <p className="text-white/40 text-xs uppercase tracking-widest mb-4">Module mastery</p>
             <div className="flex flex-col gap-5">
-              {MODULES.map((mod) => {
+              {localizedModules.map((mod) => {
                 const Icon = ICONS[mod.icon];
                 const progress = moduleProgress[mod.id];
                 const mastery = getMasteryLevel(mod.id, completedSteps);

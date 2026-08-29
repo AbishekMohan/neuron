@@ -1,6 +1,16 @@
 import { FileText, Layers, Video as VideoIcon, Gamepad2, ClipboardCheck, CheckCircle2, Circle, Lock } from 'lucide-react';
-import { STEP_ORDER, STEP_LABELS, type StepId } from '../../data/modules';
+import { STEP_ORDER, type StepId } from '../../data/modules';
 import ProgressBar from '../ProgressBar';
+import { useAccessibility } from '../../context/AccessibilityContext';
+import type { TranslationKey } from '../../lib/i18n';
+
+const STEP_LABEL_KEYS: Record<StepId, TranslationKey> = {
+  article: 'step.article',
+  flashcards: 'step.flashcards',
+  video: 'step.video',
+  game: 'step.game',
+  quiz: 'step.quiz',
+};
 
 const STEP_ICONS: Record<StepId, typeof FileText> = {
   article: FileText,
@@ -31,6 +41,7 @@ export default function StepSidebar({
   completedCount,
   xpEarned,
 }: StepSidebarProps) {
+  const { t } = useAccessibility();
   return (
     <>
       {/* Desktop: sticky vertical checklist */}
@@ -62,7 +73,7 @@ export default function StepSidebar({
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5 shrink-0" strokeWidth={1.75} />
-                  <span className="flex-1">{STEP_LABELS[step]}</span>
+                  <span className="flex-1">{t(STEP_LABEL_KEYS[step])}</span>
                   {locked ? (
                     <Lock className="w-3.5 h-3.5 shrink-0 text-white/25" />
                   ) : complete ? (
@@ -106,7 +117,7 @@ export default function StepSidebar({
                   }`}
                 >
                   <Icon className="w-3 h-3" strokeWidth={1.75} />
-                  {STEP_LABELS[step]}
+                  {t(STEP_LABEL_KEYS[step])}
                   {locked ? (
                     <Lock className="w-3 h-3 text-white/25" />
                   ) : complete ? (

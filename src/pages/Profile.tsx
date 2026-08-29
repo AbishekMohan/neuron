@@ -4,7 +4,8 @@ import { Loader2, UserCircle, Trophy, Flame, Brain, Wrench, Scale, Globe, Palett
 import { useAuth } from '../context/AuthContext';
 import { useProfile, AVATAR_COLORS } from '../context/ProfileContext';
 import { useProgress } from '../context/ProgressContext';
-import { MODULES } from '../data/modules';
+import { MODULES, getLocalizedModules } from '../data/modules';
+import { useAccessibility } from '../context/AccessibilityContext';
 import { BADGES, type ModuleProgress } from '../data/badges';
 import { getLevel } from '../lib/level';
 import { getMasteryLevel } from '../lib/mastery';
@@ -72,6 +73,8 @@ function ProfileStats({
 }) {
   const level = getLevel(xp);
   const joined = new Date(joinedAt);
+  const { language } = useAccessibility();
+  const localizedModules = getLocalizedModules(language);
 
   return (
     <div className="max-w-3xl">
@@ -122,7 +125,7 @@ function ProfileStats({
       <div className="mt-10 pt-8 border-t border-white/10">
         <p className="text-white/40 text-xs uppercase tracking-widest mb-4">Module mastery</p>
         <div className="flex flex-col gap-4">
-          {MODULES.map((mod) => {
+          {localizedModules.map((mod) => {
             const Icon = ICONS[mod.icon];
             const progress = moduleProgress[mod.id];
             return (

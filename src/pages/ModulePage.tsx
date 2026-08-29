@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Brain, Wrench, Scale, Globe, Palette, Rocket, Leaf, Undo2 } from 'lucide-react';
-import { MODULES, getModule, XP, STEP_ORDER, type StepId } from '../data/modules';
+import { MODULES, getLocalizedModule, XP, STEP_ORDER, type StepId } from '../data/modules';
 import { useProgress } from '../context/ProgressContext';
+import { useAccessibility } from '../context/AccessibilityContext';
 import ProgressBar from '../components/ProgressBar';
 import StepSidebar from '../components/lesson/StepSidebar';
 import ArticleStep from '../components/lesson/ArticleStep';
@@ -20,7 +21,8 @@ const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palett
 
 export default function ModulePage() {
   const { moduleId } = useParams<{ moduleId: string }>();
-  const mod = moduleId ? getModule(moduleId) : undefined;
+  const { language } = useAccessibility();
+  const mod = moduleId ? getLocalizedModule(moduleId, language) : undefined;
   const { isStepComplete, completeStep, isModuleUnlocked, quizAttempts, submitQuiz, moduleProgress } = useProgress();
   const [currentStep, setCurrentStep] = useState<StepId>('article');
   const [gameMode, setGameMode] = useState<GameMode | null>(null);
@@ -46,7 +48,8 @@ export default function ModulePage() {
   const Icon = ICONS[mod.icon];
   const progress = moduleProgress[mod.id];
   const modIndex = MODULES.findIndex((m) => m.id === mod.id);
-  const nextModule = MODULES[modIndex + 1];
+  const nextModuleId = MODULES[modIndex + 1]?.id;
+  const nextModule = nextModuleId ? getLocalizedModule(nextModuleId, language) : undefined;
   const quizUnlocked = isModuleUnlocked(mod.id);
   const bestAttempt = quizAttempts[mod.id];
 

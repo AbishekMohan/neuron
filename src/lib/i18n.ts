@@ -40,7 +40,17 @@ export type TranslationKey =
   | 'settings.language'
   | 'settings.languageHint'
   | 'settings.screenReader'
-  | 'settings.screenReaderGuideLink';
+  | 'settings.screenReaderGuideLink'
+  | 'curriculum.eyebrow'
+  | 'curriculum.heading'
+  | 'curriculum.module'
+  | 'curriculum.keepScrolling'
+  | 'curriculum.scrollToContinue'
+  | 'step.article'
+  | 'step.flashcards'
+  | 'step.video'
+  | 'step.game'
+  | 'step.quiz';
 
 const DICT: Record<TranslationKey, Record<Language, string>> = {
   'nav.home': { en: 'Home', es: 'Inicio', zh: '首页', hi: 'होम' },
@@ -101,6 +111,28 @@ const DICT: Record<TranslationKey, Record<Language, string>> = {
     zh: '完整的屏幕阅读器与键盘指南 →',
     hi: 'पूरी स्क्रीन रीडर और कीबोर्ड गाइड →',
   },
+
+  'curriculum.eyebrow': { en: 'Curriculum', es: 'Plan de estudios', zh: '课程', hi: 'पाठ्यक्रम' },
+  'curriculum.heading': {
+    en: 'Seven modules, from fundamentals to the future.',
+    es: 'Siete módulos, desde los fundamentos hasta el futuro.',
+    zh: '七个模块,从基础到未来。',
+    hi: 'सात मॉड्यूल, बुनियादी बातों से लेकर भविष्य तक।',
+  },
+  'curriculum.module': { en: 'Module', es: 'Módulo', zh: '模块', hi: 'मॉड्यूल' },
+  'curriculum.keepScrolling': {
+    en: 'Keep scrolling to see every module',
+    es: 'Sigue desplazándote para ver todos los módulos',
+    zh: '继续滚动查看每个模块',
+    hi: 'हर मॉड्यूल देखने के लिए स्क्रॉल करते रहें',
+  },
+  'curriculum.scrollToContinue': { en: 'Scroll to continue', es: 'Desplázate para continuar', zh: '滚动以继续', hi: 'जारी रखने के लिए स्क्रॉल करें' },
+
+  'step.article': { en: 'Article', es: 'Artículo', zh: '文章', hi: 'लेख' },
+  'step.flashcards': { en: 'Flashcards', es: 'Tarjetas', zh: '抽认卡', hi: 'फ़्लैशकार्ड' },
+  'step.video': { en: 'Video', es: 'Video', zh: '视频', hi: 'वीडियो' },
+  'step.game': { en: 'Mini-game', es: 'Minijuego', zh: '小游戏', hi: 'मिनी-गेम' },
+  'step.quiz': { en: 'Quiz', es: 'Cuestionario', zh: '测验', hi: 'क्विज़' },
 };
 
 export function translate(key: TranslationKey, language: Language): string {

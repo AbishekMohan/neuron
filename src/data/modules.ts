@@ -3,6 +3,9 @@
 // in article sections, flashcards, game cards, and quiz explanations is
 // tagged with a sourceId resolving against src/data/sources.ts: nothing
 // here is asserted without a citation.
+import { localizeModule } from '../lib/localizeModule';
+import { MODULE_TRANSLATIONS } from './modules.translations';
+import type { Language } from '../lib/i18n';
 
 export type InlineQuestion = {
   id: string;
@@ -1472,6 +1475,21 @@ export const MODULES: Module[] = [
 
 export function getModule(moduleId: string) {
   return MODULES.find((m) => m.id === moduleId);
+}
+
+// Language-aware variant of getModule/MODULES, for anywhere a module's
+// display text (title, article, flashcards, quiz, game) reaches the
+// screen. 'en' (and any module not yet in modules.translations.ts) is
+// just the plain English module — see localizeModule.ts for the merge and
+// fallback behavior.
+export function getLocalizedModule(moduleId: string, language: Language) {
+  const mod = getModule(moduleId);
+  if (!mod) return undefined;
+  return language === 'en' ? mod : localizeModule(mod, language, MODULE_TRANSLATIONS[language]);
+}
+
+export function getLocalizedModules(language: Language): Module[] {
+  return language === 'en' ? MODULES : MODULES.map((m) => localizeModule(m, language, MODULE_TRANSLATIONS[language]));
 }
 
 export function getAllStepIds() {

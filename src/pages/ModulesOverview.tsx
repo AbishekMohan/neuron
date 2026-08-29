@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Brain, Wrench, Scale, Globe, Palette, Rocket, Leaf, ArrowRight, List, GitBranch } from 'lucide-react';
-import { MODULES } from '../data/modules';
+import { MODULES, getLocalizedModules } from '../data/modules';
 import { useProgress } from '../context/ProgressContext';
+import { useAccessibility } from '../context/AccessibilityContext';
 import { getMasteryLevel } from '../lib/mastery';
 import ProgressBar from '../components/ProgressBar';
 import MasteryPill from '../components/MasteryPill';
@@ -16,7 +17,8 @@ const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palett
 const GLOW_COLORS = ['#38bdf8', '#3b82f6', '#7dd3fc'];
 
 function ModuleRow({ index, isNext }: { index: number; isNext: boolean }) {
-  const mod = MODULES[index];
+  const { language } = useAccessibility();
+  const mod = getLocalizedModules(language)[index];
   const Icon = ICONS[mod.icon];
   const { moduleProgress, completedSteps } = useProgress();
   const progress = moduleProgress[mod.id];

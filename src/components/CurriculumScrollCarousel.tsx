@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Brain, Wrench, Scale, Globe, Palette, Rocket, Leaf } from 'lucide-react';
-import { MODULES } from '../data/modules';
+import { MODULES, getLocalizedModules } from '../data/modules';
+import { useAccessibility } from '../context/AccessibilityContext';
 
 const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket, leaf: Leaf };
 
@@ -23,6 +24,8 @@ export default function CurriculumScrollCarousel() {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [pinned, setPinned] = useState(false);
+  const { language, t } = useAccessibility();
+  const localizedModules = getLocalizedModules(language);
 
   useEffect(() => {
     // Runs directly on the scroll event rather than deferring through
@@ -65,8 +68,8 @@ export default function CurriculumScrollCarousel() {
     <div ref={wrapperRef} className="relative" style={{ height: `${MODULES.length * 100}vh` }}>
       <section className="sticky top-0 h-screen w-full overflow-hidden border-t border-white/5 flex flex-col items-center justify-center px-6">
         <div className="max-w-2xl mx-auto text-center mb-12">
-          <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Curriculum</p>
-          <h2 className="text-white text-2xl sm:text-3xl font-light tracking-tight">Seven modules, from fundamentals to the future.</h2>
+          <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">{t('curriculum.eyebrow')}</p>
+          <h2 className="text-white text-2xl sm:text-3xl font-light tracking-tight">{t('curriculum.heading')}</h2>
         </div>
 
         <div
@@ -77,7 +80,7 @@ export default function CurriculumScrollCarousel() {
             WebkitMaskImage: 'linear-gradient(to right, transparent, black 12%, black 88%, transparent)',
           }}
         >
-          {MODULES.map((mod, i) => {
+          {localizedModules.map((mod, i) => {
             const Icon = ICONS[mod.icon];
             const offset = i - activeIndex;
             const isActive = offset === 0;
@@ -125,7 +128,9 @@ export default function CurriculumScrollCarousel() {
                   >
                     <div className="flex items-center gap-2 mb-3">
                       <Icon className="w-4 h-4 text-sky-300 shrink-0" strokeWidth={1.5} />
-                      <span className="text-white/30 text-xs">Module {i + 1}</span>
+                      <span className="text-white/30 text-xs">
+                        {t('curriculum.module')} {i + 1}
+                      </span>
                     </div>
                     <p className="text-white text-sm font-normal mb-1 group-hover:text-sky-300 transition-colors">{mod.title}</p>
                     <p className="text-white/40 text-xs font-light leading-relaxed">{mod.tagline}</p>
@@ -151,7 +156,7 @@ export default function CurriculumScrollCarousel() {
         </div>
 
         <motion.p className="text-white/25 text-xs mt-6" animate={{ opacity: pinned ? 1 : 0 }} transition={{ duration: 0.3 }}>
-          {activeIndex < MODULES.length - 1 ? 'Keep scrolling to see every module' : 'Scroll to continue'}
+          {activeIndex < MODULES.length - 1 ? t('curriculum.keepScrolling') : t('curriculum.scrollToContinue')}
         </motion.p>
       </section>
     </div>
