@@ -800,7 +800,7 @@ export const MODULES: Module[] = [
       },
       video: {
         title: 'AI in the Real World',
-        embedUrl: null,
+        embedUrl: '/videos/ai-in-the-real-world.mp4',
         description: 'Real examples of AI in healthcare, transportation, and finance: and the careers behind building it responsibly.',
       },
       game: {
@@ -978,7 +978,7 @@ export const MODULES: Module[] = [
       },
       video: {
         title: 'AI & Creativity',
-        embedUrl: null,
+        embedUrl: '/videos/ai-and-creativity.mp4',
         description: 'A visual explanation of diffusion models and the current legal landscape around AI-generated creative work.',
       },
       game: {
@@ -1157,7 +1157,7 @@ export const MODULES: Module[] = [
       },
       video: {
         title: 'The Future of AI',
-        embedUrl: null,
+        embedUrl: '/videos/the-future-of-ai.mp4',
         description: 'Current research frontiers, the AGI debate among experts, and why AI safety is a serious, active research field.',
       },
       game: {
@@ -1370,7 +1370,7 @@ export const MODULES: Module[] = [
       },
       video: {
         title: 'Sustainable & Efficient AI',
-        embedUrl: null,
+        embedUrl: '/videos/sustainable-and-efficient-ai.mp4',
         description: 'Covers the real energy and carbon cost of training and running AI models, and research into more efficient hardware.',
       },
       game: {

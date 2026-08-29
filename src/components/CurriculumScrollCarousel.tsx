@@ -105,7 +105,10 @@ export default function CurriculumScrollCarousel() {
                     // invert-cancel trick (index.css) has nothing correct to cancel
                     // — the card renders washed out instead of its intended dark
                     // glass panel. Only the far, near-invisible cards (opacity 0.2)
-                    // that are actually meant to look blurred pay that cost.
+                    // that are actually meant to look blurred pay that cost. (This
+                    // no longer matters for Light Mode specifically — see the
+                    // .curriculum-card note in index.css — but still matters for
+                    // .liquid-glass's ordinary backdrop-filter in dark mode.)
                     filter: abs >= 2 ? 'blur(6px)' : 'none',
                   }}
                   transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
@@ -118,7 +121,7 @@ export default function CurriculumScrollCarousel() {
                         goTo(i);
                       }
                     }}
-                    className={`group block rounded-2xl liquid-glass p-5 transition-shadow ${isActive ? 'shadow-lg shadow-sky-500/10' : ''}`}
+                    className={`group block rounded-2xl liquid-glass curriculum-card p-5 transition-shadow ${isActive ? 'shadow-lg shadow-sky-500/10' : ''}`}
                   >
                     <div className="flex items-center gap-2 mb-3">
                       <Icon className="w-4 h-4 text-sky-300 shrink-0" strokeWidth={1.5} />

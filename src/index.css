@@ -205,13 +205,41 @@ html.high-contrast :is([class^='border-sky-'], [class*=' border-sky-']):not(.dec
    a washed-out mess instead of clean cancellation, so :not(.device-window
    *) opts them out of the generic rule and .device-window gets a single
    exemption for its whole subtree instead: canvas, card, and text all
-   cancel out together as one unit. */
+   cancel out together as one unit.
+
+   .decorative-backdrop (CodeBackdrop's ambient code/binary layer) gets the
+   same cancellation, for the same reason as .liquid-glass: it's built out
+   of very-low-opacity white/blue text meant to read as barely-there
+   atmosphere against a dark page. Left un-exempted, that low-opacity text
+   composites against the (still dark, pre-filter) page behind it into a
+   near-black pixel, and inverting near-black lands on a pale, slightly
+   tinted off-white instead of true white — visibly different from the
+   page's actual (pure white) background, so the "invisible" atmosphere
+   becomes a distracting haze covering the whole page. Cancelling it keeps
+   it exactly as faint in Light Mode as it already is in dark mode.
+
+   :not(.curriculum-card) opts the "Seven modules" scroll carousel's cards
+   out of this cancellation (CurriculumScrollCarousel.tsx). Those cards
+   already sit under a framer-motion wrapper animating `transform` and
+   `opacity` (for the scale/fade/scroll-through effect), and stacking this
+   element's own cancel-filter underneath THAT turned out to compose
+   unreliably in practice — verified with real headless-browser
+   screenshots, not just reasoned about: cards intermittently rendered as
+   near-invisible pale text on a pale card instead of cancelling cleanly.
+   Rather than chase that interaction further, these cards skip the
+   exemption entirely and go through the single, ordinary page-wide
+   inversion like plain text — turning their normal dark-mode look (dark
+   card, white text) into a plain light card with black text. That's a
+   flatter look than the frosted "dark device window" .liquid-glass gets
+   everywhere else, but it's simple, robust, and exactly as legible as
+   the rest of the page. */
 html.light-mode {
   filter: invert(1) hue-rotate(180deg);
 }
 html.light-mode video:not(.device-window *),
-html.light-mode canvas:not(.device-window *),
-html.light-mode .liquid-glass:not(.device-window *),
+html.light-mode canvas:not(.device-window *):not(.letter-glitch-canvas),
+html.light-mode .decorative-backdrop,
+html.light-mode .liquid-glass:not(.device-window *):not(.curriculum-card),
 html.light-mode .device-window {
   filter: invert(1) hue-rotate(180deg);
 }

@@ -195,7 +195,23 @@ export default function LetterGlitch({
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }} className={className}>
-      <canvas ref={canvasRef} style={{ display: 'block', width: '100%', height: '100%' }} />
+      {/* letter-glitch-canvas opts this out of index.css's general canvas
+          exemption from Light Mode's page-wide color inversion. That
+          exemption exists so things like video playback and particle
+          visuals keep their real colors instead of turning into a
+          photonegative — but this canvas draws deliberately dark,
+          near-invisible atmospheric glyphs (glitchColors are all dark
+          navy/blue) meant to all but disappear against a black page.
+          Preserving those exact colors when the page goes light does the
+          opposite of that intent: dark text on a white page reads as
+          sharp and prominent instead of subtle. Letting it invert
+          normally, like ordinary page content, keeps it equally faint in
+          both themes. */}
+      <canvas
+        ref={canvasRef}
+        className="letter-glitch-canvas"
+        style={{ display: 'block', width: '100%', height: '100%' }}
+      />
       {outerVignette && (
         <div
           style={{
