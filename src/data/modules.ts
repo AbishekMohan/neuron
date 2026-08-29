@@ -206,7 +206,7 @@ export const MODULES: Module[] = [
       },
       video: {
         title: 'AI Fundamentals',
-        embedUrl: null,
+        embedUrl: '/videos/ai-fundamentals.mp4',
         description: 'A short explainer walking through narrow vs. general AI, machine learning, and how neural networks learn.',
       },
       game: {
@@ -409,7 +409,7 @@ export const MODULES: Module[] = [
       },
       video: {
         title: 'Practical AI Tools & Techniques',
-        embedUrl: null,
+        embedUrl: '/videos/practical-ai-tools.mp4',
         description: 'A walkthrough of writing effective prompts and a real example of an AI hallucination causing real-world harm.',
       },
       game: {
@@ -606,7 +606,7 @@ export const MODULES: Module[] = [
       },
       video: {
         title: 'Ethical AI Usage',
-        embedUrl: null,
+        embedUrl: '/videos/ethical-ai-usage.mp4',
         description: 'Covers academic integrity, documented bias in real AI systems, and how to spot deepfakes.',
       },
       game: {
