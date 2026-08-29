@@ -14,10 +14,9 @@ const SECTIONS = [
     title: '2. Using the accessibility settings',
     body: [
       'The accessibility icon (a wheelchair symbol) in the top navigation bar opens the Settings page.',
-      'Light Mode switches to a light background instead of the default dark theme, using the same trick as your browser or system’s built-in invert-colors feature.',
-      'High Contrast Mode brightens dim text and faint borders across the site.',
-      'Dyslexia-Friendly Font switches body text to Lexend, a typeface studied for reading proficiency.',
-      'Every toggle is independent, applies immediately with no page reload, and is remembered the next time you visit.',
+      'Light Mode switches to a light background instead of the default dark theme, using the same trick as your browser or system’s built-in invert-colors feature. It’s a toggle: turn it on or off, and the choice is remembered the next time you visit.',
+      'High Contrast Mode brightens dim text and faint borders across the site, and Dyslexia-Friendly Font switches body text to Lexend, a typeface studied for reading proficiency. Both are on for everyone by default now, site-wide, with no off switch — not preferences to opt into.',
+      'Every setting applies immediately, with no page reload.',
     ],
   },
   {

@@ -205,8 +205,8 @@ export const MODULES: Module[] = [
         ],
       },
       video: {
-        title: 'What Is AI, Really?',
-        embedUrl: null,
+        title: 'AI Fundamentals',
+        embedUrl: '/videos/ai-fundamentals.mp4',
         description: 'A short explainer walking through narrow vs. general AI, machine learning, and how neural networks learn.',
       },
       game: {
@@ -408,8 +408,8 @@ export const MODULES: Module[] = [
         ],
       },
       video: {
-        title: 'Prompting and Verifying AI Tools',
-        embedUrl: null,
+        title: 'Practical AI Tools & Techniques',
+        embedUrl: '/videos/practical-ai-tools.mp4',
         description: 'A walkthrough of writing effective prompts and a real example of an AI hallucination causing real-world harm.',
       },
       game: {
@@ -605,8 +605,8 @@ export const MODULES: Module[] = [
         ],
       },
       video: {
-        title: 'Using AI Ethically',
-        embedUrl: null,
+        title: 'Ethical AI Usage',
+        embedUrl: '/videos/ethical-ai-usage.mp4',
         description: 'Covers academic integrity, documented bias in real AI systems, and how to spot deepfakes.',
       },
       game: {
@@ -799,7 +799,7 @@ export const MODULES: Module[] = [
         ],
       },
       video: {
-        title: 'AI Across Industries',
+        title: 'AI in the Real World',
         embedUrl: null,
         description: 'Real examples of AI in healthcare, transportation, and finance: and the careers behind building it responsibly.',
       },
@@ -977,7 +977,7 @@ export const MODULES: Module[] = [
         ],
       },
       video: {
-        title: 'How Generative Art Actually Works',
+        title: 'AI & Creativity',
         embedUrl: null,
         description: 'A visual explanation of diffusion models and the current legal landscape around AI-generated creative work.',
       },
@@ -1156,7 +1156,7 @@ export const MODULES: Module[] = [
         ],
       },
       video: {
-        title: 'Where AI Is Headed',
+        title: 'The Future of AI',
         embedUrl: null,
         description: 'Current research frontiers, the AGI debate among experts, and why AI safety is a serious, active research field.',
       },
@@ -1369,7 +1369,7 @@ export const MODULES: Module[] = [
         ],
       },
       video: {
-        title: 'The Hidden Cost of AI',
+        title: 'Sustainable & Efficient AI',
         embedUrl: null,
         description: 'Covers the real energy and carbon cost of training and running AI models, and research into more efficient hardware.',
       },

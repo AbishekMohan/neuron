@@ -71,7 +71,7 @@ export default function HowItWorksShowcase() {
 
   return (
     <div>
-      <div className="relative w-full h-[560px] sm:h-[600px] md:h-[640px] rounded-3xl overflow-hidden flex items-center justify-center p-6 sm:p-10">
+      <div className="device-window relative w-full h-[560px] sm:h-[600px] md:h-[640px] rounded-3xl overflow-hidden flex items-center justify-center p-6 sm:p-10">
         <NeuronBackdrop />
 
         <motion.div

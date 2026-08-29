@@ -96,7 +96,17 @@ export default function CurriculumScrollCarousel() {
                     x: offset * CARD_SPACING,
                     scale: isActive ? 1.15 : abs === 1 ? 0.85 : 0.72,
                     opacity: abs >= 3 ? 0 : abs === 2 ? 0.2 : isActive ? 1 : 0.55,
-                    filter: abs >= 2 ? 'blur(6px)' : 'blur(0px)',
+                    // 'none' rather than 'blur(0px)' for the two cards that need no
+                    // blur: a filter value of blur(0px) is still a real filter (not
+                    // the keyword none), so it makes this div a "backdrop root" for
+                    // CSS purposes exactly like a visible blur would. That cuts off
+                    // the .liquid-glass card inside it from the real page behind it,
+                    // so its backdrop-filter has nothing to sample and Light Mode's
+                    // invert-cancel trick (index.css) has nothing correct to cancel
+                    // — the card renders washed out instead of its intended dark
+                    // glass panel. Only the far, near-invisible cards (opacity 0.2)
+                    // that are actually meant to look blurred pay that cost.
+                    filter: abs >= 2 ? 'blur(6px)' : 'none',
                   }}
                   transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 >

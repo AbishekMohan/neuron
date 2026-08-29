@@ -146,31 +146,34 @@ html.dyslexia-font body {
 /* Broad-brush by design: the site leans on low-opacity white/blue text and
    borders for depth, which is exactly what low vision or bright-room
    viewing struggles with. Rather than re-tune every component by hand,
-   this catches the utility classes that cause it wherever they appear.
+   this catches the utility classes that cause it wherever they appear —
+   site-wide (not just main/nav/footer), since AccessibilityContext now
+   forces the `high-contrast` class on for every visitor, permanently,
+   with no setting to turn it back off.
 
-   Scoped to main/nav/footer only, not the page root: the fixed decorative
-   backdrop (drifting code, binary rain) is deliberately near-invisible and
-   aria-hidden, and sits as a sibling of <main>, not inside it. Without this
-   scoping, high contrast makes that ambient layer blare at full brightness
-   instead of leaving it alone. */
-html.high-contrast main [class*='text-white/'],
-html.high-contrast nav [class*='text-white/'],
-html.high-contrast footer [class*='text-white/'] {
+   Each property below is matched two ways — [class^='...'] for a class
+   attribute that STARTS with the utility, [class*=' ...'] for one preceded
+   by a space — instead of one bare [class*='...']. A bare substring match
+   also matches Tailwind variant classes like `group-hover:text-sky-300` or
+   `hover:text-white/60` (the substring is still in there, right after the
+   colon), which would force that hover-only color on permanently, all the
+   time, instead of just on hover. Anchoring to "starts the class list" or
+   "starts right after a space" excludes anything with a colon in front.
+
+   `.decorative-backdrop` (CodeBackdrop's aria-hidden wrapper divs) is
+   carved out via :not(): that layer (drifting code, binary rain) is
+   deliberately near-invisible atmosphere, not information, and forcing it
+   to full brightness would make it blare instead of leaving it alone. */
+html.high-contrast :is([class^='text-white/'], [class*=' text-white/']):not(.decorative-backdrop):not(.decorative-backdrop *) {
   color: rgba(255, 255, 255, 0.94) !important;
 }
-html.high-contrast main [class*='border-white/'],
-html.high-contrast nav [class*='border-white/'],
-html.high-contrast footer [class*='border-white/'] {
+html.high-contrast :is([class^='border-white/'], [class*=' border-white/']):not(.decorative-backdrop):not(.decorative-backdrop *) {
   border-color: rgba(255, 255, 255, 0.45) !important;
 }
-html.high-contrast main [class*='text-sky-'],
-html.high-contrast nav [class*='text-sky-'],
-html.high-contrast footer [class*='text-sky-'] {
+html.high-contrast :is([class^='text-sky-'], [class*=' text-sky-']):not(.decorative-backdrop):not(.decorative-backdrop *) {
   color: #7dd3fc !important;
 }
-html.high-contrast main [class*='border-sky-'],
-html.high-contrast nav [class*='border-sky-'],
-html.high-contrast footer [class*='border-sky-'] {
+html.high-contrast :is([class^='border-sky-'], [class*=' border-sky-']):not(.decorative-backdrop):not(.decorative-backdrop *) {
   border-color: #38bdf8 !important;
 }
 
@@ -179,13 +182,36 @@ html.high-contrast footer [class*='border-sky-'] {
    macOS all do this) rather than a hand-built second palette. invert(1)
    flips every color; hue-rotate(180deg) after it un-rotates the hue so the
    site's blue reads as blue again instead of the muddy orange a plain
-   invert(1) produces. Video/canvas are re-inverted so playback and the
-   particle/orb visuals don't turn into photonegatives. No transition on
-   `filter`: this should flip instantly, not fade. */
+   invert(1) produces. No transition on `filter`: this should flip
+   instantly, not fade.
+
+   video/canvas/.liquid-glass carry the SAME filter a second time. A nested
+   element's own filter re-processes its already-rendered subtree before
+   the ancestor's filter ever sees it, so applying the identical filter
+   twice cancels out for that subtree specifically: it keeps rendering in
+   its original dark-mode colors while the rest of the page inverts to
+   light. That's required for video/canvas (so playback and the orb/
+   particle visuals don't turn into photonegatives), and for .liquid-glass
+   too: its frosted-glass look leans on translucent WHITE overlays for
+   contrast against a dark page, which would otherwise flip to translucent
+   BLACK overlays under a page-wide inversion, leaving dark text on a
+   now-also-dark card. Exempting it keeps every glass panel internally
+   consistent, a small dark "device window" floating on the light page,
+   instead of turning illegible.
+
+   .device-window (the "How it works" showcase frame) is the one spot
+   where a canvas backdrop and a .liquid-glass card sit nested inside each
+   other. Giving both their own independent exemption there compounds into
+   a washed-out mess instead of clean cancellation, so :not(.device-window
+   *) opts them out of the generic rule and .device-window gets a single
+   exemption for its whole subtree instead: canvas, card, and text all
+   cancel out together as one unit. */
 html.light-mode {
   filter: invert(1) hue-rotate(180deg);
 }
-html.light-mode video,
-html.light-mode canvas {
+html.light-mode video:not(.device-window *),
+html.light-mode canvas:not(.device-window *),
+html.light-mode .liquid-glass:not(.device-window *),
+html.light-mode .device-window {
   filter: invert(1) hue-rotate(180deg);
 }

@@ -8,6 +8,10 @@ type VideoStepProps = {
   onComplete: () => void;
 };
 
+// A direct video file (served from /public) plays natively; anything else
+// (YouTube, Vimeo, etc.) is an embeddable player URL that needs an iframe.
+const isLocalFile = (url: string) => /\.(mp4|webm|ogg|mov)$/i.test(url);
+
 export default function VideoStep({ title, embedUrl, description, complete, onComplete }: VideoStepProps) {
   return (
     <div className="max-w-2xl">
@@ -15,7 +19,15 @@ export default function VideoStep({ title, embedUrl, description, complete, onCo
       <p className="text-white/60 text-sm font-light leading-relaxed mb-6">{description}</p>
 
       <div className="relative w-full aspect-video rounded-2xl overflow-hidden liquid-glass">
-        {embedUrl ? (
+        {embedUrl && isLocalFile(embedUrl) ? (
+          <video
+            src={embedUrl}
+            title={title}
+            className="absolute inset-0 w-full h-full"
+            controls
+            preload="metadata"
+          />
+        ) : embedUrl ? (
           <iframe
             src={embedUrl}
             title={title}

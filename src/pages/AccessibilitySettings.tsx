@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Contrast, Sun, Type, Languages, Ear } from 'lucide-react';
+import { Sun, Languages, Ear } from 'lucide-react';
 import { useAccessibility } from '../context/AccessibilityContext';
 import { LANGUAGES } from '../lib/i18n';
 
@@ -23,17 +23,7 @@ function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: 
 }
 
 export default function AccessibilitySettings() {
-  const {
-    highContrast,
-    lightMode,
-    dyslexiaFont,
-    language,
-    setHighContrast,
-    setLightMode,
-    setDyslexiaFont,
-    setLanguage,
-    t,
-  } = useAccessibility();
+  const { lightMode, language, setLightMode, setLanguage, t } = useAccessibility();
 
   return (
     <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
@@ -41,8 +31,7 @@ export default function AccessibilitySettings() {
         <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">{t('settings.accessibility')}</p>
         <h1 className="text-white text-3xl sm:text-4xl font-light leading-tight tracking-tight">Make it work for you</h1>
         <p className="text-white/50 text-sm mt-4 max-w-xl font-light">
-          These preferences are saved on this device and apply across the whole site right away. Every toggle here is
-          independent, so turn on any combination that works for you.
+          These preferences are saved on this device and apply across the whole site right away.
         </p>
 
         <div className="mt-10 divide-y divide-white/10 border-t border-b border-white/10">
@@ -55,28 +44,6 @@ export default function AccessibilitySettings() {
               </div>
             </div>
             <Toggle checked={lightMode} onChange={setLightMode} label={t('settings.lightMode')} />
-          </div>
-
-          <div className="flex items-center justify-between gap-6 py-5">
-            <div className="flex items-start gap-3">
-              <Contrast className="w-4 h-4 text-sky-300 mt-0.5 shrink-0" strokeWidth={1.5} />
-              <div>
-                <p className="text-white text-sm font-normal">{t('settings.highContrast')}</p>
-                <p className="text-white/40 text-xs font-light mt-1">{t('settings.highContrastHint')}</p>
-              </div>
-            </div>
-            <Toggle checked={highContrast} onChange={setHighContrast} label={t('settings.highContrast')} />
-          </div>
-
-          <div className="flex items-center justify-between gap-6 py-5">
-            <div className="flex items-start gap-3">
-              <Type className="w-4 h-4 text-sky-300 mt-0.5 shrink-0" strokeWidth={1.5} />
-              <div>
-                <p className="text-white text-sm font-normal">{t('settings.dyslexiaFont')}</p>
-                <p className="text-white/40 text-xs font-light mt-1">{t('settings.dyslexiaFontHint')}</p>
-              </div>
-            </div>
-            <Toggle checked={dyslexiaFont} onChange={setDyslexiaFont} label={t('settings.dyslexiaFont')} />
           </div>
         </div>
 
