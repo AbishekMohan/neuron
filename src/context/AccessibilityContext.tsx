@@ -3,17 +3,19 @@ import { translate, type Language, type TranslationKey } from '../lib/i18n';
 
 const STORAGE_KEY = 'neuron-accessibility-v1';
 
+// High Contrast and the dyslexia-friendly font used to be opt-in toggles
+// here. They're now permanent site defaults instead — forced on for every
+// visitor with no setting to turn them back off — because dim low-opacity
+// text and a harder-to-read body font are legibility problems for everyone,
+// not preferences some visitors should have to know to enable. Only
+// Light Mode and Language stay as real per-visitor preferences.
 type Prefs = {
-  highContrast: boolean;
   lightMode: boolean;
-  dyslexiaFont: boolean;
   language: Language;
 };
 
 const DEFAULT_PREFS: Prefs = {
-  highContrast: false,
   lightMode: false,
-  dyslexiaFont: false,
   language: 'en',
 };
 
@@ -24,9 +26,7 @@ function loadPrefs(): Prefs {
     const parsed = JSON.parse(raw);
     const language: Language = ['en', 'es', 'zh', 'hi'].includes(parsed.language) ? parsed.language : 'en';
     return {
-      highContrast: Boolean(parsed.highContrast),
       lightMode: Boolean(parsed.lightMode),
-      dyslexiaFont: Boolean(parsed.dyslexiaFont),
       language,
     };
   } catch {
@@ -35,9 +35,9 @@ function loadPrefs(): Prefs {
 }
 
 type AccessibilityContextValue = Prefs & {
-  setHighContrast: (value: boolean) => void;
+  readonly highContrast: true;
+  readonly dyslexiaFont: true;
   setLightMode: (value: boolean) => void;
-  setDyslexiaFont: (value: boolean) => void;
   setLanguage: (value: Language) => void;
   t: (key: TranslationKey) => string;
 };
@@ -59,17 +59,18 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       // Private browsing / storage disabled: preference just won't persist.
     }
     const root = document.documentElement;
-    root.classList.toggle('high-contrast', prefs.highContrast);
+    // Permanent, not driven by prefs: no stored value can ever turn these off.
+    root.classList.add('high-contrast');
+    root.classList.add('dyslexia-font');
     root.classList.toggle('light-mode', prefs.lightMode);
-    root.classList.toggle('dyslexia-font', prefs.dyslexiaFont);
     root.lang = prefs.language;
   }, [prefs]);
 
   const value: AccessibilityContextValue = {
     ...prefs,
-    setHighContrast: (highContrast) => setPrefs((p) => ({ ...p, highContrast })),
+    highContrast: true,
+    dyslexiaFont: true,
     setLightMode: (lightMode) => setPrefs((p) => ({ ...p, lightMode })),
-    setDyslexiaFont: (dyslexiaFont) => setPrefs((p) => ({ ...p, dyslexiaFont })),
     setLanguage: (language) => setPrefs((p) => ({ ...p, language })),
     t: (key) => translate(key, prefs.language),
   };

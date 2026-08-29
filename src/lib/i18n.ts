@@ -36,6 +36,7 @@ export type TranslationKey =
   | 'settings.highContrastHint'
   | 'settings.dyslexiaFont'
   | 'settings.dyslexiaFontHint'
+  | 'settings.alwaysOn'
   | 'settings.language'
   | 'settings.languageHint'
   | 'settings.screenReader'
@@ -73,18 +74,19 @@ const DICT: Record<TranslationKey, Record<Language, string>> = {
   },
   'settings.highContrast': { en: 'High Contrast Mode', es: 'Modo de alto contraste', zh: '高对比度模式', hi: 'हाई कॉन्ट्रास्ट मोड' },
   'settings.highContrastHint': {
-    en: 'Brightens dim text and faint borders across the site.',
-    es: 'Aclara el texto tenue y los bordes débiles en todo el sitio.',
-    zh: '让全站的暗淡文字和边框更清晰。',
-    hi: 'साइट भर में हल्के टेक्स्ट और बॉर्डर को उज्जवल करता है।',
+    en: 'Brightens dim text and faint borders across the site. Always on for everyone — there is no off switch.',
+    es: 'Aclara el texto tenue y los bordes débiles en todo el sitio. Siempre activo para todos: no tiene interruptor para desactivarlo.',
+    zh: '让全站的暗淡文字和边框更清晰。对所有人始终开启,没有关闭开关。',
+    hi: 'साइट भर में हल्के टेक्स्ट और बॉर्डर को उज्जवल करता है। यह सभी के लिए हमेशा चालू रहता है — इसे बंद करने का कोई विकल्प नहीं है।',
   },
   'settings.dyslexiaFont': { en: 'Dyslexia-Friendly Font', es: 'Fuente apta para dislexia', zh: '阅读障碍友好字体', hi: 'डिस्लेक्सिया-अनुकूल फ़ॉन्ट' },
   'settings.dyslexiaFontHint': {
-    en: 'Switches body text to Lexend, a typeface studied for reading proficiency.',
-    es: 'Cambia el texto a Lexend, una tipografía estudiada por mejorar la lectura.',
-    zh: '将正文字体切换为 Lexend,一种经过阅读能力研究的字体。',
-    hi: 'मुख्य टेक्स्ट को Lexend में बदलता है, जो पठन दक्षता के लिए अध्ययन किया गया फ़ॉन्ट है।',
+    en: 'Switches body text to Lexend, a typeface studied for reading proficiency. Always on for everyone — there is no off switch.',
+    es: 'Cambia el texto a Lexend, una tipografía estudiada por mejorar la lectura. Siempre activo para todos: no tiene interruptor para desactivarlo.',
+    zh: '将正文字体切换为 Lexend,一种经过阅读能力研究的字体。对所有人始终开启,没有关闭开关。',
+    hi: 'मुख्य टेक्स्ट को Lexend में बदलता है, जो पठन दक्षता के लिए अध्ययन किया गया फ़ॉन्ट है। यह सभी के लिए हमेशा चालू रहता है — इसे बंद करने का कोई विकल्प नहीं है।',
   },
+  'settings.alwaysOn': { en: 'Always on', es: 'Siempre activo', zh: '始终开启', hi: 'हमेशा चालू' },
   'settings.language': { en: 'Language', es: 'Idioma', zh: '语言', hi: 'भाषा' },
   'settings.languageHint': {
     en: 'Choose the language for navigation and key headings.',

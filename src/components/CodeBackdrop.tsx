@@ -123,7 +123,7 @@ function LiveMetrics({ reducedMotion }: { reducedMotion: boolean }) {
   }, [reducedMotion]);
 
   return (
-    <div className="hidden md:block" aria-hidden="true">
+    <div className="hidden md:block decorative-backdrop" aria-hidden="true">
       <div className="fixed top-[22%] right-[6%] font-mono text-sky-300/[0.08] text-[11px] leading-relaxed select-none">
         epoch {String(epoch).padStart(3, '0')}/100
         <br />
@@ -144,7 +144,7 @@ export default function CodeBackdrop() {
   const rainColumns = useMemo(() => buildRainColumns(22), []);
 
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none decorative-backdrop" aria-hidden="true">
       {/* background layer: faint binary rain for depth */}
       {!reducedMotion &&
         rainColumns.map((c) => (
