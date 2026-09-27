@@ -102,7 +102,7 @@ export default function MatchRaceGame({
         </div>
       ) : (
         <>
-          <p className="text-white/40 text-xs mb-3">{matchedCount}/{totalPairs} pairs matched</p>
+          <p role="status" aria-live="polite" className="text-white/40 text-xs mb-3">{matchedCount}/{totalPairs} pairs matched</p>
           <div className="grid grid-cols-4 gap-2">
             {board.map((tile) => {
               const isFlipped = tile.matched || flipped.includes(tile.key);
@@ -112,6 +112,10 @@ export default function MatchRaceGame({
                   type="button"
                   onClick={() => handleFlip(tile.key)}
                   disabled={tile.matched}
+                  // Screen-reader label reveals the tile content once flipped,
+                  // so keyboard players can track pairs without seeing them.
+                  aria-label={isFlipped ? `Matched card: ${tile.label}` : 'Face-down card. Activate to flip.'}
+                  aria-pressed={isFlipped}
                   className="h-20 [perspective:800px]"
                 >
                   <motion.div

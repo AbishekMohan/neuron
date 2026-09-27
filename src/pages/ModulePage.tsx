@@ -14,6 +14,7 @@ import LiveRaceGame from '../components/lesson/LiveRaceGame';
 import MatchRaceGame from '../components/lesson/MatchRaceGame';
 import RoyaleGame from '../components/lesson/RoyaleGame';
 import GameModeSelect, { type GameMode } from '../components/lesson/GameModeSelect';
+import PromptLab from '../components/lesson/PromptLab';
 import QuizStep from '../components/lesson/QuizStep';
 
 const ICONS = { brain: Brain, wrench: Wrench, scale: Scale, globe: Globe, palette: Palette, rocket: Rocket, leaf: Leaf };
@@ -114,7 +115,7 @@ export default function ModulePage() {
                 onComplete={() => completeStep(mod.id, 'video')}
               />
             )}
-            {currentStep === 'game' && gameMode === null && <GameModeSelect onSelect={setGameMode} />}
+            {currentStep === 'game' && gameMode === null && <GameModeSelect moduleId={mod.id} onSelect={setGameMode} />}
             {currentStep === 'game' && gameMode !== null && (
               <button
                 type="button"
@@ -166,6 +167,9 @@ export default function ModulePage() {
                 complete={stepComplete('game')}
                 onComplete={() => completeStep(mod.id, 'game')}
               />
+            )}
+            {currentStep === 'game' && gameMode === 'prompt-lab' && (
+              <PromptLab complete={stepComplete('game')} onComplete={() => completeStep(mod.id, 'game')} />
             )}
             {currentStep === 'quiz' && (
               <QuizStep

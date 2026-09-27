@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://neurontsa.vercel.app/</loc><priority>1.0</priority></url>
+  <url><loc>https://neurontsa.vercel.app/modules</loc><priority>0.9</priority></url>
+  <url><loc>https://neurontsa.vercel.app/modules/fundamentals</loc><priority>0.9</priority></url>
+  <url><loc>https://neurontsa.vercel.app/modules/tools</loc><priority>0.9</priority></url>
+  <url><loc>https://neurontsa.vercel.app/modules/ethics</loc><priority>0.9</priority></url>
+  <url><loc>https://neurontsa.vercel.app/modules/real-world</loc><priority>0.8</priority></url>
+  <url><loc>https://neurontsa.vercel.app/modules/creativity</loc><priority>0.8</priority></url>
+  <url><loc>https://neurontsa.vercel.app/modules/future</loc><priority>0.8</priority></url>
+  <url><loc>https://neurontsa.vercel.app/modules/sustainability</loc><priority>0.8</priority></url>
+  <url><loc>https://neurontsa.vercel.app/challenges</loc><priority>0.8</priority></url>
+  <url><loc>https://neurontsa.vercel.app/challenges/hallucination-hunt</loc><priority>0.7</priority></url>
+  <url><loc>https://neurontsa.vercel.app/challenges/ethics-courtroom</loc><priority>0.7</priority></url>
+  <url><loc>https://neurontsa.vercel.app/challenges/bias-detective</loc><priority>0.7</priority></url>
+  <url><loc>https://neurontsa.vercel.app/challenges/debug-the-ai</loc><priority>0.7</priority></url>
+  <url><loc>https://neurontsa.vercel.app/challenges/concept-map</loc><priority>0.7</priority></url>
+  <url><loc>https://neurontsa.vercel.app/challenges/ethics-story</loc><priority>0.7</priority></url>
+  <url><loc>https://neurontsa.vercel.app/challenges/adaptive</loc><priority>0.7</priority></url>
+  <url><loc>https://neurontsa.vercel.app/dashboard</loc><priority>0.7</priority></url>
+  <url><loc>https://neurontsa.vercel.app/leaderboard</loc><priority>0.7</priority></url>
+  <url><loc>https://neurontsa.vercel.app/reference</loc><priority>0.8</priority></url>
+  <url><loc>https://neurontsa.vercel.app/glossary</loc><priority>0.7</priority></url>
+  <url><loc>https://neurontsa.vercel.app/tools</loc><priority>0.7</priority></url>
+  <url><loc>https://neurontsa.vercel.app/report</loc><priority>0.6</priority></url>
+  <url><loc>https://neurontsa.vercel.app/work-log</loc><priority>0.8</priority></url>
+  <url><loc>https://neurontsa.vercel.app/copyright</loc><priority>0.8</priority></url>
+  <url><loc>https://neurontsa.vercel.app/process</loc><priority>0.7</priority></url>
+  <url><loc>https://neurontsa.vercel.app/privacy</loc><priority>0.6</priority></url>
+  <url><loc>https://neurontsa.vercel.app/accessibility-guide</loc><priority>0.7</priority></url>
+  <url><loc>https://neurontsa.vercel.app/settings</loc><priority>0.5</priority></url>
+</urlset>

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+﻿import { useReducedMotion } from '@/hooks/useReducedMotion';
+import React, { Suspense, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { RotateCcw, Brain, Wrench, Scale, Globe, Palette, Rocket, Leaf, Cloud, CloudOff, Loader2, Trophy, UserCircle, Flame } from 'lucide-react';
 import { MODULES } from '../data/modules';
@@ -8,7 +9,7 @@ import { useProfile } from '../context/ProfileContext';
 import { useProgress } from '../context/ProgressContext';
 import { getMasteryLevel } from '../lib/mastery';
 import ProgressBar from '../components/ProgressBar';
-import Badge3D from '../components/Badge3D';
+const Badge3D = React.lazy(() => import('../components/Badge3D'));
 import MasteryPill from '../components/MasteryPill';
 import BadgeModal from '../components/BadgeModal';
 
@@ -47,6 +48,7 @@ function SyncStatus() {
 }
 
 export default function Dashboard() {
+  const reducedMotion = useReducedMotion();
   const { user, isConfigured } = useAuth();
   const { profile } = useProfile();
   const { xp, totalXpPossible, level, moduleProgress, earnedBadgeIds, badgeEarnedAt, completedSteps, resetProgress } =
@@ -54,7 +56,7 @@ export default function Dashboard() {
   const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
 
   const handleReset = () => {
-    if (window.confirm('Reset all progress on this device? This can’t be undone.')) {
+    if (window.confirm('Reset all progress on this device? This canâ€™t be undone.')) {
       resetProgress();
     }
   };
@@ -72,7 +74,7 @@ export default function Dashboard() {
 
         {isConfigured && user && !profile && (
           <div className="mt-6 border-l-2 border-sky-400/30 pl-4 py-1 text-sm text-white/60 max-w-xl">
-            You haven’t set up a public profile yet.{' '}
+            You havenâ€™t set up a public profile yet.{' '}
             <Link to="/profile" className="text-sky-300 hover:text-sky-200 transition-colors">
               Choose a display name
             </Link>{' '}
@@ -103,7 +105,7 @@ export default function Dashboard() {
                     : 'No active streak'}
                 </span>
                 {profile.longest_streak > profile.current_streak && (
-                  <span className="text-white/30 text-xs">· best {profile.longest_streak}</span>
+                  <span className="text-white/30 text-xs">Â· best {profile.longest_streak}</span>
                 )}
               </div>
             )}
@@ -172,7 +174,7 @@ export default function Dashboard() {
                     earned ? 'border-sky-400/40 bg-sky-400/5' : 'border-white/10 bg-white/[0.02]'
                   }`}
                 >
-                  <Badge3D shape={badge.shape} color={badge.color} earned={earned} size={56} />
+                  {!reducedMotion ? <Suspense fallback={null}><Badge3D shape={badge.shape} color={badge.color} earned={earned} size={56} /></Suspense> : <div className="w-16 h-16 rounded-full mx-auto my-4 bg-sky-900/40 border border-sky-400/20" />}
                   <p className={`text-xs font-normal ${earned ? 'text-white/90' : 'text-white/40'}`}>
                     {badge.title}
                   </p>
@@ -201,3 +203,5 @@ export default function Dashboard() {
     </section>
   );
 }
+
+

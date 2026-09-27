@@ -1,0 +1,3 @@
+﻿User-agent: *
+Allow: /
+Sitemap: https://neurontsa.vercel.app/sitemap.xml

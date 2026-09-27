@@ -1,8 +1,8 @@
-import { Shapes, Target, Zap, LayoutGrid, Users, Clock, Swords, Bot } from 'lucide-react';
+import { Shapes, Target, Zap, LayoutGrid, Users, Clock, Swords, Bot, FlaskConical, Sparkles } from 'lucide-react';
 
-export type GameMode = 'sort' | 'blast' | 'live' | 'match' | 'royale';
+export type GameMode = 'sort' | 'blast' | 'live' | 'match' | 'royale' | 'prompt-lab';
 
-const MODES: { mode: GameMode; title: string; description: string; Icon: typeof Shapes; tags: { Icon: typeof Clock; label: string }[] }[] = [
+const MODES: { mode: GameMode; title: string; description: string; Icon: typeof Shapes; tags: { Icon: typeof Clock; label: string }[]; modules?: string[] }[] = [
   {
     mode: 'sort',
     title: 'Sort',
@@ -38,16 +38,31 @@ const MODES: { mode: GameMode; title: string; description: string; Icon: typeof 
     Icon: Swords,
     tags: [{ Icon: Bot, label: 'Vs. bot' }],
   },
+  {
+    mode: 'prompt-lab',
+    title: 'Prompt Lab',
+    description: 'Run two versions of the same prompt side by side and judge which response teaches better.',
+    Icon: FlaskConical,
+    tags: [
+      { Icon: Sparkles, label: 'Live AI · Solo' },
+      { Icon: LayoutGrid, label: 'Tools module' },
+    ],
+    // The brief places this playground in the practical-tools module as an
+    // interactive step. Gating here (not in ModulePage) keeps the mode
+    // picker as the single place that decides which modes exist where.
+    modules: ['tools'],
+  },
 ];
 
-export default function GameModeSelect({ onSelect }: { onSelect: (mode: GameMode) => void }) {
+export default function GameModeSelect({ onSelect, moduleId }: { onSelect: (mode: GameMode) => void; moduleId?: string }) {
+  const visible = MODES.filter((m) => !m.modules || (moduleId && m.modules.includes(moduleId)));
   return (
     <div>
       <h2 className="text-white text-lg font-normal mb-1">Choose how to play</h2>
       <p className="text-white/50 text-sm font-light mb-6">Any mode counts toward this step. Pick whichever sounds fun.</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {MODES.map(({ mode, title, description, Icon, tags }) => (
+        {visible.map(({ mode, title, description, Icon, tags }) => (
           <button
             key={mode}
             type="button"

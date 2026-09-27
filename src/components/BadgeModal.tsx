@@ -1,7 +1,9 @@
+import React, { Suspense } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X, Calendar, Lock } from 'lucide-react';
-import Badge3D from './Badge3D';
+const Badge3D = React.lazy(() => import('./Badge3D'));
 import type { Badge } from '../data/badges';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 type BadgeModalProps = {
   badge: Badge | null;
@@ -11,6 +13,7 @@ type BadgeModalProps = {
 };
 
 export default function BadgeModal({ badge, earned, earnedAt, onClose }: BadgeModalProps) {
+  const reducedMotion = useReducedMotion();
   return (
     <AnimatePresence>
       {badge && (
@@ -40,7 +43,7 @@ export default function BadgeModal({ badge, earned, earnedAt, onClose }: BadgeMo
               <X className="w-4 h-4" />
             </button>
 
-            <Badge3D shape={badge.shape} color={badge.color} earned={earned} size={96} />
+            {!reducedMotion ? <Suspense fallback={null}><Badge3D shape={badge.shape} color={badge.color} earned={earned} size={96} /></Suspense> : <div className="w-16 h-16 rounded-full mx-auto my-4 bg-sky-900/40 border border-sky-400/20" />}
 
             <p className={`mt-4 text-lg font-normal ${earned ? 'text-white' : 'text-white/50'}`}>{badge.title}</p>
             <p className="text-white/50 text-sm font-light leading-relaxed mt-2">{badge.description}</p>

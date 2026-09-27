@@ -484,16 +484,38 @@ export default function RoyaleGame({
 
   const handleFieldClick = (e: MouseEvent<HTMLDivElement>) => {
     if (selectedHandIndex === null || phase !== 'playing') return;
+    deployAt(e.currentTarget.getBoundingClientRect(), e.clientX, e.clientY);
+  };
+
+  const deployAt = (rect: DOMRect, clientX: number, clientY: number) => {
+    if (selectedHandIndex === null || phase !== 'playing') return;
     const card = getCard(playerQueue[selectedHandIndex]);
     if (card.cost > playerEnergy) {
       setSelectedHandIndex(null);
       return;
     }
-    const rect = e.currentTarget.getBoundingClientRect();
-    const xPct = clamp(((e.clientX - rect.left) / rect.width) * 100, 3, 97);
-    const yPct = clamp(((e.clientY - rect.top) / rect.height) * 100, 3, 97);
+    const xPct = clamp(((clientX - rect.left) / rect.width) * 100, 3, 97);
+    const yPct = clamp(((clientY - rect.top) / rect.height) * 100, 3, 97);
     if (card.kind === 'troop' && yPct < 54) return;
     playCard('player', selectedHandIndex, card, xPct, yPct);
+    setSelectedHandIndex(null);
+  };
+
+  // Keyboard / screen-reader path for the battlefield. Pointer placement is
+  // precise but pointer-only; these buttons deploy the selected card to a
+  // fixed lane without aiming, so the match is fully winnable by keyboard.
+  // Troops must spawn on the player's half (y >= 54); spells may target
+  // either half, so they get a third "enemy side" option.
+  const deployKeyboard = (lane: 'left' | 'right' | 'enemy') => {
+    if (selectedHandIndex === null || phase !== 'playing') return;
+    const card = getCard(playerQueue[selectedHandIndex]);
+    if (card.cost > playerEnergy) {
+      setSelectedHandIndex(null);
+      return;
+    }
+    const x = lane === 'left' ? 25 : lane === 'right' ? 75 : 50;
+    const y = card.kind === 'troop' ? 75 : lane === 'enemy' ? 25 : 75;
+    playCard('player', selectedHandIndex, card, x, y);
     setSelectedHandIndex(null);
   };
 
@@ -593,6 +615,21 @@ export default function RoyaleGame({
         <div className="flex-1 min-w-0">
           <div
             onClick={handleFieldClick}
+            onKeyDown={(e) => {
+              // Enter/Space on the focused field deploys to the player's
+              // center — the same deployKeyboard path as the lane buttons.
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                deployKeyboard('left');
+              }
+            }}
+            tabIndex={selectedHandIndex !== null ? 0 : -1}
+            role={selectedHandIndex !== null ? 'button' : undefined}
+            aria-label={
+              selectedHandIndex !== null
+                ? `Battlefield. Press Enter to deploy ${getCard(playerQueue[selectedHandIndex]).name} to your side, or use the lane buttons below.`
+                : 'Battlefield. Select a card first, then choose where to deploy it.'
+            }
             className={`relative h-[440px] rounded-2xl liquid-glass overflow-hidden ${selectedHandIndex !== null ? 'cursor-crosshair' : ''}`}
           >
             <div className="absolute inset-x-0 top-1/2 border-t border-dashed border-white/10" />
@@ -607,6 +644,38 @@ export default function RoyaleGame({
               <UnitMarker key={u.id} unit={u} />
             ))}
           </div>
+
+          {/* Keyboard/no-aim deployment path: appears only while a card is
+              selected, so pointer users never see extra chrome. Spells can
+              also target the enemy half; troops are restricted to the
+              player's half by deployKeyboard itself. */}
+          {selectedHandIndex !== null && (
+            <div className="mt-2 flex flex-wrap gap-2" role="group" aria-label={`Deploy ${getCard(playerQueue[selectedHandIndex]).name} without aiming`}>
+              <button
+                type="button"
+                onClick={() => deployKeyboard('left')}
+                className="text-xs px-3 py-2 rounded-full border border-sky-400/40 bg-sky-400/10 text-sky-200 hover:bg-sky-400/20 transition-colors"
+              >
+                Deploy left lane (keyboard)
+              </button>
+              <button
+                type="button"
+                onClick={() => deployKeyboard('right')}
+                className="text-xs px-3 py-2 rounded-full border border-sky-400/40 bg-sky-400/10 text-sky-200 hover:bg-sky-400/20 transition-colors"
+              >
+                Deploy right lane (keyboard)
+              </button>
+              {getCard(playerQueue[selectedHandIndex]).kind !== 'troop' && (
+                <button
+                  type="button"
+                  onClick={() => deployKeyboard('enemy')}
+                  className="text-xs px-3 py-2 rounded-full border border-white/15 text-white/70 hover:border-white/30 hover:text-white transition-colors"
+                >
+                  Target enemy side (spell)
+                </button>
+              )}
+            </div>
+          )}
 
           <div className="mt-3 rounded-2xl liquid-glass p-3">
             <div className="flex items-center justify-between mb-2">

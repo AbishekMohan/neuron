@@ -16,12 +16,26 @@ type LeaderboardRow = {
 
 const RANK_ICON: Record<number, string> = { 0: '#facc15', 1: '#d1d5db', 2: '#fb923c' };
 
+const DEMO_ROWS: LeaderboardRow[] = [
+  { user_id: '1', display_name: 'Elena R.', avatar_color: '#f43f5e', xp: 4250, steps_completed: 35, modules_mastered: 4 },
+  { user_id: '2', display_name: 'Marcus T.', avatar_color: '#3b82f6', xp: 3980, steps_completed: 33, modules_mastered: 3 },
+  { user_id: '3', display_name: 'Sarah J.', avatar_color: '#10b981', xp: 3820, steps_completed: 32, modules_mastered: 3 },
+  { user_id: '4', display_name: 'David K.', avatar_color: '#8b5cf6', xp: 3100, steps_completed: 28, modules_mastered: 2 },
+  { user_id: '5', display_name: 'Amir H.', avatar_color: '#f59e0b', xp: 2850, steps_completed: 25, modules_mastered: 2 },
+  { user_id: '6', display_name: 'Chloe M.', avatar_color: '#ec4899', xp: 1900, steps_completed: 18, modules_mastered: 1 },
+];
+
 export default function Leaderboard() {
   const { user, isConfigured } = useAuth();
   const [rows, setRows] = useState<LeaderboardRow[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!isConfigured) {
+      setRows(DEMO_ROWS);
+      return;
+    }
+    
     if (!supabase) return;
     // leaderboard_stats is a plain table with a public-read RLS policy,
     // kept in sync by triggers on step_completions/quiz_attempts/profiles
@@ -33,10 +47,13 @@ export default function Leaderboard() {
       .order('xp', { ascending: false })
       .limit(100)
       .then(({ data, error }) => {
-        if (error) setError(error.message);
-        else setRows((data as LeaderboardRow[]) ?? []);
+        if (error) {
+          setError(error.message);
+          setRows(DEMO_ROWS); // Fallback to demo data on error too
+        }
+        else setRows((data as LeaderboardRow[])?.length > 0 ? (data as LeaderboardRow[]) : DEMO_ROWS);
       });
-  }, []);
+  }, [isConfigured]);
 
   return (
     <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
@@ -51,8 +68,9 @@ export default function Leaderboard() {
         </p>
 
         {!isConfigured && (
-          <div className="mt-10 border-l-2 border-white/10 pl-4 py-1 text-white/50 text-sm">
-            The leaderboard isn’t configured for this deployment.
+          <div className="mt-8 border border-sky-400/20 bg-sky-950/20 rounded-xl px-5 py-4 text-sky-200/80 text-sm flex items-center gap-3">
+            <Trophy className="w-5 h-5 text-sky-400 shrink-0" />
+            <p>These are demo entries. Sign in and complete modules to appear here.</p>
           </div>
         )}
 

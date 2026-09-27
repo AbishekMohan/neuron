@@ -31,6 +31,25 @@ function hashPair(i: number, j: number): number {
   return h - Math.floor(h);
 }
 
+// Glow sprites, pre-rendered once: radial gradients baked into small
+// offscreen canvases. Previously this layer was drawn as flat circles and
+// softened with a full-canvas `ctx.filter = 'blur(7px)'` every frame —
+// canvas filter blurs are notoriously CPU-heavy (that single line was the
+// bulk of this component's scripting cost in traces). drawImage of a
+// pre-blurred sprite with 'lighter' compositing reads identically for soft
+// glows at a fraction of the cost.
+function makeGlowSprite(stops: Array<[number, string]>, size = 128): HTMLCanvasElement {
+  const c = document.createElement('canvas');
+  c.width = size;
+  c.height = size;
+  const g = c.getContext('2d')!;
+  const grad = g.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  for (const [offset, color] of stops) grad.addColorStop(offset, color);
+  g.fillStyle = grad;
+  g.fillRect(0, 0, size, size);
+  return c;
+}
+
 function useReducedMotion() {
   const ref = useRef(false);
   useEffect(() => {
@@ -50,9 +69,16 @@ export default function NeuronBackdrop() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const glowCanvas = document.createElement('canvas');
-    const glowCtx = glowCanvas.getContext('2d');
-    if (!glowCtx) return;
+    const nodeSprite = makeGlowSprite([
+      [0, 'rgba(56, 189, 248, 0.55)'],
+      [0.4, 'rgba(56, 189, 248, 0.22)'],
+      [1, 'rgba(56, 189, 248, 0)'],
+    ]);
+    const pulseSprite = makeGlowSprite([
+      [0, 'rgba(224, 242, 254, 0.9)'],
+      [0.5, 'rgba(224, 242, 254, 0.35)'],
+      [1, 'rgba(224, 242, 254, 0)'],
+    ]);
 
     let width = 0;
     let height = 0;
@@ -67,14 +93,13 @@ export default function NeuronBackdrop() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = rect.width;
       height = rect.height;
-      for (const c of [canvas, glowCanvas]) {
+      for (const c of [canvas]) {
         c.width = width * dpr;
         c.height = height * dpr;
         c.style.width = `${width}px`;
         c.style.height = `${height}px`;
       }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      glowCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       nodes = Array.from({ length: NODE_COUNT }, () => {
         const depth = Math.random(); // 0 = far/small/dim, 1 = near/big/bright
@@ -131,15 +156,15 @@ export default function NeuronBackdrop() {
         }
       }
 
-      // Glow source layer: modest, capped-brightness shapes only, blurred
-      // once and composited additively so overlaps soften instead of
-      // blowing out to solid white.
-      glowCtx.clearRect(0, 0, width, height);
+      // Soft glows, composited additively so overlaps brighten instead of
+      // blowing out to solid white — the same read as the old blur pass,
+      // with no per-frame filter cost.
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
       for (const n of nodes) {
-        glowCtx.fillStyle = `rgba(56, 189, 248, ${0.16 + n.depth * 0.22})`;
-        glowCtx.beginPath();
-        glowCtx.arc(n.x, n.y, n.r * 2.2, 0, Math.PI * 2);
-        glowCtx.fill();
+        const s = n.r * 9;
+        ctx.globalAlpha = 0.16 + n.depth * 0.22;
+        ctx.drawImage(nodeSprite, n.x - s / 2, n.y - s / 2, s, s);
       }
       for (const p of pulses) {
         const a = nodes[p.a];
@@ -147,17 +172,11 @@ export default function NeuronBackdrop() {
         if (!a || !b) continue;
         const x = a.x + (b.x - a.x) * p.t;
         const y = a.y + (b.y - a.y) * p.t;
-        glowCtx.fillStyle = 'rgba(224, 242, 254, 0.55)';
-        glowCtx.beginPath();
-        glowCtx.arc(x, y, 4, 0, Math.PI * 2);
-        glowCtx.fill();
+        ctx.globalAlpha = 0.55;
+        ctx.drawImage(pulseSprite, x - 12, y - 12, 24, 24);
       }
-      ctx.save();
-      ctx.filter = 'blur(7px)';
-      ctx.globalAlpha = 0.75;
-      ctx.globalCompositeOperation = 'lighter';
-      ctx.drawImage(glowCanvas, 0, 0, width, height);
       ctx.restore();
+      ctx.globalAlpha = 1;
 
       // Crisp node cores on top, far ones dim and small, near ones bright.
       for (const n of nodes) {

@@ -4,6 +4,7 @@ type VideoStepProps = {
   title: string;
   embedUrl: string | null;
   description: string;
+  poster?: string;
   complete: boolean;
   onComplete: () => void;
 };
@@ -12,7 +13,7 @@ type VideoStepProps = {
 // (YouTube, Vimeo, etc.) is an embeddable player URL that needs an iframe.
 const isLocalFile = (url: string) => /\.(mp4|webm|ogg|mov)$/i.test(url);
 
-export default function VideoStep({ title, embedUrl, description, complete, onComplete }: VideoStepProps) {
+export default function VideoStep({ title, embedUrl, description, poster, complete, onComplete }: VideoStepProps) {
   return (
     <div className="max-w-2xl">
       <h2 className="text-white text-xl font-normal mb-2">{title}</h2>
@@ -23,9 +24,10 @@ export default function VideoStep({ title, embedUrl, description, complete, onCo
           <video
             src={embedUrl}
             title={title}
-            className="absolute inset-0 w-full h-full"
+            poster={poster}
+            className="absolute inset-0 w-full h-full object-cover"
             controls
-            preload="metadata"
+            preload="none"
           />
         ) : embedUrl ? (
           <iframe

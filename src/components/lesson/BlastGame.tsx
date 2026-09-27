@@ -144,8 +144,10 @@ export default function BlastGame({
     <div className="max-w-2xl">
       <div className="flex items-center justify-between mb-3">
         <p className="text-white/60 text-sm font-light">{prompt}</p>
-        <span className="inline-flex items-center gap-1.5 text-white/50 text-xs shrink-0">
-          <Timer className="w-3.5 h-3.5" />
+        {/* Live region so screen-reader and keyboard players hear the score
+            and timer without it stealing focus every second. */}
+        <span role="status" aria-live="polite" className="inline-flex items-center gap-1.5 text-white/50 text-xs shrink-0">
+          <Timer className="w-3.5 h-3.5" aria-hidden="true" />
           {timeLeft}s · {hits}/{targets}
         </span>
       </div>
@@ -157,6 +159,7 @@ export default function BlastGame({
               key={a.card.id}
               type="button"
               onClick={() => blast(a)}
+              aria-label={`Target: ${a.card.text}`}
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{
                 scale: [1, 1.04, 1],
@@ -169,7 +172,7 @@ export default function BlastGame({
               style={{ position: 'absolute', left: `${a.x}%`, top: `${a.y}%`, width: a.size, height: a.size }}
               className="rounded-full border border-sky-400/30 bg-sky-400/10 hover:bg-sky-400/20 hover:border-sky-400/50 flex items-center justify-center text-center p-1.5 transition-colors"
             >
-              <span className="text-white/80 text-[10px] leading-tight line-clamp-3">{a.card.text}</span>
+              <span className="text-white/80 text-[10px] leading-tight line-clamp-3" aria-hidden="true">{a.card.text}</span>
             </motion.button>
           ),
         )}
@@ -178,6 +181,7 @@ export default function BlastGame({
       <AnimatePresence>
         {lastWhy && (
           <motion.div
+            role="status"
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}

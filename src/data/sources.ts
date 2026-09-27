@@ -216,7 +216,7 @@ export const SOURCE_GROUPS: { module: string; sources: Source[] }[] = [
         title: 'Circular 2023-03: Adverse Action Notification Requirements',
         publisher: 'U.S. Consumer Financial Protection Bureau',
         year: '2023',
-        url: 'https://www.consumerfinance.gov/about-us/newsroom/cfpb-issues-guidance-on-credit-denials-by-lenders-using-artificial-intelligence/',
+        url: 'https://www.consumerfinance.gov/archive/newsroom/cfpb-issues-guidance-on-credit-denials-by-lenders-using-artificial-intelligence/',
       },
       {
         id: 'bls-ai-employment-2026',

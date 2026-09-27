@@ -133,17 +133,24 @@ export default function CurriculumScrollCarousel() {
           })}
         </div>
 
-        <div className="flex items-center gap-2 mt-10">
+        <div className="flex items-center gap-0.5 mt-10">
           {MODULES.map((_, i) => (
             <button
               key={i}
               type="button"
               onClick={() => goTo(i)}
               aria-label={`Go to module ${i + 1}`}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === activeIndex ? 'w-6 bg-sky-400' : 'w-1.5 bg-white/20 hover:bg-white/40'
-              }`}
-            />
+              // Same 24px hit-area treatment as the showcase dots below:
+              // visual dot stays 6px, tap target meets WCAG 2.2 minimum.
+              className="w-6 h-6 flex items-center justify-center"
+            >
+              <span
+                aria-hidden="true"
+                className={`block h-1.5 rounded-full transition-all duration-300 ${
+                  i === activeIndex ? 'w-6 bg-sky-400' : 'w-1.5 bg-white/20 hover:bg-white/40'
+                }`}
+              />
+            </button>
           ))}
         </div>
 

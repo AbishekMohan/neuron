@@ -138,10 +138,19 @@ function LiveMetrics({ reducedMotion }: { reducedMotion: boolean }) {
   );
 }
 
-export default function CodeBackdrop() {
+export default function CodeBackdrop({ mounted = true }: { mounted?: boolean }) {
   const reducedMotion = useReducedMotion();
   const particles = useMemo(() => buildParticles(30), []);
   const rainColumns = useMemo(() => buildRainColumns(22), []);
+
+  // `mounted` is driven by useVisualsGate in App.tsx: the animated layers
+  // (52 CSS-animated spans + a ticking interval) stay out of the load
+  // window. The fixed shell div itself always renders so nothing reflows.
+  if (!mounted) {
+    return (
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none decorative-backdrop" aria-hidden="true" />
+    );
+  }
 
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none decorative-backdrop" aria-hidden="true">

@@ -64,8 +64,13 @@ export default function ConceptMapBuilder() {
           Connect the terms that actually relate
         </h1>
         <p className="text-white/50 text-sm mt-4 max-w-xl font-light">
-          Click a term, then click the term it connects to, to draw a link. Click a linked pair again to remove it.
-          Not every pair of terms is related.
+          Select a term, then select the term it connects to, to draw a link. Select a linked pair again to remove it.
+          Not every pair of terms is related. Fully keyboard accessible: Tab to a term, Enter to select it.
+        </p>
+        {/* Announces the two-step link state for keyboard/screen-reader users:
+            which node is armed as the link source, and how many links exist. */}
+        <p role="status" aria-live="polite" className="sr-only">
+          {pendingFrom ? `${nodeById(pendingFrom).label} selected. Choose a second term to link.` : `${drawn.length} links drawn.`}
         </p>
 
         <div className="mt-8 pt-8 border-t border-white/10">
@@ -107,6 +112,12 @@ export default function ConceptMapBuilder() {
                   type="button"
                   onClick={() => clickNode(node.id)}
                   disabled={checked}
+                  aria-pressed={isPending}
+                  aria-label={
+                    isPending
+                      ? `${node.label}, selected as link source. Choose another term to connect, or activate again to cancel.`
+                      : `${node.label}. Activate to ${pendingFrom ? `link from ${nodeById(pendingFrom).label}` : 'start a link'}`
+                  }
                   style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
                   className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full border px-3 py-2 text-xs whitespace-nowrap transition-colors ${
                     isPending

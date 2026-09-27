@@ -1,11 +1,11 @@
 {
-  "name": "de-helpers",
+  "name": "neuron",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/prerender.cjs",
     "lint": "oxlint",
     "preview": "vite preview"
   },
@@ -23,6 +23,8 @@
     "three": "^0.185.1"
   },
   "devDependencies": {
+    "@fontsource/inter-tight": "^5.3.0",
+    "@fontsource/newsreader": "^5.3.0",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",

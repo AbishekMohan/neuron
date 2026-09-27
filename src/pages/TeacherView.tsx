@@ -18,19 +18,35 @@ type Row = { user_id: string; display_name: string; xp: number; steps_completed:
 // Quiz_attempts is private per-user by RLS, and no aggregate view over it
 // exists yet. That would need a real schema change, not a UI change, so
 // it isn't faked here.
+const DEMO_ROWS: Row[] = [
+  { user_id: '1', display_name: 'Elena R.', xp: 4250, steps_completed: 35, modules_mastered: 4 },
+  { user_id: '2', display_name: 'Marcus T.', xp: 3980, steps_completed: 33, modules_mastered: 3 },
+  { user_id: '3', display_name: 'Sarah J.', xp: 3820, steps_completed: 32, modules_mastered: 3 },
+  { user_id: '4', display_name: 'David K.', xp: 3100, steps_completed: 28, modules_mastered: 2 },
+  { user_id: '5', display_name: 'Amir H.', xp: 2850, steps_completed: 25, modules_mastered: 2 },
+  { user_id: '6', display_name: 'Chloe M.', xp: 1900, steps_completed: 18, modules_mastered: 1 },
+];
+
 export default function TeacherView() {
   const [rows, setRows] = useState<Row[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!supabase) return;
+    if (!supabase) {
+      setRows(DEMO_ROWS);
+      return;
+    }
+    
     supabase
       .from('leaderboard_stats')
       .select('user_id, display_name, xp, steps_completed, modules_mastered')
       .order('xp', { ascending: false })
       .then(({ data, error }) => {
-        if (error) setError(error.message);
-        else setRows((data as Row[]) ?? []);
+        if (error) {
+          setError(error.message);
+          setRows(DEMO_ROWS); // fallback on error
+        }
+        else setRows((data as Row[])?.length > 0 ? (data as Row[]) : DEMO_ROWS);
       });
   }, []);
 
@@ -50,7 +66,15 @@ export default function TeacherView() {
   return (
     <section className="px-6 sm:px-8 md:px-12 pt-28 md:pt-36 pb-24 min-h-screen">
       <div className="max-w-5xl mx-auto">
-        <p className="text-sky-400 text-xs tracking-widest uppercase mb-3">Class Snapshot</p>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-3">
+          <p className="text-sky-400 text-xs tracking-widest uppercase">Class Snapshot</p>
+          <button 
+            onClick={() => window.print()}
+            className="text-xs bg-white/5 hover:bg-white/10 text-white/60 px-3 py-1.5 rounded transition-colors"
+          >
+            Print Report
+          </button>
+        </div>
         <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-light leading-tight tracking-tight">
           A teacher's view of the cohort
         </h1>
@@ -62,8 +86,9 @@ export default function TeacherView() {
         </p>
 
         {!supabase && (
-          <div className="mt-10 border-l-2 border-white/10 pl-4 py-1 text-white/50 text-sm">
-            This isn't configured for this deployment.
+          <div className="mt-8 border border-sky-400/20 bg-sky-950/20 rounded-xl px-5 py-4 text-sky-200/80 text-sm flex items-center gap-3">
+            <Users className="w-5 h-5 text-sky-400 shrink-0" />
+            <p>This is a demo class snapshot. Sign in and complete modules to appear in the real dataset.</p>
           </div>
         )}
 

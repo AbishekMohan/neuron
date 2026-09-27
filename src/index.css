@@ -1,4 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500&display=swap');
+/* Self-hosted fonts — both OFL-1.1 licensed. See /copyright.
+   Inter Tight: clean grotesque for UI chrome, nav, buttons, headings.
+   Newsreader: old-style serif for long-form article body; keeps reading
+   sections feeling like reading rather than more UI. Weights: 300 (light,
+   used everywhere), 400 (regular, article body), 500 (medium, nav active).
+   font-display: swap prevents invisible text during font load; the system
+   sans-serif is close enough that the swap is unnoticeable at typical
+   connection speeds. */
+@font-face {
+  font-family: 'Inter Tight';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/inter-tight-300.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Inter Tight';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/inter-tight-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Inter Tight';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/inter-tight-500.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/newsreader-300.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/newsreader-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 @tailwind base;
 @tailwind components;
@@ -14,12 +75,32 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Inter Tight as the primary UI font. Helvetica Neue Light has been removed
+   (it was loaded from a scraper CDN without a valid license). The Inter Tight
+   300 weight reads nearly identically at the large display sizes this site
+   favors, while remaining a legitimately licensed OFL typeface. */
 body {
-  font-family: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Inter Tight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background: #000;
   color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Article body sections opt into Newsreader via this class, added by
+   ArticleStep.tsx on its paragraph text. Everything else stays Inter Tight. */
+.article-body {
+  font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+}
+
+/* Global focus-visible ring. Tailwind's Preflight resets outline to none,
+   which strips the browser's default. This restores a visible sky-blue ring
+   on keyboard focus for every interactive element — critical for WCAG 2.1 AA
+   focus-visible compliance. :focus-visible only fires on keyboard navigation,
+   not on mouse clicks, so pointer users never see it. */
+:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
 }
 
 ::selection {
@@ -214,4 +295,54 @@ html.light-mode canvas:not(.device-window *),
 html.light-mode .liquid-glass:not(.device-window *),
 html.light-mode .device-window {
   filter: invert(1) hue-rotate(180deg);
+}
+
+/* Print (brief P3): judges sometimes print /reference and /work-log. A dark
+   theme prints as black pages with invisible text, so force a light,
+   ink-friendly rendering: hide chrome and decorative layers, black text,
+   visible table borders, and full URLs after external links (a printed
+   bibliography without URLs is useless). !important throughout is deliberate
+   — print must win over every Tailwind utility. */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  nav,
+  footer,
+  video,
+  canvas,
+  [aria-hidden='true'] {
+    display: none !important;
+  }
+  :is([class^='text-white'], [class*=' text-white']),
+  :is([class^='text-sky-'], [class*=' text-sky-']) {
+    color: #000 !important;
+  }
+  :is([class^='border-white/'], [class*=' border-white/']),
+  :is([class^='border-sky-'], [class*=' border-sky-']) {
+    border-color: #999 !important;
+  }
+  .liquid-glass {
+    background: none !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+  table,
+  th,
+  td {
+    border-color: #999 !important;
+    color: #000 !important;
+  }
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+  a {
+    color: #000 !important;
+    text-decoration: underline !important;
+  }
 }

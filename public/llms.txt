@@ -1,0 +1,60 @@
+﻿# Neuron — AI Learning Portal
+# https://neurontsa.vercel.app
+# TSA High School Webmaster 2026-27
+
+## What this site is
+Neuron is a free, interactive AI literacy course for high school students (grades 9-12).
+It was built for the TSA (Technology Student Association) High School Webmaster event 2026-27,
+whose theme is: design an AI learning portal that demystifies AI, showcases practical tools,
+and teaches ethical use in academic settings.
+
+## Content
+The site contains three required learning modules (plus four bonus modules), each with five steps:
+article, flashcards, video, mini-game, and quiz. Completing steps earns XP; passing quizzes
+unlocks 3D badges.
+
+Core modules:
+- AI Fundamentals: what AI is, machine learning, neural networks, LLMs, hallucinations
+- Practical AI Tools & Techniques: how to use AI tools effectively and ethically in school
+- Ethical AI Usage: bias, fairness, academic integrity, data privacy, responsible use
+
+Challenges (interactive games):
+- Hallucination Hunt: spot fabricated claims in a fake AI answer
+- Ethics Courtroom: read a scenario, pick a verdict, see the rubric
+- Bias Detective: trace an AI output back to its root bias cause
+- Debug the AI: find where a pipeline broke (prompt, data, generation, or interpretation)
+- Concept Map Builder: connect AI terms into correct relationships
+- Ethics Story: branching choose-your-own-adventure with ethical consequences
+- Adaptive Quiz: difficulty adjusts to your answers
+- Duel Mode: real-time multiplayer quiz against a classmate
+
+## Technical
+Stack: React 19 + TypeScript + Vite 8 + Tailwind CSS 3 + React Router 7 + Framer Motion + Three.js
+Backend: Supabase (auth, progress sync, leaderboard)
+AI assistant: Groq API (proxied via Supabase Edge Function; never exposes the key to the browser)
+Deploy: Vercel
+Fonts: Inter Tight + Newsreader (self-hosted, OFL-1.1)
+
+## Built by
+Abishek Mohan and Faiz Khan, 2026-27 school year.
+All content original; citations listed at https://neurontsa.vercel.app/reference
+
+## Links
+- [Home](https://neurontsa.vercel.app/)
+- [Learning modules](https://neurontsa.vercel.app/modules)
+- [AI Fundamentals](https://neurontsa.vercel.app/modules/fundamentals)
+- [Practical AI Tools](https://neurontsa.vercel.app/modules/tools)
+- [Ethical AI Use](https://neurontsa.vercel.app/modules/ethics)
+- [AI in the Real World](https://neurontsa.vercel.app/modules/real-world)
+- [AI & Creativity](https://neurontsa.vercel.app/modules/creativity)
+- [The Future of AI](https://neurontsa.vercel.app/modules/future)
+- [Sustainable & Efficient AI](https://neurontsa.vercel.app/modules/sustainability)
+- [Challenges](https://neurontsa.vercel.app/challenges)
+- [AI tools compared](https://neurontsa.vercel.app/tools)
+- [Sources & References](https://neurontsa.vercel.app/reference)
+- [AI Glossary](https://neurontsa.vercel.app/glossary)
+- [Student Work Log](https://neurontsa.vercel.app/work-log)
+- [Copyright Checklist](https://neurontsa.vercel.app/copyright)
+- [Design Process](https://neurontsa.vercel.app/process)
+- [Privacy](https://neurontsa.vercel.app/privacy)
+- [Accessibility Guide](https://neurontsa.vercel.app/accessibility-guide)

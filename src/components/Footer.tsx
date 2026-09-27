@@ -13,23 +13,28 @@ export default function Footer() {
         className="absolute inset-0 pointer-events-none"
         style={{ background: 'radial-gradient(ellipse 480px 220px at 100% 0%, rgba(56,189,248,0.14), transparent 70%)' }}
       />
-      <span className="relative">Neuron: an AI learning portal for high school students.</span>
-      <div className="relative flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
-        <Link to="/glossary" className="hover:text-white/60 transition-colors">
-          Glossary
-        </Link>
-        <Link to="/tools" className="hover:text-white/60 transition-colors">
-          AI Tools
-        </Link>
-        <Link to="/report" className="hover:text-white/60 transition-colors">
-          My Literacy Report
-        </Link>
-        <Link to="/reference" className="hover:text-white/60 transition-colors">
-          Reference Page
-        </Link>
-        <Link to="/teacher" className="hover:text-white/60 transition-colors">
-          For Teachers
-        </Link>
+      <div className="relative max-w-xs text-left mb-6 sm:mb-0">
+        <span className="block text-white/50 text-sm font-medium mb-1.5">Neuron</span>
+        <span className="text-white/30 leading-relaxed block">An interactive AI learning portal for high school students. Designed for TSA Webmaster 2026-27.</span>
+      </div>
+      
+      <div className="relative flex flex-wrap gap-x-12 gap-y-8 text-left">
+        <div className="flex flex-col gap-2.5">
+          <span className="text-white/50 uppercase tracking-widest text-[10px] mb-1">Resources</span>
+          <Link to="/glossary" className="hover:text-white/60 transition-colors">Glossary</Link>
+          <Link to="/tools" className="hover:text-white/60 transition-colors">AI Tools</Link>
+          <Link to="/report" className="hover:text-white/60 transition-colors">My Literacy Report</Link>
+          <Link to="/teacher" className="hover:text-white/60 transition-colors">For Teachers</Link>
+        </div>
+        
+        <div className="flex flex-col gap-2.5">
+          <span className="text-white/50 uppercase tracking-widest text-[10px] mb-1">Competition</span>
+          <Link to="/work-log" className="text-sky-400/80 hover:text-sky-300 transition-colors">Student Work Log</Link>
+          <Link to="/copyright" className="text-sky-400/80 hover:text-sky-300 transition-colors">Copyright Checklist</Link>
+          <Link to="/process" className="hover:text-white/60 transition-colors">Design Process</Link>
+          <Link to="/reference" className="hover:text-white/60 transition-colors">Sources & References</Link>
+          <Link to="/privacy" className="hover:text-white/60 transition-colors">Privacy</Link>
+        </div>
       </div>
     </footer>
   );

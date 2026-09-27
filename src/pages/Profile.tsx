@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+﻿import { useReducedMotion } from '@/hooks/useReducedMotion';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Loader2, UserCircle, Trophy, Flame, Brain, Wrench, Scale, Globe, Palette, Rocket, Leaf } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -10,7 +11,7 @@ import { getLevel } from '../lib/level';
 import { getMasteryLevel } from '../lib/mastery';
 import { supabase } from '../lib/supabase';
 import ProgressBar from '../components/ProgressBar';
-import Badge3D from '../components/Badge3D';
+const Badge3D = React.lazy(() => import('../components/Badge3D'));
 import MasteryPill from '../components/MasteryPill';
 import AuthWidget from '../components/AuthWidget';
 
@@ -70,6 +71,10 @@ function ProfileStats({
   completedSteps?: Set<string>;
   isOwn: boolean;
 }) {
+  // Hook lives here (not in the default-exported Profile below): this is
+  // the component that actually mounts the lazy Badge3D canvases, and the
+  // earlier guard script only injected into `export default function`.
+  const reducedMotion = useReducedMotion();
   const level = getLevel(xp);
   const joined = new Date(joinedAt);
 
@@ -85,7 +90,7 @@ function ProfileStats({
         <div>
           <h1 className="text-white text-2xl sm:text-3xl font-light">{displayName}</h1>
           <p className="text-white/40 text-sm mt-1">
-            {level.name} · Joined {joined.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
+            {level.name} Â· Joined {joined.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
           </p>
         </div>
       </div>
@@ -152,7 +157,7 @@ function ProfileStats({
             const earned = earnedBadgeIds.includes(badge.id);
             return (
               <div key={badge.id} className="flex flex-col items-center text-center gap-2">
-                <Badge3D shape={badge.shape} color={badge.color} earned={earned} size={56} />
+                {!reducedMotion ? <Suspense fallback={null}><Badge3D shape={badge.shape} color={badge.color} earned={earned} size={56} /></Suspense> : <div className="w-16 h-16 rounded-full mx-auto my-4 bg-sky-900/40 border border-sky-400/20" />}
                 <p className={`text-[11px] leading-snug ${earned ? 'text-white/70' : 'text-white/30'}`}>{badge.title}</p>
               </div>
             );
@@ -182,7 +187,7 @@ function ProfileSetupForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!valid) {
-      setError('Use 3–24 characters: letters, numbers, spaces, - or _.');
+      setError('Use 3â€“24 characters: letters, numbers, spaces, - or _.');
       return;
     }
     setSubmitting(true);
@@ -251,7 +256,7 @@ function EditProfileForm({ onDone }: { onDone: () => void }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!valid) {
-      setError('Use 3–24 characters: letters, numbers, spaces, - or _.');
+      setError('Use 3â€“24 characters: letters, numbers, spaces, - or _.');
       return;
     }
     setSubmitting(true);
@@ -322,7 +327,7 @@ function OwnProfile() {
   const [editing, setEditing] = useState(false);
 
   if (!isConfigured) {
-    return <p className="text-white/50 text-sm">Profiles aren’t configured for this deployment.</p>;
+    return <p className="text-white/50 text-sm">Profiles arenâ€™t configured for this deployment.</p>;
   }
 
   if (!user) {
@@ -452,3 +457,5 @@ export default function Profile() {
     </section>
   );
 }
+
+

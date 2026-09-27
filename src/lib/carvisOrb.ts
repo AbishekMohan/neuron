@@ -161,12 +161,15 @@ export function createOrb(canvas: HTMLCanvasElement): Orb {
   let quality = 1;
   let currentQuality = 1;
 
-  const clock = new THREE.Clock();
+  // Manual elapsed-time clock: THREE.Clock is deprecated (use THREE.Timer
+  // instead), but all this needs is seconds-since-start, which two lines of
+  // performance.now() do with zero API surface to rot.
+  const startTime = performance.now();
 
   function animate() {
     if (destroyed) return;
     requestAnimationFrame(animate);
-    const t = clock.getElapsedTime();
+    const t = (performance.now() - startTime) / 1000;
 
     switch (state) {
       case "idle":

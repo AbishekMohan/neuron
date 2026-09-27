@@ -8,6 +8,7 @@ import { BADGES } from '../data/badges';
 import ProgressBar from './ProgressBar';
 import FAQ, { type FAQItem } from './FAQ';
 import HowItWorksShowcase from './HowItWorksShowcase';
+import StartHere from './StartHere';
 import CurriculumScrollCarousel from './CurriculumScrollCarousel';
 import WhyItMattersScroll from './WhyItMattersScroll';
 import NewsFeedStrip from './NewsFeedStrip';
@@ -162,6 +163,9 @@ export default function HeroContent() {
           <NewsFeedStrip />
         </div>
       </section>
+
+      {/* ── Start here: the three required modules (P2-3) ─────────────── */}
+      <StartHere />
 
       {/* ── How a unit works ──────────────────────────────────────────── */}
       {/* No top border on purpose: this section sits right where the hero's

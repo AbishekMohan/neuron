@@ -547,6 +547,15 @@ export default function Companion() {
               </div>
             </div>
 
+            {/* Persistent honesty notice (brief P2-1): this panel can call a
+                live model once the edge function is deployed. The warning
+                stays visible during the whole conversation — not just in the
+                empty state — because it is itself on-theme for the ethics
+                module: verify output before trusting it. */}
+            <p className="px-5 py-2 text-[11px] text-white/35 font-light border-b border-white/5 shrink-0">
+              This is a live AI model when connected. It can be wrong — verify important claims against the course sources.
+            </p>
+
             <div className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-3">
               {chatMessages.length === 0 && (
                 <div>
